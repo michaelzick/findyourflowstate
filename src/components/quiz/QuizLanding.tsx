@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -8,6 +9,7 @@ import quizHero from '@/assets/quiz-hero.jpg';
 
 export function QuizLanding() {
   const { nextQuestion } = useQuiz();
+  const navigate = useNavigate();
 
   const features = [
     {
@@ -72,7 +74,12 @@ export function QuizLanding() {
               >
                 Start Your Assessment
               </Button>
-              <Button size="lg" variant="outline" className="text-lg px-8 py-3">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="text-lg px-8 py-3"
+                onClick={() => navigate('/learn-more')}
+              >
                 Learn More
               </Button>
             </div>
