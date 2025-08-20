@@ -13,7 +13,7 @@ function QuizContent() {
     return <QuizResults />;
   }
 
-  if (state.currentQuestionIndex === 0 && state.answers.length === 0) {
+  if (state.currentQuestionIndex === -1) {
     return <QuizLanding />;
   }
 
