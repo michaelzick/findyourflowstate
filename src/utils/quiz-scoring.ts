@@ -233,7 +233,7 @@ function getTextScore(questionId: string, answer: string): number {
 function generatePersonalityInsights(answers: QuizAnswer[], answerMap: Map<string, string | number | string[]>): PersonalityInsight {
   const insights: PersonalityInsight = {
     strengths: [],
-    weaknesses: [],
+    areasForGrowth: [],
     naturalTendencies: [],
     avoidanceAreas: [],
     relationshipStyles: [],
@@ -251,53 +251,96 @@ function generatePersonalityInsights(answers: QuizAnswer[], answerMap: Map<strin
   // Energy source analysis
   if (energySource <= 3) {
     insights.strengths.push('Deep focus and independent thinking');
+    insights.strengths.push('Self-directed work ethic and internal motivation');
+    insights.strengths.push('Thoughtful analysis before making decisions');
     insights.naturalTendencies.push('Prefers quiet reflection and solo work time');
-    insights.workingStyle = 'Independent contributor who produces best work with minimal interruptions';
+    insights.naturalTendencies.push('Processes information internally before sharing');
+    insights.naturalTendencies.push('Values depth over breadth in relationships and projects');
+    insights.workingStyle = 'Independent contributor who produces best work with minimal interruptions. You prefer structured environments where you can dive deep into projects, work at your own pace, and have control over your schedule. You excel when given clear objectives and the autonomy to determine how to achieve them.';
+    insights.areasForGrowth.push('Developing comfort with spontaneous collaboration');
+    insights.areasForGrowth.push('Building skills in real-time brainstorming and group ideation');
   } else {
     insights.strengths.push('Strong collaboration and interpersonal skills');
+    insights.strengths.push('Natural ability to energize and motivate teams');
+    insights.strengths.push('Quick adaptation to changing social dynamics');
     insights.naturalTendencies.push('Energized by social interaction and team dynamics');
-    insights.workingStyle = 'Team player who thrives in collaborative environments';
+    insights.naturalTendencies.push('Thinks out loud and processes ideas through discussion');
+    insights.naturalTendencies.push('Seeks variety and stimulation in work environments');
+    insights.workingStyle = 'Team player who thrives in collaborative environments. You perform best in dynamic settings with regular interaction, feedback, and the opportunity to bounce ideas off others. You excel in roles that involve presenting, networking, and building relationships across different groups.';
+    insights.areasForGrowth.push('Developing patience for detailed, solitary work');
+    insights.areasForGrowth.push('Building tolerance for extended periods of independent focus');
   }
 
   // Information processing
   if (informationProcessing <= 3) {
     insights.strengths.push('Attention to detail and practical problem-solving');
+    insights.strengths.push('Systematic approach to complex challenges');
     insights.naturalTendencies.push('Focuses on concrete facts and proven methods');
+    insights.naturalTendencies.push('Prefers step-by-step implementation over abstract theorizing');
+    insights.areasForGrowth.push('Expanding comfort with ambiguous or incomplete information');
+    insights.areasForGrowth.push('Developing tolerance for experimental or unproven approaches');
   } else {
     insights.strengths.push('Big-picture thinking and innovation');
+    insights.strengths.push('Pattern recognition and future-oriented planning');
     insights.naturalTendencies.push('Sees patterns and future possibilities');
+    insights.naturalTendencies.push('Enjoys conceptual work and theoretical exploration');
+    insights.areasForGrowth.push('Improving attention to practical implementation details');
+    insights.areasForGrowth.push('Developing patience for routine or repetitive tasks');
   }
 
   // Work environment preferences
   if (workEnvironmentPref <= 3) {
     insights.avoidanceAreas.push('Open offices with constant interruptions');
     insights.avoidanceAreas.push('Roles requiring extensive networking or schmoozing');
+    insights.avoidanceAreas.push('High-pressure social environments with politics');
   } else {
     insights.avoidanceAreas.push('Isolated work with minimal human contact');
     insights.avoidanceAreas.push('Highly independent roles without team interaction');
+    insights.avoidanceAreas.push('Repetitive tasks without social stimulation');
   }
 
   // Relationship insights
   if (relationshipDepth <= 3) {
-    insights.relationshipStyles.push('Prefers few, deep, meaningful connections');
+    insights.relationshipStyles.push('Prefers few, deep, meaningful connections over broad social networks');
+    insights.relationshipStyles.push('Values emotional intimacy and authentic communication');
+    insights.relationshipStyles.push('Seeks partners who appreciate thoughtful, consistent commitment');
     if (commitmentStyle === 'Deep, exclusive partnership with one person') {
-      insights.relationshipStyles.push('Monogamous relationship style likely suits you well');
+      insights.relationshipStyles.push('Monogamous relationship style likely suits your desire for deep, focused connection');
     }
   } else {
     insights.relationshipStyles.push('Enjoys variety in social connections and experiences');
+    insights.relationshipStyles.push('Thrives with multiple types of relationships serving different needs');
+    insights.relationshipStyles.push('Values freedom and flexibility in relationship structures');
     if (commitmentStyle === 'Multiple meaningful connections with different people') {
-      insights.relationshipStyles.push('Non-monogamous or polyamorous styles may align with your nature');
+      insights.relationshipStyles.push('Non-monogamous or polyamorous styles may align with your need for variety and stimulation');
     }
   }
 
-  // Motivator analysis
+  // Enhanced motivator analysis
   const recognitionMotivation = answerMap.get('recognition_motivation') as number;
+  const workPace = answerMap.get('work_pace') as number;
+  const legacyDesire = answerMap.get('legacy_desire') as string;
+  
   if (recognitionMotivation <= 3) {
     insights.motivators.push('Internal satisfaction and personal growth');
     insights.motivators.push('Meaningful work aligned with personal values');
+    insights.motivators.push('Mastery and continuous skill development');
   } else {
     insights.motivators.push('Recognition and appreciation from others');
     insights.motivators.push('Visible impact and achievement');
+    insights.motivators.push('Status and professional advancement');
+  }
+  
+  if (workPace && workPace <= 3) {
+    insights.motivators.push('Sustainable work-life balance and steady progress');
+  } else if (workPace && workPace >= 4) {
+    insights.motivators.push('Challenging deadlines and high-energy projects');
+  }
+  
+  if (legacyDesire === 'Building lasting systems, institutions, or works that outlive you') {
+    insights.motivators.push('Creating lasting impact and meaningful legacy');
+  } else if (legacyDesire === 'Helping others grow, succeed, and reach their potential') {
+    insights.motivators.push('Mentoring others and contributing to their success');
   }
 
   return insights;

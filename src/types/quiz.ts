@@ -48,7 +48,7 @@ export interface CareerPath {
 
 export interface PersonalityInsight {
   strengths: string[];
-  weaknesses: string[];
+  areasForGrowth: string[];
   naturalTendencies: string[];
   avoidanceAreas: string[];
   relationshipStyles: string[];
