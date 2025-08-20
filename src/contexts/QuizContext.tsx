@@ -18,65 +18,67 @@ type QuizAction =
   | { type: 'GOTO_QUESTION'; payload: number };
 
 const initialState: QuizState = {
-  currentQuestionIndex: 0,
+  currentQuestionIndex: -1,
   answers: [],
   results: null,
   isComplete: false,
 };
 
 function quizReducer(state: QuizState, action: QuizAction): QuizState {
-  switch (action.type) {
-    case 'ANSWER_QUESTION':
-      const existingAnswerIndex = state.answers.findIndex(
-        a => a.questionId === action.payload.questionId
-      );
-      
-      let newAnswers;
-      if (existingAnswerIndex >= 0) {
-        newAnswers = [...state.answers];
-        newAnswers[existingAnswerIndex] = action.payload;
-      } else {
-        newAnswers = [...state.answers, action.payload];
+    switch (action.type) {
+      case 'ANSWER_QUESTION': {
+        const existingAnswerIndex = state.answers.findIndex(
+          a => a.questionId === action.payload.questionId
+        );
+
+        let newAnswers;
+        if (existingAnswerIndex >= 0) {
+          newAnswers = [...state.answers];
+          newAnswers[existingAnswerIndex] = action.payload;
+        } else {
+          newAnswers = [...state.answers, action.payload];
+        }
+
+        return {
+          ...state,
+          answers: newAnswers,
+        };
       }
-      
-      return {
-        ...state,
-        answers: newAnswers,
-      };
-      
-    case 'NEXT_QUESTION':
-      return {
-        ...state,
-        currentQuestionIndex: state.currentQuestionIndex + 1,
-      };
-      
-    case 'PREVIOUS_QUESTION':
-      return {
-        ...state,
-        currentQuestionIndex: Math.max(0, state.currentQuestionIndex - 1),
-      };
-      
-    case 'COMPLETE_QUIZ':
-      const results = calculateQuizResults(state.answers);
-      return {
-        ...state,
-        results,
-        isComplete: true,
-      };
-      
-    case 'RESET_QUIZ':
-      return initialState;
-      
-    case 'GOTO_QUESTION':
-      return {
-        ...state,
-        currentQuestionIndex: action.payload,
-      };
-      
-    default:
-      return state;
+
+      case 'NEXT_QUESTION':
+        return {
+          ...state,
+          currentQuestionIndex: state.currentQuestionIndex + 1,
+        };
+
+      case 'PREVIOUS_QUESTION':
+        return {
+          ...state,
+          currentQuestionIndex: Math.max(0, state.currentQuestionIndex - 1),
+        };
+
+      case 'COMPLETE_QUIZ': {
+        const results = calculateQuizResults(state.answers);
+        return {
+          ...state,
+          results,
+          isComplete: true,
+        };
+      }
+
+      case 'RESET_QUIZ':
+        return initialState;
+
+      case 'GOTO_QUESTION':
+        return {
+          ...state,
+          currentQuestionIndex: action.payload,
+        };
+
+      default:
+        return state;
+    }
   }
-}
 
 interface QuizContextType {
   state: QuizState;

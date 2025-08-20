@@ -228,7 +228,7 @@ const LearnMore = () => {
                     <p className="text-sm text-muted-foreground">Top Recommendations</p>
                   </Card>
                   <Card className="p-4 text-center">
-                    <div className="text-2xl font-bold text-primary mb-1">24</div>
+                    <div className="text-2xl font-bold text-primary mb-1">22</div>
                     <p className="text-sm text-muted-foreground">Assessment Questions</p>
                   </Card>
                 </div>
@@ -318,7 +318,7 @@ const LearnMore = () => {
                 <h4 className="font-semibold mb-2">How long does it take to complete?</h4>
                 <p className="text-muted-foreground">
                   The assessment typically takes 10-15 minutes to complete. We've designed it to be 
-                  comprehensive yet respectful of your time, with 24 carefully selected questions 
+                  comprehensive yet respectful of your time, with 22 carefully selected questions
                   that maximize insight while minimizing assessment fatigue.
                 </p>
               </div>
