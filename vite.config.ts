@@ -13,7 +13,7 @@ export default defineConfig(({ mode }) => {
   return {
     server: {
       host: "::",
-      port: isLocalhost ? 3001 : 8080,
+      port: isLocalhost ? 8081 : 8080,
     },
     plugins: [
       react(),
