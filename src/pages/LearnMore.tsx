@@ -5,8 +5,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { ArrowLeft, PlayCircle, Brain, Target, Users, Building, Hammer, BookOpen, Heart, Lightbulb } from 'lucide-react';
+import { useScrollToTop } from '@/hooks/use-scroll-to-top';
 
 const LearnMore = () => {
+  useScrollToTop();
   const careerPaths = [
     { name: "Creative Artist", icon: "🎨", description: "Expression through creative mediums and artistic vision" },
     { name: "Analytical Problem Solver", icon: "🔬", description: "Data-driven analysis and systematic problem solving" },
