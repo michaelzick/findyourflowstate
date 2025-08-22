@@ -267,5 +267,21 @@ export const quizQuestions: QuizQuestion[] = [
       "Independent with periodic deep connections",
       "Flexible arrangements based on life circumstances"
     ]
+  },
+  {
+    id: "money_beliefs_1",
+    category: "values_philosophy",
+    type: "text",
+    question: "Describe your relationship with money. What does financial success mean to you, and what fears or beliefs about money have influenced your life choices?",
+    required: false,
+    weight: 1.0
+  },
+  {
+    id: "success_definition_1", 
+    category: "motivations",
+    type: "text",
+    question: "How do you define personal and professional success? What fears or beliefs about achievement have shaped your goals and decisions?",
+    required: false,
+    weight: 1.0
   }
 ];

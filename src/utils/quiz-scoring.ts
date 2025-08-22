@@ -1,6 +1,7 @@
-import { QuizAnswer, CareerPath, PersonalityInsight, QuizResults } from '@/types/quiz';
-import { careerPaths } from '@/data/career-paths';
-import { quizQuestions } from '@/data/quiz-questions';
+import { QuizAnswer, CareerPath, QuizResults, PersonalityInsight, AIAnalysis } from '../types/quiz';
+import { quizQuestions } from '../data/quiz-questions';
+import { careerPaths } from '../data/career-paths';
+import { analyzeQuizWithAI } from '../services/aiAnalysis';
 
 interface ScoringWeights {
   [careerId: string]: {
@@ -89,7 +90,8 @@ const scoringWeights: ScoringWeights = {
   }
 };
 
-export function calculateQuizResults(answers: QuizAnswer[]): QuizResults {
+export async function calculateQuizResults(answers: QuizAnswer[]): Promise<QuizResults> {
+  console.log('Starting quiz scoring with', answers.length, 'answers');
   const answerMap = new Map(answers.map(a => [a.questionId, a.value]));
   const careerScores: { [key: string]: number } = {};
   
@@ -136,11 +138,15 @@ export function calculateQuizResults(answers: QuizAnswer[]): QuizResults {
   const secondScore = rankedCareers[1].score;
   const confidence = Math.min(100, Math.max(60, topScore - secondScore + 70));
 
+  // Get AI analysis
+  const aiAnalysis = await analyzeQuizWithAI(answers, rankedCareers);
+
   return {
     careerPaths: rankedCareers,
     personalityInsight,
     confidence,
-    completedAt: new Date()
+    completedAt: new Date(),
+    aiAnalysis
   };
 }
 

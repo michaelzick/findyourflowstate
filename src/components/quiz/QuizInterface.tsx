@@ -15,18 +15,16 @@ export function QuizInterface() {
   const isLastQuestion = state.currentQuestionIndex === quizQuestions.length - 1;
   const isFirstQuestion = state.currentQuestionIndex === 0;
 
-  const handleNext = () => {
-    if (currentQuestion.required && !currentAnswer) {
-      toast({
-        title: "Required Question",
-        description: "Please answer this question before continuing.",
-        variant: "destructive",
-      });
+  const handleNext = async () => {
+    const currentQuestion = quizQuestions[state.currentQuestionIndex];
+    const currentAnswer = getAnswerForQuestion(currentQuestion.id);
+    
+    if (currentQuestion.required && !canProceed) {
       return;
     }
 
     if (isLastQuestion) {
-      completeQuiz();
+      await completeQuiz();
     } else {
       nextQuestion();
     }

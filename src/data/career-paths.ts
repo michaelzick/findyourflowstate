@@ -8,6 +8,7 @@ export const careerPaths: CareerPath[] = [
     keyTraits: ['High creativity', 'Aesthetic sensitivity', 'Emotional intelligence', 'Independent thinking'],
     workEnvironment: 'Flexible, inspiring spaces with creative freedom and minimal rigid structure',
     typicalRoles: ['Graphic Designer', 'Writer', 'Musician', 'Architect', 'Film Director', 'Art Therapist', 'Brand Designer'],
+    specificOccupations: ['Music Producer', 'Recording Engineer', 'Film Director', 'Interior Designer', 'Jewelry Designer'],
     strengths: ['Original thinking', 'Visual/aesthetic sense', 'Emotional expression', 'Innovation'],
     challenges: ['Business management', 'Strict deadlines', 'Highly structured environments', 'Routine tasks']
   },
@@ -18,6 +19,7 @@ export const careerPaths: CareerPath[] = [
     keyTraits: ['Strong analytical skills', 'Logical reasoning', 'Detail-oriented', 'Systems thinking'],
     workEnvironment: 'Structured environments with access to data, tools, and focused work time',
     typicalRoles: ['Software Engineer', 'Data Scientist', 'Research Analyst', 'Systems Administrator', 'Financial Analyst', 'Quality Assurance'],
+    specificOccupations: ['Data Scientist', 'Cybersecurity Analyst', 'Market Research Analyst', 'College Professor', 'Biostatistician'],
     strengths: ['Problem-solving', 'Technical skills', 'Precision', 'Process improvement'],
     challenges: ['Ambiguous situations', 'Heavily people-focused roles', 'High emotional labor', 'Constant interruptions']
   },
@@ -28,6 +30,7 @@ export const careerPaths: CareerPath[] = [
     keyTraits: ['Strong interpersonal skills', 'Emotional intelligence', 'Natural leadership', 'Empathy'],
     workEnvironment: 'Collaborative, people-rich environments with opportunities for mentoring and development',
     typicalRoles: ['Teacher', 'Therapist', 'HR Director', 'Team Lead', 'Coach', 'Social Worker', 'Consultant'],
+    specificOccupations: ['Therapist', 'School Counselor', 'Community Organizer', 'Youth Worker', 'Corporate Trainer'],
     strengths: ['Communication', 'Team building', 'Conflict resolution', 'Motivating others'],
     challenges: ['Highly technical work', 'Isolated environments', 'Purely data-driven decisions', 'Minimal human interaction']
   },
@@ -38,6 +41,7 @@ export const careerPaths: CareerPath[] = [
     keyTraits: ['Strategic thinking', 'Organizational skills', 'Long-term vision', 'Process-oriented'],
     workEnvironment: 'Structured environments where you can implement systems and see long-term results',
     typicalRoles: ['Project Manager', 'Operations Director', 'Business Analyst', 'Program Coordinator', 'Logistics Manager'],
+    specificOccupations: ['Supply Chain Manager', 'Wedding Planner', 'Executive Assistant', 'Quality Assurance Manager', 'Accountant'],
     strengths: ['Planning', 'Organization', 'Process improvement', 'Strategic execution'],
     challenges: ['Highly creative work', 'Constant change', 'Unstructured environments', 'Short-term focus only']
   },
@@ -48,6 +52,7 @@ export const careerPaths: CareerPath[] = [
     keyTraits: ['Practical skills', 'Physical coordination', 'Attention to detail', 'Problem-solving'],
     workEnvironment: 'Workshops, labs, or field environments where you can work with tools and materials',
     typicalRoles: ['Carpenter', 'Chef', 'Mechanic', 'Surgeon', 'Lab Technician', 'Craftsperson', 'Engineer'],
+    specificOccupations: ['Baker', 'Coffee Roaster', 'Surf Instructor', 'Carpenter', 'Personal Trainer'],
     strengths: ['Manual dexterity', 'Practical problem-solving', 'Quality craftsmanship', 'Technical skills'],
     challenges: ['Purely theoretical work', 'Desk-bound roles', 'High abstraction', 'Minimal tangible outcomes']
   },
@@ -58,6 +63,7 @@ export const careerPaths: CareerPath[] = [
     keyTraits: ['Intellectual curiosity', 'Research skills', 'Analytical thinking', 'Love of learning'],
     workEnvironment: 'Libraries, research institutions, or quiet spaces conducive to deep thinking and investigation',
     typicalRoles: ['Researcher', 'Professor', 'Librarian', 'Journalist', 'Scientist', 'Historian', 'Policy Analyst'],
+    specificOccupations: ['University Professor', 'Research Scientist', 'Technical Writer', 'Documentary Filmmaker', 'Museum Curator'],
     strengths: ['Deep knowledge', 'Research abilities', 'Critical thinking', 'Information synthesis'],
     challenges: ['High-pressure sales', 'Time-pressured decisions', 'Minimal learning opportunities', 'Routine work']
   },
@@ -68,6 +74,7 @@ export const careerPaths: CareerPath[] = [
     keyTraits: ['Compassion', 'Service orientation', 'Practical helping skills', 'Emotional resilience'],
     workEnvironment: 'Community-oriented settings where you can directly interact with and help people',
     typicalRoles: ['Nurse', 'Social Worker', 'Counselor', 'Community Organizer', 'Non-profit Worker', 'Physical Therapist'],
+    specificOccupations: ['Registered Nurse', 'Social Worker', 'Mental Health Counselor', 'Paramedic', 'Occupational Therapist'],
     strengths: ['Empathy', 'Helping others', 'Crisis management', 'Interpersonal connection'],
     challenges: ['Highly competitive environments', 'Profit-focused roles', 'Minimal human impact', 'Technical abstraction']
   },
@@ -78,6 +85,7 @@ export const careerPaths: CareerPath[] = [
     keyTraits: ['Risk tolerance', 'Innovation', 'Vision', 'Adaptability'],
     workEnvironment: 'Dynamic, fast-paced environments with autonomy and opportunity for growth',
     typicalRoles: ['Startup Founder', 'Business Owner', 'Innovation Manager', 'Venture Capitalist', 'Product Developer'],
+    specificOccupations: ['Startup Founder', 'Investment Banker', 'Management Consultant', 'Sales Manager', 'Business Development Director'],
     strengths: ['Innovation', 'Risk management', 'Vision execution', 'Adaptability'],
     challenges: ['Highly structured roles', 'Risk-averse environments', 'Bureaucracy', 'Slow-moving organizations']
   }

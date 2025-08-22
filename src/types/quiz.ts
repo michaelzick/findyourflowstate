@@ -41,6 +41,7 @@ export interface CareerPath {
   keyTraits: string[];
   workEnvironment: string;
   typicalRoles: string[];
+  specificOccupations?: string[];
   strengths: string[];
   challenges: string[];
   score?: number;
@@ -56,9 +57,37 @@ export interface PersonalityInsight {
   motivators: string[];
 }
 
+export interface SpecificOccupation {
+  title: string;
+  category: string;
+  fitScore: number;
+  reasoning: string;
+}
+
+export interface HiddenBeliefs {
+  successBlockers: string[];
+  moneyBeliefs: string[];
+  fearPatterns: string[];
+  coreInsights: string[];
+}
+
+export interface EnhancedPersonality {
+  cognitiveStyle: string;
+  motivationalDrivers: string[];
+  relationshipStyle: string;
+  workEnvironmentNeeds: string;
+}
+
+export interface AIAnalysis {
+  specificOccupations: SpecificOccupation[];
+  hiddenBeliefs: HiddenBeliefs;
+  enhancedPersonality: EnhancedPersonality;
+}
+
 export interface QuizResults {
   careerPaths: CareerPath[];
   personalityInsight: PersonalityInsight;
   confidence: number;
   completedAt: Date;
+  aiAnalysis?: AIAnalysis;
 }

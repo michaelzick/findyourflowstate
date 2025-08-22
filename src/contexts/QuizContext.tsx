@@ -14,6 +14,7 @@ type QuizAction =
   | { type: 'NEXT_QUESTION' }
   | { type: 'PREVIOUS_QUESTION' }
   | { type: 'COMPLETE_QUIZ' }
+  | { type: 'SET_RESULTS'; payload: QuizResults }
   | { type: 'RESET_QUIZ' }
   | { type: 'GOTO_QUESTION'; payload: number };
 
@@ -57,14 +58,18 @@ function quizReducer(state: QuizState, action: QuizAction): QuizState {
           currentQuestionIndex: Math.max(0, state.currentQuestionIndex - 1),
         };
 
-      case 'COMPLETE_QUIZ': {
-        const results = calculateQuizResults(state.answers);
+      case 'COMPLETE_QUIZ':
         return {
           ...state,
-          results,
           isComplete: true,
+          results: null, // Will be set asynchronously
         };
-      }
+
+      case 'SET_RESULTS':
+        return {
+          ...state,
+          results: action.payload,
+        };
 
       case 'RESET_QUIZ':
         return initialState;
@@ -109,8 +114,17 @@ export function QuizProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'PREVIOUS_QUESTION' });
   };
 
-  const completeQuiz = () => {
+  const completeQuiz = async () => {
     dispatch({ type: 'COMPLETE_QUIZ' });
+    
+    // Calculate results asynchronously
+    try {
+      const results = await calculateQuizResults(state.answers);
+      dispatch({ type: 'SET_RESULTS', payload: results });
+    } catch (error) {
+      console.error('Error calculating quiz results:', error);
+      // You could dispatch an error action here if needed
+    }
   };
 
   const resetQuiz = () => {
