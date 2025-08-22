@@ -139,7 +139,15 @@ export async function calculateQuizResults(answers: QuizAnswer[]): Promise<QuizR
   const confidence = Math.min(100, Math.max(60, topScore - secondScore + 70));
 
   // Get AI analysis
-  const aiAnalysis = await analyzeQuizWithAI(answers, rankedCareers);
+  let aiAnalysis = null;
+  try {
+    console.log('🎯 Attempting AI analysis...');
+    aiAnalysis = await analyzeQuizWithAI(answers, rankedCareers);
+    console.log('✅ AI analysis successful!');
+  } catch (error) {
+    console.error('⚠️ AI analysis failed, continuing without it:', error);
+    // Continue without AI analysis - don't block the results
+  }
 
   return {
     careerPaths: rankedCareers,

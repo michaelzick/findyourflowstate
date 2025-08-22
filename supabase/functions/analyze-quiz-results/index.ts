@@ -16,7 +16,12 @@ serve(async (req) => {
   try {
     const { answers, careerPaths } = await req.json();
     
-    console.log('Analyzing quiz results with GPT-4o');
+    console.log('🚀 Analyzing quiz results with GPT-4o');
+    console.log('📊 Input data:', { answersCount: answers.length, careerPathsCount: careerPaths.length });
+
+    if (!openAIApiKey) {
+      throw new Error('OpenAI API key not configured');
+    }
     
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -37,7 +42,7 @@ serve(async (req) => {
 4. Success fears and sabotage patterns
 5. Relationship and working style insights
 
-Return JSON with this structure:
+Return ONLY valid JSON with this exact structure:
 {
   "specificOccupations": [
     {
@@ -72,19 +77,27 @@ Quiz Answers: ${JSON.stringify(answers)}
 Focus on text responses about money beliefs, success definition, childhood patterns, and work preferences. Identify unconscious patterns, limiting beliefs, and specific career matches.`
           }
         ],
-        temperature: 0.7,
         max_tokens: 2000
       }),
     });
 
     const data = await response.json();
-    console.log('GPT-4o response received');
+    
+    if (!response.ok) {
+      console.error('❌ OpenAI API error:', data);
+      throw new Error(`OpenAI API error: ${data.error?.message || 'Unknown error'}`);
+    }
+    
+    console.log('✅ GPT-4o response received');
     
     let analysis;
     try {
-      analysis = JSON.parse(data.choices[0].message.content);
+      const content = data.choices[0].message.content;
+      console.log('📝 Raw GPT response:', content);
+      analysis = JSON.parse(content);
     } catch (parseError) {
-      console.error('Failed to parse GPT response as JSON:', parseError);
+      console.error('❌ Failed to parse GPT response as JSON:', parseError);
+      console.error('Raw content:', data.choices[0]?.message?.content);
       // Fallback analysis structure
       analysis = {
         specificOccupations: [],
