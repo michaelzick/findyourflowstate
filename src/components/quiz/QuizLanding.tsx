@@ -64,7 +64,7 @@ export function QuizLanding() {
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
               A comprehensive quiz that combines psychology, neuroscience, and behavioral science
-              to determine your 3 most compatible career paths—along with deep personality insights.
+              to determine your three most compatible career paths with deep personality insights.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Button

@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
+import Footer from '@/components/Footer';
 import { ArrowLeft, PlayCircle, Brain, Target, Users, Building, Hammer, BookOpen, Heart, Lightbulb } from 'lucide-react';
 import { useScrollToTop } from '@/hooks/use-scroll-to-top';
 
@@ -558,6 +559,7 @@ const LearnMore = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

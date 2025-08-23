@@ -3,6 +3,7 @@ import { QuizProvider, useQuiz } from '@/contexts/QuizContext';
 import { QuizLanding } from '@/components/quiz/QuizLanding';
 import { QuizInterface } from '@/components/quiz/QuizInterface';
 import { QuizResults } from '@/components/quiz/QuizResults';
+import Footer from '@/components/Footer';
 import { quizQuestions } from '@/data/quiz-questions';
 import { useScrollToTop } from '@/hooks/use-scroll-to-top';
 
@@ -29,8 +30,11 @@ const Index = () => {
 
   return (
     <QuizProvider>
-      <div className="min-h-screen bg-background">
-        <QuizContent />
+      <div className="min-h-screen bg-background flex flex-col">
+        <div className="flex-1">
+          <QuizContent />
+        </div>
+        <Footer />
       </div>
     </QuizProvider>
   );
