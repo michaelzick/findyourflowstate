@@ -143,7 +143,7 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
 
   const handleDownloadPDF = async () => {
     if (!resultsRef.current) return;
-    
+
     try {
       toast({
         title: "Generating PDF",
@@ -162,24 +162,24 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
 
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF('p', 'mm', 'a4');
-      
+
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
       const imgWidth = canvas.width;
       const imgHeight = canvas.height;
-      
+
       // Calculate scaling to fit page
       const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
       const scaledWidth = imgWidth * ratio;
       const scaledHeight = imgHeight * ratio;
-      
+
       // Center the image
       const x = (pdfWidth - scaledWidth) / 2;
       const y = (pdfHeight - scaledHeight) / 2;
-      
+
       pdf.addImage(imgData, 'PNG', x, y, scaledWidth, scaledHeight);
       pdf.save('career-assessment-results.pdf');
-      
+
       toast({
         title: "PDF Downloaded",
         description: "Your results have been saved as a PDF!",
@@ -216,10 +216,10 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
           </div>
 
           {/* AI Analysis Status */}
-          <AIAnalysisStatus 
+          <AIAnalysisStatus
             isLoading={state.isAiAnalysisLoading}
-            hasError={!state.isAiAnalysisLoading && !results.aiAnalysis}
-            errorMessage={!state.isAiAnalysisLoading && !results.aiAnalysis ? "AI analysis could not be completed. Your comprehensive career assessment results are still available below." : undefined}
+            hasError={!!state.aiAnalysisError}
+            errorMessage={state.aiAnalysisError || undefined}
             hasResults={!!results.aiAnalysis}
           />
 
@@ -414,7 +414,7 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
             <Card className="p-6 bg-quiz-card border-border shadow-quiz">
               <div className="space-y-6">
                 <h2 className="text-2xl font-semibold text-center text-purple-400">Hidden Beliefs & Psychological Patterns</h2>
-                
+
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <h3 className="font-semibold mb-3 text-red-400">Success Blockers</h3>
@@ -478,7 +478,7 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
             <Card className="p-6 bg-quiz-card border-border shadow-quiz">
               <div className="space-y-6">
                 <h2 className="text-2xl font-semibold text-center">Enhanced Personality Analysis</h2>
-                
+
                 <div>
                   <h3 className="font-semibold mb-3 text-blue-400">Cognitive Style</h3>
                   <p className="text-sm text-muted-foreground">{results.aiAnalysis.enhancedPersonality.cognitiveStyle}</p>

@@ -15,51 +15,60 @@ serve(async (req) => {
 
   try {
     const { answers, careerPaths } = await req.json();
-    
+
     console.log('🚀 Analyzing quiz results with GPT-5');
     console.log('📊 Input data:', { answersCount: answers.length, careerPathsCount: careerPaths.length });
 
     if (!openAIApiKey) {
       throw new Error('OpenAI API key not configured');
     }
-    
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${openAIApiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'gpt-5-2025-08-07',
-        messages: [
-          {
-            role: 'system',
-            content: `You are an expert career and psychological analyst combining insights from Brené Brown, Tony Robbins, and Brianna Wiest. 
+
+    // Retry logic for API calls
+    const maxRetries = 2;
+    let lastError;
+    let data;
+
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        console.log(`🔄 Attempt ${attempt}/${maxRetries}`);
+
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${openAIApiKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            model: 'gpt-4o-2024-08-06', // Using a more reliable model
+            messages: [
+              {
+                role: 'system',
+                content: `You are an expert career and psychological analyst combining insights from Brené Brown, Tony Robbins, and Brianna Wiest.
 
 Analyze quiz responses to provide deep psychological insights into career alignment. Focus on:
 
 1. SPECIFIC OCCUPATIONS: Identify 4-6 highly specific job titles (not just categories) that match the person's psychological profile
 2. HIDDEN BELIEFS: Uncover unconscious patterns about success, money, and achievement
-3. PSYCHOLOGICAL BLOCKERS: Identify self-sabotage patterns, fears, and limiting beliefs  
+3. PSYCHOLOGICAL BLOCKERS: Identify self-sabotage patterns, fears, and limiting beliefs
 4. ENHANCED PERSONALITY: Provide nuanced cognitive and motivational insights
 
 For each specific occupation, provide:
-- Exact job title (e.g. "UX Research Manager", "Clinical Psychologist", "Data Visualization Specialist")  
+- Exact job title (e.g. "UX Research Manager", "Clinical Psychologist", "Data Visualization Specialist")
 - Fit score between 75-95% (be realistic, not all high scores)
 - Detailed reasoning connecting their psychological patterns to the role
 
 For hidden beliefs, analyze text responses about money, success, and childhood to identify:
 - Specific success blockers (perfectionism, imposter syndrome, fear of criticism, etc.)
-- Money mindset patterns (scarcity, worthiness issues, financial anxiety, etc.)  
+- Money mindset patterns (scarcity, worthiness issues, financial anxiety, etc.)
 - Fear patterns (visibility, failure, success, abandonment, etc.)
 - Core insights (2-3 deep psychological observations)
 
-Return ONLY valid JSON with this exact structure:
+CRITICAL: Return ONLY valid JSON with this exact structure. Do not include any explanatory text before or after the JSON:
 {
   "specificOccupations": [
     {
       "title": "UX Research Manager",
-      "category": "Technology & Design", 
+      "category": "Technology & Design",
       "fitScore": 87,
       "reasoning": "Your analytical mindset combined with empathy for user needs and preference for structured research environments makes this role ideal. Your text responses show pattern recognition abilities and desire to solve human-centered problems."
     }
@@ -77,10 +86,10 @@ Return ONLY valid JSON with this exact structure:
     "workEnvironmentNeeds": "Collaborative but not overstimulating environments with flexibility for deep focus periods and clear communication of expectations"
   }
 }`
-          },
-          {
-            role: 'user',
-            content: `Analyze these quiz responses for deep psychological insights and career alignment:
+              },
+              {
+                role: 'user',
+                content: `Analyze these quiz responses for deep psychological insights and career alignment:
 
 TOP CAREER PATHS IDENTIFIED: ${JSON.stringify(careerPaths)}
 
@@ -88,66 +97,113 @@ DETAILED QUIZ RESPONSES: ${JSON.stringify(answers)}
 
 Pay special attention to:
 - Text responses about money beliefs, success definition, childhood patterns
-- Scale responses showing work preferences and personality traits  
+- Scale responses showing work preferences and personality traits
 - Multiple choice patterns revealing values and motivations
 
 Provide specific, actionable insights that go beyond surface-level analysis. Focus on unconscious patterns and psychological drivers that influence career choices.`
-          }
-        ],
-        max_completion_tokens: 2000
-      }),
-    });
+              }
+            ],
+            max_completion_tokens: 2000,
+            temperature: 0.7
+          }),
+        });
 
-    const data = await response.json();
-    
-    if (!response.ok) {
-      console.error('❌ OpenAI API error:', data);
-      throw new Error(`OpenAI API error: ${data.error?.message || 'Unknown error'}`);
+        data = await response.json();
+
+        if (!response.ok) {
+          const errorMsg = `OpenAI API error (${response.status}): ${data.error?.message || 'Unknown error'}`;
+          console.error('❌', errorMsg);
+          lastError = new Error(errorMsg);
+
+          // Don't retry on certain errors
+          if (response.status === 401 || response.status === 403) {
+            throw lastError;
+          }
+
+          if (attempt < maxRetries) {
+            console.log(`⏳ Waiting before retry...`);
+            await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
+            continue;
+          }
+          throw lastError;
+        }
+
+        console.log('✅ GPT response received successfully');
+        break; // Success, exit retry loop
+
+      } catch (error) {
+        console.error(`❌ Attempt ${attempt} failed:`, error.message);
+        lastError = error;
+
+        if (attempt < maxRetries) {
+          console.log(`⏳ Waiting before retry...`);
+          await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
+        }
+      }
     }
-    
-    console.log('✅ GPT-5 response received');
-    
+
+    if (!data) {
+      throw lastError || new Error('AI analysis failed after all retries');
+    }
+
     let analysis;
     try {
       const content = data.choices[0].message.content;
       console.log('📝 Raw GPT response:', content);
-      analysis = JSON.parse(content);
+
+      // Clean the content to ensure it's valid JSON
+      const cleanContent = content.trim();
+      if (!cleanContent.startsWith('{') || !cleanContent.endsWith('}')) {
+        throw new Error('Response is not valid JSON format');
+      }
+
+      analysis = JSON.parse(cleanContent);
+
+      // Validate the structure
+      if (!analysis.specificOccupations || !analysis.hiddenBeliefs || !analysis.enhancedPersonality) {
+        throw new Error('Response missing required fields');
+      }
+
+      // Validate that we have actual content, not placeholder text
+      const hasPlaceholderText =
+        analysis.specificOccupations.some((occ: unknown) =>
+          occ.title?.includes('progress') || occ.title?.includes('Analysis') || occ.reasoning?.includes('Complete your quiz')
+        ) ||
+        analysis.hiddenBeliefs.successBlockers?.some((blocker: string) =>
+          blocker.includes('unavailable') || blocker.includes('generated') || blocker.includes('progress')
+        );
+
+      if (hasPlaceholderText) {
+        throw new Error('AI returned placeholder content instead of analysis');
+      }
+
     } catch (parseError) {
-      console.error('❌ Failed to parse GPT response as JSON:', parseError);
+      console.error('❌ Failed to parse or validate GPT response:', parseError);
       console.error('Raw content:', data.choices[0]?.message?.content);
-      // Fallback analysis structure with more helpful content
-      analysis = {
-        specificOccupations: [
-          {
-            title: "Analysis in progress...",
-            category: "AI Enhancement", 
-            fitScore: 85,
-            reasoning: "Complete your quiz to unlock personalized career recommendations based on advanced psychological analysis."
-          }
-        ],
-        hiddenBeliefs: {
-          successBlockers: ["AI analysis temporarily unavailable"],
-          moneyBeliefs: ["Enhanced insights being generated..."],
-          fearPatterns: ["Detailed analysis in progress"],
-          coreInsights: ["Your comprehensive personality analysis includes traditional assessment results above. AI-enhanced psychological insights may take a moment to process."]
-        },
-        enhancedPersonality: {
-          cognitiveStyle: "Enhanced cognitive analysis is being processed. Your core personality insights are available in the detailed results above.",
-          motivationalDrivers: ["AI analysis in progress", "Traditional analysis complete"],
-          relationshipStyle: "Detailed relationship insights are being generated through advanced AI analysis.",
-          workEnvironmentNeeds: "Enhanced environment recommendations are being processed. Check your detailed career path analysis above for comprehensive insights."
-        }
-      };
+
+      // Instead of returning placeholder data, throw an error
+      throw new Error(`AI analysis failed: ${parseError.message}. Please try again.`);
     }
 
-    return new Response(JSON.stringify(analysis), {
+    // Add a version identifier to confirm the new function is running
+    const responseWithVersion = {
+      ...analysis,
+      _version: 'v2.0-fixed',
+      _timestamp: new Date().toISOString()
+    };
+
+    return new Response(JSON.stringify(responseWithVersion), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   } catch (error) {
     console.error('Error in analyze-quiz-results function:', error);
-    return new Response(JSON.stringify({ 
-      error: 'Analysis failed', 
-      message: error.message 
+    console.error('Error stack:', error.stack);
+
+    return new Response(JSON.stringify({
+      error: 'Analysis failed',
+      message: error.message,
+      _version: 'v2.0-fixed-error',
+      _timestamp: new Date().toISOString()
     }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
