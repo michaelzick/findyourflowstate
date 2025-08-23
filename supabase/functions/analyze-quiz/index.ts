@@ -19,7 +19,7 @@ serve(async (req) => {
   try {
     const { answers, careerPaths } = await req.json();
 
-    console.log('🚀 Analyzing quiz results with GPT-5');
+    console.log('🚀 Analyzing quiz results with GPT-4o');
     console.log('📊 Input data:', { answersCount: answers.length, careerPathsCount: careerPaths.length });
 
     if (!openAIApiKey) {
@@ -42,7 +42,7 @@ serve(async (req) => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            model: 'gpt-5-2025-08-07', // Latest GPT-5 model
+            model: 'gpt-4o', // Using GPT-4o
             messages: [
               {
                 role: 'system',
@@ -112,7 +112,7 @@ Provide specific, actionable insights that go beyond surface-level analysis. Foc
 
         console.log('🌐 OpenAI Response status:', response.status);
         console.log('🌐 OpenAI Response headers:', Object.fromEntries(response.headers.entries()));
-        
+
         data = await response.json();
         console.log('🌐 Full OpenAI response structure:', JSON.stringify(data, null, 2));
 
@@ -203,7 +203,7 @@ Provide specific, actionable insights that go beyond surface-level analysis. Foc
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   } catch (error) {
-    console.error('Error in analyze-quiz-results function:', error);
+    console.error('Error in analyze-quiz function:', error);
     console.error('Error stack:', error.stack);
 
     return new Response(JSON.stringify({

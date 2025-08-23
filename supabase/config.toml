@@ -1,4 +1,4 @@
 project_id = "qtlhqsqanbxgfbcjigrl"
 
-[functions.analyze-quiz-results]
+[functions.analyze-quiz]
 verify_jwt = false

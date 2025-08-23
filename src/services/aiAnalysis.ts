@@ -13,11 +13,11 @@ export const analyzeQuizWithAI = async (
       hasTextResponses: answers.some(a => typeof a.value === 'string' && a.value.length > 20),
       sampleQuestionIds: answers.slice(0, 5).map(a => a.questionId)
     });
-    
-    console.log('📡 Calling Supabase edge function: analyze-quiz-results');
+
+    console.log('📡 Calling Supabase edge function: analyze-quiz');
     const startTime = Date.now();
-    
-    const { data, error } = await supabase.functions.invoke('analyze-quiz-results', {
+
+    const { data, error } = await supabase.functions.invoke('analyze-quiz', {
       body: { answers, careerPaths }
     });
 
@@ -41,10 +41,10 @@ export const analyzeQuizWithAI = async (
 
     // Validate the returned data structure
     console.log('🔍 Validating AI analysis response structure...');
-    const isValid = data && 
-      typeof data === 'object' && 
+    const isValid = data &&
+      typeof data === 'object' &&
       (data.specificOccupations || data.hiddenBeliefs || data.enhancedPersonality);
-    
+
     if (!isValid) {
       console.error('❌ Invalid AI analysis response structure:', data);
       throw new Error('AI Analysis returned invalid data structure');
@@ -62,7 +62,7 @@ export const analyzeQuizWithAI = async (
       version: data._version || 'unknown',
       timestamp: data._timestamp || 'unknown'
     });
-    
+
     return data as AIAnalysis;
   } catch (error) {
     console.error('💥 AI Analysis service failed:', {
