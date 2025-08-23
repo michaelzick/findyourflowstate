@@ -275,7 +275,7 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
 
                     <div className="grid md:grid-cols-2 gap-4 text-sm">
                       <div>
-                        <h4 className="font-medium mb-2 text-accent">Strengths</h4>
+                        <h4 className="font-medium mb-2 text-teal-300">Strengths</h4>
                         <ul className="list-disc list-inside space-y-1 text-muted-foreground">
                           {career.strengths.map((strength) => (
                             <li key={strength}>{strength}</li>
@@ -284,7 +284,7 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                       </div>
 
                       <div>
-                        <h4 className="font-medium mb-2 text-secondary">Challenges</h4>
+                        <h4 className="font-medium mb-2 text-red-600">Challenges</h4>
                         <ul className="list-disc list-inside space-y-1 text-muted-foreground">
                           {career.challenges.map((challenge) => (
                             <li key={challenge}>{challenge}</li>
@@ -310,7 +310,7 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
 
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <h3 className="font-semibold mb-3 text-accent">Your Strengths</h3>
+                  <h3 className="font-semibold mb-3 text-teal-300">Your Strengths</h3>
                   <ul className="space-y-2">
                     {results.personalityInsight.strengths.map((strength) => (
                       <li key={strength} className="flex items-start gap-2">
@@ -322,7 +322,7 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                 </div>
 
                 <div>
-                  <h3 className="font-semibold mb-3 text-secondary">Areas for Growth</h3>
+                  <h3 className="font-semibold mb-3 text-teal-300">Areas for Growth</h3>
                   <ul className="space-y-2">
                     {results.personalityInsight.areasForGrowth.map((area) => (
                       <li key={area} className="flex items-start gap-2">
@@ -387,16 +387,18 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
               <div className="space-y-4">
                 <h2 className="text-2xl font-semibold text-center">Specific Career Recommendations</h2>
                 <div className="grid gap-4">
-                  {results.aiAnalysis.specificOccupations.map((occupation) => (
-                    <div key={occupation.title} className="border border-border rounded-lg p-4">
-                      <div className="flex items-center justify-between mb-2">
-                        <h3 className="font-semibold">{occupation.title}</h3>
-                        <div className="text-sm text-primary font-medium">{occupation.fitScore}% fit</div>
+                  {results.aiAnalysis.specificOccupations
+                    .sort((a, b) => b.fitScore - a.fitScore)
+                    .map((occupation) => (
+                      <div key={occupation.title} className="border border-border rounded-lg p-4">
+                        <div className="flex items-center justify-between mb-2">
+                          <h3 className="font-semibold text-teal-300">{occupation.title}</h3>
+                          <div className="text-sm text-primary font-medium">{occupation.fitScore}% fit</div>
+                        </div>
+                        <p className="text-sm text-muted-foreground mb-2">Category: {occupation.category}</p>
+                        <p className="text-sm">{occupation.reasoning}</p>
                       </div>
-                      <p className="text-sm text-muted-foreground mb-2">Category: {occupation.category}</p>
-                      <p className="text-sm">{occupation.reasoning}</p>
-                    </div>
-                  ))}
+                    ))}
                 </div>
               </div>
             </Card>
@@ -429,7 +431,7 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                   </div>
 
                   <div>
-                    <h3 className="font-semibold mb-3 text-primary">Money Beliefs</h3>
+                    <h3 className="font-semibold mb-3 text-red-600">Money Beliefs</h3>
                     <ul className="space-y-2">
                       {results.aiAnalysis.hiddenBeliefs.moneyBeliefs.map((belief, index) => (
                         <li key={index} className="flex items-start gap-2">
@@ -442,7 +444,7 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                 </div>
 
                 <div>
-                  <h3 className="font-semibold mb-3 text-secondary">Fear Patterns</h3>
+                  <h3 className="font-semibold mb-3 text-red-600">Fear Patterns</h3>
                   <div className="flex flex-wrap gap-2">
                     {results.aiAnalysis.hiddenBeliefs.fearPatterns.map((pattern, index) => (
                       <Badge key={index} variant="secondary">
@@ -453,7 +455,7 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                 </div>
 
                 <div>
-                  <h3 className="font-semibold mb-3 text-accent">Core Insights</h3>
+                  <h3 className="font-semibold mb-3 text-teal-300">Core Insights</h3>
                   <ul className="space-y-3">
                     {results.aiAnalysis.hiddenBeliefs.coreInsights.map((insight, index) => (
                       <li key={index} className="text-sm text-muted-foreground p-3 bg-background/50 rounded border-l-4 border-accent">
@@ -480,12 +482,12 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                 <h2 className="text-2xl font-semibold text-center">Enhanced Personality Analysis</h2>
 
                 <div>
-                  <h3 className="font-semibold mb-3 text-purple-500">Cognitive Style</h3>
+                  <h3 className="font-semibold mb-3 text-teal-300">Cognitive Style</h3>
                   <p className="text-sm text-muted-foreground">{results.aiAnalysis.enhancedPersonality.cognitiveStyle}</p>
                 </div>
 
                 <div>
-                  <h3 className="font-semibold mb-3 text-rose-500">Motivational Drivers</h3>
+                  <h3 className="font-semibold mb-3 text-teal-300">Motivational Drivers</h3>
                   <div className="flex flex-wrap gap-2">
                     {results.aiAnalysis.enhancedPersonality.motivationalDrivers.map((driver, index) => (
                       <Badge key={index} variant="secondary">
@@ -496,12 +498,12 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                 </div>
 
                 <div>
-                  <h3 className="font-semibold mb-3 text-cyan-400">Relationship Style</h3>
+                  <h3 className="font-semibold mb-3 text-teal-300">Relationship Style</h3>
                   <p className="text-sm text-muted-foreground">{results.aiAnalysis.enhancedPersonality.relationshipStyle}</p>
                 </div>
 
                 <div>
-                  <h3 className="font-semibold mb-3 text-yellow-300">Work Environment Needs</h3>
+                  <h3 className="font-semibold mb-3 text-teal-300">Work Environment Needs</h3>
                   <p className="text-sm text-muted-foreground">{results.aiAnalysis.enhancedPersonality.workEnvironmentNeeds}</p>
                 </div>
               </div>

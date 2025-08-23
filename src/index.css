@@ -21,11 +21,11 @@ All colors MUST be HSL.
     --popover-foreground: 0 0% 100%;
 
     /* Primary CTA - the teal */
-    --primary: 182 30% 35%;
+    --primary: 182 30% 50%;
     --primary-foreground: 0 0% 100%;
 
     /* Secondary CTA - also teal */
-    --secondary: 182 30% 35%;
+    --secondary: 182 30% 50%;
     --secondary-foreground: 0 0% 100%;
 
     /* Muted colors - using very dark red/brown */
@@ -33,17 +33,17 @@ All colors MUST be HSL.
     --muted-foreground: 0 0% 80%;
 
     /* Accent - using teal for highlights */
-    --accent: 182 30% 35%;
+    --accent: 182 30% 50%;
     --accent-foreground: 0 0% 100%;
 
     /* Destructive - using teal */
-    --destructive: 182 30% 35%;
+    --destructive: 182 30% 50%;
     --destructive-foreground: 0 0% 100%;
 
     /* Border and input colors */
     --border: 0 50% 6%;
     --input: 0 50% 6%;
-    --ring: 182 30% 35%;
+    --ring: 182 30% 50%;
 
     /* Quiz specific design tokens */
     --quiz-card-bg: 0 50% 6%;
@@ -55,12 +55,12 @@ All colors MUST be HSL.
     /* Sidebar colors */
     --sidebar-background: 0 50% 6%;
     --sidebar-foreground: 0 0% 100%;
-    --sidebar-primary: 182 30% 35%;
+    --sidebar-primary: 182 30% 50%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 0 50% 6%;
     --sidebar-accent-foreground: 0 0% 100%;
     --sidebar-border: 0 50% 6%;
-    --sidebar-ring: 182 30% 35%;
+    --sidebar-ring: 182 30% 50%;
   }
 
   .dark {
@@ -74,33 +74,33 @@ All colors MUST be HSL.
     --popover: 15 8% 9%;
     --popover-foreground: 0 0% 100%;
 
-    --primary: 182 30% 35%;
+    --primary: 182 30% 50%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 182 30% 35%;
+    --secondary: 182 30% 50%;
     --secondary-foreground: 0 0% 100%;
 
     --muted: 0 50% 6%;
     --muted-foreground: 0 0% 80%;
 
-    --accent: 182 30% 35%;
+    --accent: 182 30% 50%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 182 30% 35%;
+    --destructive: 182 30% 50%;
     --destructive-foreground: 0 0% 100%;
 
     --border: 0 50% 6%;
     --input: 0 50% 6%;
-    --ring: 182 30% 35%;
+    --ring: 182 30% 50%;
 
     --sidebar-background: 0 50% 6%;
     --sidebar-foreground: 0 0% 100%;
-    --sidebar-primary: 182 30% 35%;
+    --sidebar-primary: 182 30% 50%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 0 50% 6%;
     --sidebar-accent-foreground: 0 0% 100%;
     --sidebar-border: 0 50% 6%;
-    --sidebar-ring: 182 30% 35%;
+    --sidebar-ring: 182 30% 50%;
   }
 }
 
