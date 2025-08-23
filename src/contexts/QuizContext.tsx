@@ -7,6 +7,7 @@ interface QuizState {
   answers: QuizAnswer[];
   results: QuizResults | null;
   isComplete: boolean;
+  isAiAnalysisLoading: boolean;
 }
 
 type QuizAction =
@@ -15,6 +16,8 @@ type QuizAction =
   | { type: 'PREVIOUS_QUESTION' }
   | { type: 'COMPLETE_QUIZ' }
   | { type: 'SET_RESULTS'; payload: QuizResults }
+  | { type: 'SET_AI_ANALYSIS_LOADING'; payload: boolean }
+  | { type: 'UPDATE_AI_ANALYSIS'; payload: QuizResults }
   | { type: 'RESET_QUIZ' }
   | { type: 'GOTO_QUESTION'; payload: number };
 
@@ -23,6 +26,7 @@ const initialState: QuizState = {
   answers: [],
   results: null,
   isComplete: false,
+  isAiAnalysisLoading: false,
 };
 
 function quizReducer(state: QuizState, action: QuizAction): QuizState {
@@ -62,17 +66,31 @@ function quizReducer(state: QuizState, action: QuizAction): QuizState {
         return {
           ...state,
           isComplete: true,
-          results: null, // Will be set asynchronously
+          isAiAnalysisLoading: true,
         };
 
-      case 'SET_RESULTS':
-        return {
-          ...state,
-          results: action.payload,
-        };
+    case 'SET_RESULTS':
+      return {
+        ...state,
+        results: action.payload,
+        isAiAnalysisLoading: !action.payload.aiAnalysis,
+      };
 
-      case 'RESET_QUIZ':
-        return initialState;
+    case 'SET_AI_ANALYSIS_LOADING':
+      return {
+        ...state,
+        isAiAnalysisLoading: action.payload,
+      };
+
+    case 'UPDATE_AI_ANALYSIS':
+      return {
+        ...state,
+        results: action.payload,
+        isAiAnalysisLoading: false,
+      };
+
+    case 'RESET_QUIZ':
+      return initialState;
 
       case 'GOTO_QUESTION':
         return {
@@ -117,13 +135,22 @@ export function QuizProvider({ children }: { children: ReactNode }) {
   const completeQuiz = async () => {
     dispatch({ type: 'COMPLETE_QUIZ' });
     
-    // Calculate results asynchronously
+    // Calculate basic results first (without AI)
     try {
-      const results = await calculateQuizResults(state.answers);
-      dispatch({ type: 'SET_RESULTS', payload: results });
+      const basicResults = await calculateQuizResults(state.answers, false);
+      dispatch({ type: 'SET_RESULTS', payload: basicResults });
+      
+      // Then enhance with AI analysis
+      try {
+        const enhancedResults = await calculateQuizResults(state.answers, true);
+        dispatch({ type: 'UPDATE_AI_ANALYSIS', payload: enhancedResults });
+      } catch (aiError) {
+        console.error('AI analysis failed:', aiError);
+        dispatch({ type: 'SET_AI_ANALYSIS_LOADING', payload: false });
+      }
     } catch (error) {
       console.error('Error calculating quiz results:', error);
-      // You could dispatch an error action here if needed
+      dispatch({ type: 'SET_AI_ANALYSIS_LOADING', payload: false });
     }
   };
 

@@ -50,3 +50,15 @@ export function AIAnalysisStatus({ isLoading, hasError, errorMessage, hasResults
   
   return null;
 }
+
+// Component for showing loading state within AI analysis sections
+export function AIAnalysisLoading({ message }: { message?: string }) {
+  return (
+    <div className="flex items-center gap-2 p-4 rounded-lg bg-background/50">
+      <Loader2 className="h-4 w-4 animate-spin text-primary" />
+      <span className="text-sm text-muted-foreground">
+        {message || 'AI analysis in progress...'}
+      </span>
+    </div>
+  );
+}

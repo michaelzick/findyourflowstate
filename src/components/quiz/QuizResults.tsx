@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { RotateCcw, Download, Copy } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { AIAnalysisStatus } from './AIAnalysisStatus';
+import { AIAnalysisStatus, AIAnalysisLoading } from './AIAnalysisStatus';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
@@ -217,9 +217,9 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
 
           {/* AI Analysis Status */}
           <AIAnalysisStatus 
-            isLoading={false}
-            hasError={!results.aiAnalysis}
-            errorMessage={!results.aiAnalysis ? "AI analysis could not be completed. Your comprehensive career assessment results are still available below." : undefined}
+            isLoading={state.isAiAnalysisLoading}
+            hasError={!state.isAiAnalysisLoading && !results.aiAnalysis}
+            errorMessage={!state.isAiAnalysisLoading && !results.aiAnalysis ? "AI analysis could not be completed. Your comprehensive career assessment results are still available below." : undefined}
             hasResults={!!results.aiAnalysis}
           />
 
@@ -375,7 +375,14 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
           </Card>
 
           {/* AI Analysis - Specific Occupations */}
-          {results.aiAnalysis?.specificOccupations && results.aiAnalysis.specificOccupations.length > 0 && (
+          {state.isAiAnalysisLoading ? (
+            <Card className="p-6 bg-quiz-card border-border shadow-quiz">
+              <div className="space-y-4">
+                <h2 className="text-2xl font-semibold text-center">Specific Career Recommendations</h2>
+                <AIAnalysisLoading message="Analyzing your responses to generate specific career recommendations..." />
+              </div>
+            </Card>
+          ) : results.aiAnalysis?.specificOccupations && results.aiAnalysis.specificOccupations.length > 0 ? (
             <Card className="p-6 bg-quiz-card border-border shadow-quiz">
               <div className="space-y-4">
                 <h2 className="text-2xl font-semibold text-center">Specific Career Recommendations</h2>
@@ -393,10 +400,17 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                 </div>
               </div>
             </Card>
-          )}
+          ) : null}
 
           {/* Hidden Beliefs & Blockers Analysis */}
-          {results.aiAnalysis?.hiddenBeliefs && (
+          {state.isAiAnalysisLoading ? (
+            <Card className="p-6 bg-quiz-card border-border shadow-quiz">
+              <div className="space-y-6">
+                <h2 className="text-2xl font-semibold text-center text-purple-400">Hidden Beliefs & Psychological Patterns</h2>
+                <AIAnalysisLoading message="Analyzing psychological patterns and hidden beliefs..." />
+              </div>
+            </Card>
+          ) : results.aiAnalysis?.hiddenBeliefs ? (
             <Card className="p-6 bg-quiz-card border-border shadow-quiz">
               <div className="space-y-6">
                 <h2 className="text-2xl font-semibold text-center text-purple-400">Hidden Beliefs & Psychological Patterns</h2>
@@ -450,10 +464,17 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                 </div>
               </div>
             </Card>
-          )}
+          ) : null}
 
           {/* Enhanced Personality Analysis */}
-          {results.aiAnalysis?.enhancedPersonality && (
+          {state.isAiAnalysisLoading ? (
+            <Card className="p-6 bg-quiz-card border-border shadow-quiz">
+              <div className="space-y-6">
+                <h2 className="text-2xl font-semibold text-center">Enhanced Personality Analysis</h2>
+                <AIAnalysisLoading message="Generating enhanced personality insights..." />
+              </div>
+            </Card>
+          ) : results.aiAnalysis?.enhancedPersonality ? (
             <Card className="p-6 bg-quiz-card border-border shadow-quiz">
               <div className="space-y-6">
                 <h2 className="text-2xl font-semibold text-center">Enhanced Personality Analysis</h2>
@@ -485,7 +506,7 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                 </div>
               </div>
             </Card>
-          )}
+          ) : null}
 
           {/* Actions */}
           <div className="flex flex-wrap justify-center gap-4">

@@ -90,7 +90,7 @@ const scoringWeights: ScoringWeights = {
   }
 };
 
-export async function calculateQuizResults(answers: QuizAnswer[]): Promise<QuizResults> {
+export async function calculateQuizResults(answers: QuizAnswer[], includeAI: boolean = true): Promise<QuizResults> {
   console.log('Starting quiz scoring with', answers.length, 'answers');
   const answerMap = new Map(answers.map(a => [a.questionId, a.value]));
   const careerScores: { [key: string]: number } = {};
@@ -139,21 +139,23 @@ export async function calculateQuizResults(answers: QuizAnswer[]): Promise<QuizR
   const confidence = Math.min(100, Math.max(60, topScore - secondScore + 70));
 
   // Add AI analysis (non-blocking with detailed logging)
-  console.log('🔄 Starting AI analysis with enhanced logging...');
-  console.log('📝 Input data for AI:', { 
-    answersCount: answers.length, 
-    topCareerPathsCount: rankedCareers.length,
-    sampleAnswers: answers.slice(0, 3).map(a => ({ id: a.questionId, hasValue: !!a.value }))
-  });
-  
   let aiAnalysis = null;
-  try {
-    console.log('🎯 Attempting AI analysis...');
-    aiAnalysis = await analyzeQuizWithAI(answers, rankedCareers);
-    console.log('✅ AI analysis successful!');
-  } catch (error) {
-    console.error('⚠️ AI analysis failed, continuing without it:', error);
-    // Continue without AI analysis - don't block the results
+  if (includeAI) {
+    console.log('🔄 Starting AI analysis with enhanced logging...');
+    console.log('📝 Input data for AI:', { 
+      answersCount: answers.length, 
+      topCareerPathsCount: rankedCareers.length,
+      sampleAnswers: answers.slice(0, 3).map(a => ({ id: a.questionId, hasValue: !!a.value }))
+    });
+    
+    try {
+      console.log('🎯 Attempting AI analysis...');
+      aiAnalysis = await analyzeQuizWithAI(answers, rankedCareers);
+      console.log('✅ AI analysis successful!');
+    } catch (error) {
+      console.error('⚠️ AI analysis failed, continuing without it:', error);
+      throw error; // Re-throw for proper handling in the UI
+    }
   }
 
   return {
