@@ -155,10 +155,17 @@ export function QuizProvider({ children }: { children: ReactNode }) {
 
       // Then enhance with AI analysis
       try {
+        console.log('🤖 Starting AI enhancement phase...');
         const enhancedResults = await calculateQuizResults(state.answers, true);
+        console.log('🎯 AI enhancement completed:', {
+          hasAiAnalysis: !!enhancedResults.aiAnalysis,
+          specificOccupationsCount: enhancedResults.aiAnalysis?.specificOccupations?.length || 0,
+          hasHiddenBeliefs: !!enhancedResults.aiAnalysis?.hiddenBeliefs,
+          hasEnhancedPersonality: !!enhancedResults.aiAnalysis?.enhancedPersonality
+        });
         dispatch({ type: 'UPDATE_AI_ANALYSIS', payload: enhancedResults });
       } catch (aiError) {
-        console.error('AI analysis failed:', aiError);
+        console.error('💥 AI analysis failed:', aiError);
         const errorMessage = aiError instanceof Error ? aiError.message : 'AI analysis failed';
         dispatch({ type: 'SET_AI_ANALYSIS_ERROR', payload: errorMessage });
       }

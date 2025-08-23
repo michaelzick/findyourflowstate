@@ -51,13 +51,16 @@ export const analyzeQuizWithAI = async (
     }
 
     console.log('✅ AI analysis completed successfully');
+    console.log('📊 Full response data:', JSON.stringify(data, null, 2));
     console.log('📊 Response summary:', {
       hasSpecificOccupations: !!(data.specificOccupations?.length),
       occupationsCount: data.specificOccupations?.length || 0,
       hasHiddenBeliefs: !!data.hiddenBeliefs,
       hasEnhancedPersonality: !!data.enhancedPersonality,
       successBlockersCount: data.hiddenBeliefs?.successBlockers?.length || 0,
-      moneyBeliefsCount: data.hiddenBeliefs?.moneyBeliefs?.length || 0
+      moneyBeliefsCount: data.hiddenBeliefs?.moneyBeliefs?.length || 0,
+      version: data._version || 'unknown',
+      timestamp: data._timestamp || 'unknown'
     });
     
     return data as AIAnalysis;
