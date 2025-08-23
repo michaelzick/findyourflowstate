@@ -17,11 +17,9 @@ export function QuizProgress({ currentQuestion, totalQuestions, className }: Qui
         <span>Question {currentQuestion + 1} of {totalQuestions}</span>
         <span>{Math.round(progress)}% complete</span>
       </div>
-      <Progress 
-        value={progress} 
-        className="h-2 bg-quiz-progress"
-        // @ts-ignore - Custom CSS properties are valid
-        style={{ '--progress-background': 'var(--quiz-gradient)' } as React.CSSProperties}
+      <Progress
+        value={progress}
+        className="h-2 bg-primary"
       />
     </div>
   );

@@ -18,7 +18,7 @@ export function QuizInterface() {
   const handleNext = async () => {
     const currentQuestion = quizQuestions[state.currentQuestionIndex];
     const currentAnswer = getAnswerForQuestion(currentQuestion.id);
-    
+
     if (currentQuestion.required && !canProceed) {
       return;
     }
@@ -79,7 +79,7 @@ export function QuizInterface() {
             <Button
               onClick={handleNext}
               disabled={!canProceed}
-              className="flex items-center gap-2 bg-quiz-gradient hover:opacity-90"
+              className="flex items-center gap-2 bg-primary hover:bg-primary/90"
             >
               {isLastQuestion ? 'Complete Quiz' : 'Next'}
               <ArrowRight className="w-4 h-4" />

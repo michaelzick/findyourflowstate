@@ -17,7 +17,7 @@ export function QuizResults() {
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const generateComprehensiveText = () => {
-    let text = `
+    const text = `
 COMPREHENSIVE CAREER ASSESSMENT RESULTS
 =====================================
 
@@ -155,7 +155,7 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
         scale: 2,
         useCORS: true,
         allowTaint: true,
-        backgroundColor: '#ffffff',
+        backgroundColor: '#181715',
         width: resultsRef.current.scrollWidth,
         height: resultsRef.current.scrollHeight,
       });
@@ -199,7 +199,7 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
         <div ref={resultsRef} className="max-w-4xl mx-auto space-y-8">
           {/* Header */}
           <div className="text-center space-y-4">
-            <h1 className="text-4xl font-bold bg-quiz-gradient bg-clip-text text-transparent">
+            <h1 className="text-4xl font-bold text-primary">
               Your Career Assessment Results
             </h1>
             <p className="text-xl text-muted-foreground">
@@ -275,7 +275,7 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
 
                     <div className="grid md:grid-cols-2 gap-4 text-sm">
                       <div>
-                        <h4 className="font-medium mb-2 text-green-400">Strengths</h4>
+                        <h4 className="font-medium mb-2 text-accent">Strengths</h4>
                         <ul className="list-disc list-inside space-y-1 text-muted-foreground">
                           {career.strengths.map((strength) => (
                             <li key={strength}>{strength}</li>
@@ -284,7 +284,7 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                       </div>
 
                       <div>
-                        <h4 className="font-medium mb-2 text-orange-400">Challenges</h4>
+                        <h4 className="font-medium mb-2 text-secondary">Challenges</h4>
                         <ul className="list-disc list-inside space-y-1 text-muted-foreground">
                           {career.challenges.map((challenge) => (
                             <li key={challenge}>{challenge}</li>
@@ -310,11 +310,11 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
 
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <h3 className="font-semibold mb-3 text-green-400">Your Strengths</h3>
+                  <h3 className="font-semibold mb-3 text-accent">Your Strengths</h3>
                   <ul className="space-y-2">
                     {results.personalityInsight.strengths.map((strength) => (
                       <li key={strength} className="flex items-start gap-2">
-                        <div className="w-2 h-2 rounded-full bg-green-400 mt-2 flex-shrink-0" />
+                        <div className="w-2 h-2 rounded-full bg-accent mt-2 flex-shrink-0" />
                         <span className="text-sm">{strength}</span>
                       </li>
                     ))}
@@ -322,11 +322,11 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                 </div>
 
                 <div>
-                  <h3 className="font-semibold mb-3 text-orange-400">Areas for Growth</h3>
+                  <h3 className="font-semibold mb-3 text-secondary">Areas for Growth</h3>
                   <ul className="space-y-2">
                     {results.personalityInsight.areasForGrowth.map((area) => (
                       <li key={area} className="flex items-start gap-2">
-                        <div className="w-2 h-2 rounded-full bg-orange-400 mt-2 flex-shrink-0" />
+                        <div className="w-2 h-2 rounded-full bg-secondary mt-2 flex-shrink-0" />
                         <span className="text-sm">{area}</span>
                       </li>
                     ))}
@@ -406,22 +406,22 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
           {state.isAiAnalysisLoading ? (
             <Card className="p-6 bg-quiz-card border-border shadow-quiz">
               <div className="space-y-6">
-                <h2 className="text-2xl font-semibold text-center text-purple-400">Hidden Beliefs & Psychological Patterns</h2>
+                <h2 className="text-2xl font-semibold text-center text-secondary">Hidden Beliefs & Psychological Patterns</h2>
                 <AIAnalysisLoading message="Analyzing psychological patterns and hidden beliefs..." />
               </div>
             </Card>
           ) : results.aiAnalysis?.hiddenBeliefs ? (
             <Card className="p-6 bg-quiz-card border-border shadow-quiz">
               <div className="space-y-6">
-                <h2 className="text-2xl font-semibold text-center text-purple-400">Hidden Beliefs & Psychological Patterns</h2>
+                <h2 className="text-2xl font-semibold text-center text-secondary">Hidden Beliefs & Psychological Patterns</h2>
 
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <h3 className="font-semibold mb-3 text-red-400">Success Blockers</h3>
+                    <h3 className="font-semibold mb-3 text-destructive">Success Blockers</h3>
                     <ul className="space-y-2">
                       {results.aiAnalysis.hiddenBeliefs.successBlockers.map((blocker, index) => (
                         <li key={index} className="flex items-start gap-2">
-                          <div className="w-2 h-2 rounded-full bg-red-400 mt-2 flex-shrink-0" />
+                          <div className="w-2 h-2 rounded-full bg-destructive mt-2 flex-shrink-0" />
                           <span className="text-sm">{blocker}</span>
                         </li>
                       ))}
@@ -429,11 +429,11 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                   </div>
 
                   <div>
-                    <h3 className="font-semibold mb-3 text-yellow-400">Money Beliefs</h3>
+                    <h3 className="font-semibold mb-3 text-primary">Money Beliefs</h3>
                     <ul className="space-y-2">
                       {results.aiAnalysis.hiddenBeliefs.moneyBeliefs.map((belief, index) => (
                         <li key={index} className="flex items-start gap-2">
-                          <div className="w-2 h-2 rounded-full bg-yellow-400 mt-2 flex-shrink-0" />
+                          <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0" />
                           <span className="text-sm">{belief}</span>
                         </li>
                       ))}
@@ -442,7 +442,7 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                 </div>
 
                 <div>
-                  <h3 className="font-semibold mb-3 text-orange-400">Fear Patterns</h3>
+                  <h3 className="font-semibold mb-3 text-secondary">Fear Patterns</h3>
                   <div className="flex flex-wrap gap-2">
                     {results.aiAnalysis.hiddenBeliefs.fearPatterns.map((pattern, index) => (
                       <Badge key={index} variant="secondary">
@@ -453,10 +453,10 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                 </div>
 
                 <div>
-                  <h3 className="font-semibold mb-3 text-purple-400">Core Insights</h3>
+                  <h3 className="font-semibold mb-3 text-accent">Core Insights</h3>
                   <ul className="space-y-3">
                     {results.aiAnalysis.hiddenBeliefs.coreInsights.map((insight, index) => (
-                      <li key={index} className="text-sm text-muted-foreground p-3 bg-background/50 rounded border-l-4 border-purple-400">
+                      <li key={index} className="text-sm text-muted-foreground p-3 bg-background/50 rounded border-l-4 border-accent">
                         {insight}
                       </li>
                     ))}
@@ -480,12 +480,12 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                 <h2 className="text-2xl font-semibold text-center">Enhanced Personality Analysis</h2>
 
                 <div>
-                  <h3 className="font-semibold mb-3 text-blue-400">Cognitive Style</h3>
+                  <h3 className="font-semibold mb-3 text-primary">Cognitive Style</h3>
                   <p className="text-sm text-muted-foreground">{results.aiAnalysis.enhancedPersonality.cognitiveStyle}</p>
                 </div>
 
                 <div>
-                  <h3 className="font-semibold mb-3 text-green-400">Motivational Drivers</h3>
+                  <h3 className="font-semibold mb-3 text-accent">Motivational Drivers</h3>
                   <div className="flex flex-wrap gap-2">
                     {results.aiAnalysis.enhancedPersonality.motivationalDrivers.map((driver, index) => (
                       <Badge key={index} variant="secondary">
@@ -518,7 +518,7 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
               <Copy className="w-4 h-4" />
               Copy Results To Clipboard
             </Button>
-            <Button onClick={resetQuiz} variant="default" className="flex items-center gap-2 bg-quiz-gradient">
+            <Button onClick={resetQuiz} variant="default" className="flex items-center gap-2 bg-primary hover:bg-primary/90">
               <RotateCcw className="w-4 h-4" />
               Take Quiz Again
             </Button>

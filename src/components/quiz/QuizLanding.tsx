@@ -49,8 +49,8 @@ export function QuizLanding() {
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-quiz-gradient opacity-10" />
-        <div 
+        <div className="absolute inset-0 bg-primary/10" />
+        <div
           className="absolute inset-0 bg-cover bg-center opacity-20"
           style={{ backgroundImage: `url(${quizHero})` }}
         />
@@ -59,24 +59,24 @@ export function QuizLanding() {
             <Badge variant="outline" className="mb-4">
               Scientifically-Based Career Assessment
             </Badge>
-            <h1 className="text-5xl md:text-6xl font-bold bg-quiz-gradient bg-clip-text text-transparent">
+            <h1 className="text-5xl md:text-6xl font-bold text-primary">
               Discover Your Optimal Career Path
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              A comprehensive quiz that combines psychology, neuroscience, and behavioral science 
+              A comprehensive quiz that combines psychology, neuroscience, and behavioral science
               to determine your 3 most compatible career paths—along with deep personality insights.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 onClick={nextQuestion}
-                className="bg-quiz-gradient hover:opacity-90 text-lg px-8 py-3"
+                className="bg-primary hover:bg-primary/90 text-lg px-8 py-3"
               >
                 Start Your Assessment
               </Button>
-              <Button 
-                size="lg" 
-                variant="outline" 
+              <Button
+                size="lg"
+                variant="outline"
                 className="text-lg px-8 py-3"
                 onClick={() => navigate('/learn-more')}
               >
@@ -95,11 +95,11 @@ export function QuizLanding() {
               Why This Assessment Is Different
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Unlike simple personality tests, we dive deep into your authentic self 
+              Unlike simple personality tests, we dive deep into your authentic self
               using cutting-edge psychological research and unconventional insights.
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature) => (
               <Card key={feature.title} className="p-6 bg-quiz-card border-border shadow-quiz text-center">
@@ -173,20 +173,20 @@ export function QuizLanding() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-quiz-gradient-subtle">
+      <section className="py-20 bg-primary/5">
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-2xl mx-auto space-y-8">
             <h2 className="text-3xl font-bold">
               Ready to Discover Your True Career Path?
             </h2>
             <p className="text-lg text-muted-foreground">
-              Join thousands who have gained clarity about their career direction 
+              Join thousands who have gained clarity about their career direction
               through our science-based assessment.
             </p>
-            <Button 
-              size="lg" 
+            <Button
+              size="lg"
               onClick={nextQuestion}
-              className="bg-quiz-gradient hover:opacity-90 text-xl px-12 py-4"
+              className="bg-primary hover:bg-primary/90 text-xl px-12 py-4"
             >
               Begin Assessment Now
             </Button>

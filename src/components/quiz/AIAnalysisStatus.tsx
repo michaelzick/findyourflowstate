@@ -12,7 +12,7 @@ interface AIAnalysisStatusProps {
 
 export function AIAnalysisStatus({ isLoading, hasError, errorMessage, hasResults }: AIAnalysisStatusProps) {
   if (hasResults) return null; // Don't show status if we have results
-  
+
   if (isLoading) {
     return (
       <Card className="p-4 bg-quiz-card border-border">
@@ -28,14 +28,14 @@ export function AIAnalysisStatus({ isLoading, hasError, errorMessage, hasResults
       </Card>
     );
   }
-  
+
   if (hasError) {
     return (
-      <Card className="p-4 bg-quiz-card border-border border-orange-200">
+      <Card className="p-4 bg-quiz-card border-border border-secondary/30">
         <div className="flex items-center gap-3">
-          <AlertCircle className="h-5 w-5 text-orange-400" />
+          <AlertCircle className="h-5 w-5 text-secondary" />
           <div>
-            <h3 className="font-medium text-orange-400">AI Analysis Unavailable</h3>
+            <h3 className="font-medium text-secondary">AI Analysis Unavailable</h3>
             <p className="text-sm text-muted-foreground">
               {errorMessage || 'Enhanced AI insights could not be generated at this time. Your basic career analysis results are still complete and accurate.'}
             </p>
@@ -47,7 +47,7 @@ export function AIAnalysisStatus({ isLoading, hasError, errorMessage, hasResults
       </Card>
     );
   }
-  
+
   return null;
 }
 

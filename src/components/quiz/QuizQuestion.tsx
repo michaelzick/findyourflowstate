@@ -38,13 +38,13 @@ export function QuizQuestion({ question, answer, onAnswer, className }: QuizQues
   const handleMultiSelectAnswer = (optionValue: string, checked: boolean) => {
     const currentValues = (answer?.value as string[]) || [];
     let newValues: string[];
-    
+
     if (checked) {
       newValues = [...currentValues, optionValue];
     } else {
       newValues = currentValues.filter(v => v !== optionValue);
     }
-    
+
     onAnswer({
       questionId: question.id,
       value: newValues,
@@ -62,7 +62,7 @@ export function QuizQuestion({ question, answer, onAnswer, className }: QuizQues
                 variant={answer?.value === option ? "default" : "outline"}
                 className={cn(
                   "w-full justify-start text-left h-auto p-4 whitespace-normal",
-                  answer?.value === option && "bg-quiz-gradient border-primary"
+                  answer?.value === option && "bg-primary border-primary"
                 )}
                 onClick={() => handleMultipleChoiceAnswer(option)}
               >
@@ -89,7 +89,7 @@ export function QuizQuestion({ question, answer, onAnswer, className }: QuizQues
                     size="sm"
                     className={cn(
                       "w-12 h-12 rounded-full",
-                      answer?.value === value && "bg-quiz-gradient border-primary"
+                      answer?.value === value && "bg-primary border-primary"
                     )}
                     onClick={() => handleScaleAnswer(value)}
                   >
@@ -119,7 +119,7 @@ export function QuizQuestion({ question, answer, onAnswer, className }: QuizQues
                 <Checkbox
                   id={`${question.id}-${index}`}
                   checked={((answer?.value as string[]) || []).includes(option)}
-                  onCheckedChange={(checked) => 
+                  onCheckedChange={(checked) =>
                     handleMultiSelectAnswer(option, checked as boolean)
                   }
                 />
