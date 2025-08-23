@@ -199,7 +199,7 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
         <div ref={resultsRef} className="max-w-4xl mx-auto space-y-8">
           {/* Header */}
           <div className="text-center space-y-4">
-            <h1 className="text-4xl font-bold text-primary">
+            <h1 className="text-4xl font-bold">
               Your Career Assessment Results
             </h1>
             <p className="text-xl text-muted-foreground">
@@ -406,18 +406,18 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
           {state.isAiAnalysisLoading ? (
             <Card className="p-6 bg-quiz-card border-border shadow-quiz">
               <div className="space-y-6">
-                <h2 className="text-2xl font-semibold text-center text-secondary">Hidden Beliefs & Psychological Patterns</h2>
+                <h2 className="text-2xl font-semibold text-center">Hidden Beliefs & Psychological Patterns</h2>
                 <AIAnalysisLoading message="Analyzing psychological patterns and hidden beliefs..." />
               </div>
             </Card>
           ) : results.aiAnalysis?.hiddenBeliefs ? (
             <Card className="p-6 bg-quiz-card border-border shadow-quiz">
               <div className="space-y-6">
-                <h2 className="text-2xl font-semibold text-center text-secondary">Hidden Beliefs & Psychological Patterns</h2>
+                <h2 className="text-2xl font-semibold text-center">Hidden Beliefs & Psychological Patterns</h2>
 
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <h3 className="font-semibold mb-3 text-destructive">Success Blockers</h3>
+                    <h3 className="font-semibold mb-3 text-red-600">Success Blockers</h3>
                     <ul className="space-y-2">
                       {results.aiAnalysis.hiddenBeliefs.successBlockers.map((blocker, index) => (
                         <li key={index} className="flex items-start gap-2">
@@ -480,12 +480,12 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                 <h2 className="text-2xl font-semibold text-center">Enhanced Personality Analysis</h2>
 
                 <div>
-                  <h3 className="font-semibold mb-3 text-primary">Cognitive Style</h3>
+                  <h3 className="font-semibold mb-3 text-purple-500">Cognitive Style</h3>
                   <p className="text-sm text-muted-foreground">{results.aiAnalysis.enhancedPersonality.cognitiveStyle}</p>
                 </div>
 
                 <div>
-                  <h3 className="font-semibold mb-3 text-accent">Motivational Drivers</h3>
+                  <h3 className="font-semibold mb-3 text-rose-500">Motivational Drivers</h3>
                   <div className="flex flex-wrap gap-2">
                     {results.aiAnalysis.enhancedPersonality.motivationalDrivers.map((driver, index) => (
                       <Badge key={index} variant="secondary">
@@ -501,7 +501,7 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                 </div>
 
                 <div>
-                  <h3 className="font-semibold mb-3 text-pink-400">Work Environment Needs</h3>
+                  <h3 className="font-semibold mb-3 text-yellow-300">Work Environment Needs</h3>
                   <p className="text-sm text-muted-foreground">{results.aiAnalysis.enhancedPersonality.workEnvironmentNeeds}</p>
                 </div>
               </div>
