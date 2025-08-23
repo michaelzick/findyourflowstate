@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { RotateCcw, Download, Copy } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { AIAnalysisStatus } from './AIAnalysisStatus';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
@@ -213,6 +214,14 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
               </Badge>
             </div>
           </div>
+
+          {/* AI Analysis Status */}
+          <AIAnalysisStatus 
+            isLoading={false}
+            hasError={!results.aiAnalysis}
+            errorMessage={!results.aiAnalysis ? "AI analysis could not be completed. Your comprehensive career assessment results are still available below." : undefined}
+            hasResults={!!results.aiAnalysis}
+          />
 
           {/* Career Paths */}
           <div className="space-y-6">

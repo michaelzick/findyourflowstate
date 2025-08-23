@@ -138,7 +138,14 @@ export async function calculateQuizResults(answers: QuizAnswer[]): Promise<QuizR
   const secondScore = rankedCareers[1].score;
   const confidence = Math.min(100, Math.max(60, topScore - secondScore + 70));
 
-  // Get AI analysis
+  // Add AI analysis (non-blocking with detailed logging)
+  console.log('🔄 Starting AI analysis with enhanced logging...');
+  console.log('📝 Input data for AI:', { 
+    answersCount: answers.length, 
+    topCareerPathsCount: rankedCareers.length,
+    sampleAnswers: answers.slice(0, 3).map(a => ({ id: a.questionId, hasValue: !!a.value }))
+  });
+  
   let aiAnalysis = null;
   try {
     console.log('🎯 Attempting AI analysis...');
