@@ -3,6 +3,9 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
 const openAIApiKey = Deno.env.get('OPENAI_API_KEY');
 
+console.log('🔑 OpenAI API Key status:', openAIApiKey ? 'Present' : 'Missing');
+console.log('🔑 API Key length:', openAIApiKey?.length || 0);
+
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
@@ -39,7 +42,7 @@ serve(async (req) => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            model: 'gpt-4o-2024-08-06', // Using a more reliable model
+            model: 'gpt-5-2025-08-07', // Latest GPT-5 model
             messages: [
               {
                 role: 'system',
@@ -103,8 +106,7 @@ Pay special attention to:
 Provide specific, actionable insights that go beyond surface-level analysis. Focus on unconscious patterns and psychological drivers that influence career choices.`
               }
             ],
-            max_completion_tokens: 2000,
-            temperature: 0.7
+            max_completion_tokens: 2000
           }),
         });
 
