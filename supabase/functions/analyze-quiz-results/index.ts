@@ -110,11 +110,16 @@ Provide specific, actionable insights that go beyond surface-level analysis. Foc
           }),
         });
 
+        console.log('🌐 OpenAI Response status:', response.status);
+        console.log('🌐 OpenAI Response headers:', Object.fromEntries(response.headers.entries()));
+        
         data = await response.json();
+        console.log('🌐 Full OpenAI response structure:', JSON.stringify(data, null, 2));
 
         if (!response.ok) {
           const errorMsg = `OpenAI API error (${response.status}): ${data.error?.message || 'Unknown error'}`;
           console.error('❌', errorMsg);
+          console.error('❌ Full error response:', JSON.stringify(data, null, 2));
           lastError = new Error(errorMsg);
 
           // Don't retry on certain errors
