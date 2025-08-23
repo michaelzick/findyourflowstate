@@ -22,44 +22,54 @@ const LearnMore = () => {
 
   const assessmentCategories = [
     {
-      title: "Childhood Patterns",
-      description: "How your early preferences shaped your natural inclinations",
-      details: "Research shows that childhood play preferences strongly predict adult career satisfaction"
+      title: "Childhood Patterns & Flow States",
+      description: "How your early preferences and peak experiences shaped your natural inclinations",
+      details: "Research shows that childhood play preferences and flow state activities strongly predict adult career satisfaction and intrinsic motivation"
     },
     {
-      title: "Media & Entertainment",
-      description: "What themes and content naturally draw your attention",
-      details: "Our entertainment choices reflect our values, interests, and cognitive preferences"
+      title: "Media & Entertainment Preferences",
+      description: "What themes, stories, and content naturally draw your attention",
+      details: "Our entertainment choices reflect our values, interests, cognitive preferences, and unconscious psychological patterns"
     },
     {
-      title: "Work Environment",
-      description: "Physical and social settings where you thrive",
-      details: "Environmental preferences significantly impact productivity and job satisfaction"
+      title: "Philosophical & Values Orientation",
+      description: "Your core beliefs about work, contribution, and life purpose",
+      details: "Deep values alignment is the strongest predictor of long-term career fulfillment and prevents burnout"
     },
     {
-      title: "Decision Making",
-      description: "How you process information and make choices",
-      details: "Decision-making style is a core predictor of career fit and leadership potential"
+      title: "Work Environment & Style",
+      description: "Physical settings, collaboration preferences, and optimal working conditions",
+      details: "Environmental and social preferences significantly impact productivity, creativity, and job satisfaction"
     },
     {
-      title: "Social Interaction",
-      description: "Your preferred ways of connecting and collaborating",
-      details: "Understanding social preferences helps identify optimal team dynamics and roles"
+      title: "Personality & Behavioral Patterns",
+      description: "How you process information, recharge energy, and respond to stress",
+      details: "Core personality traits determine which roles will feel energizing versus draining over time"
     },
     {
-      title: "Problem Solving",
-      description: "Your natural approach to challenges and obstacles",
-      details: "Problem-solving style determines which types of work will feel energizing vs. draining"
+      title: "Failures & Dislikes Analysis",
+      description: "Learning from disappointments and energy-draining experiences",
+      details: "Understanding what doesn't work for you is often more revealing than focusing only on preferences"
     },
     {
-      title: "Values & Motivation",
-      description: "What drives you and gives your work meaning",
-      details: "Alignment between personal values and work content is crucial for long-term satisfaction"
+      title: "Motivations & Recognition",
+      description: "What drives you internally and how you relate to external validation",
+      details: "Motivation patterns determine sustainability and satisfaction in different career environments"
     },
     {
-      title: "Future Vision",
-      description: "How you think about goals, growth, and legacy",
-      details: "Future orientation and goal-setting preferences guide career trajectory decisions"
+      title: "Relationship & Communication Patterns",
+      description: "How you connect with others, handle conflict, and build partnerships",
+      details: "Relationship style affects team dynamics, leadership potential, and optimal organizational cultures"
+    },
+    {
+      title: "Money & Success Beliefs",
+      description: "Your relationship with financial success and achievement",
+      details: "Hidden beliefs about money and success often unconsciously limit career choices and satisfaction"
+    },
+    {
+      title: "Legacy & Future Vision",
+      description: "How you think about long-term impact, growth, and contribution",
+      details: "Future orientation and legacy desires guide career trajectory and decision-making priorities"
     }
   ];
 
@@ -147,11 +157,32 @@ const LearnMore = () => {
 
               <div>
                 <h4 className="font-semibold mb-3">Beyond Traditional Tests</h4>
-                <p className="text-muted-foreground">
+                <p className="text-muted-foreground mb-4">
                   While we respect established frameworks like MBTI and DISC, our assessment goes deeper by
                   examining unconscious preferences through childhood patterns, media consumption, and
                   philosophical orientations that reveal authentic personality traits.
                 </p>
+
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <h5 className="font-medium mb-2">Multi-Modal Question Types</h5>
+                    <ul className="text-sm text-muted-foreground space-y-1">
+                      <li>• Multiple choice for clear preferences</li>
+                      <li>• Scale questions for nuanced traits</li>
+                      <li>• Open-ended text for deep insights</li>
+                      <li>• Multi-select for complex patterns</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h5 className="font-medium mb-2">Indirect Measurement</h5>
+                    <ul className="text-sm text-muted-foreground space-y-1">
+                      <li>• Childhood play preferences</li>
+                      <li>• Media and story themes</li>
+                      <li>• Philosophical scenarios</li>
+                      <li>• Failure and disappointment analysis</li>
+                    </ul>
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -218,17 +249,21 @@ const LearnMore = () => {
                   rather than overwhelming you with options.
                 </p>
 
-                <div className="grid md:grid-cols-3 gap-4">
+                <div className="grid md:grid-cols-4 gap-4">
+                  <Card className="p-4 text-center">
+                    <div className="text-2xl font-bold text-primary mb-1">10</div>
+                    <p className="text-sm text-muted-foreground">Question Categories</p>
+                  </Card>
                   <Card className="p-4 text-center">
                     <div className="text-2xl font-bold text-primary mb-1">8</div>
-                    <p className="text-sm text-muted-foreground">Question Categories</p>
+                    <p className="text-sm text-muted-foreground">Career Archetypes</p>
                   </Card>
                   <Card className="p-4 text-center">
                     <div className="text-2xl font-bold text-primary mb-1">3</div>
                     <p className="text-sm text-muted-foreground">Top Recommendations</p>
                   </Card>
                   <Card className="p-4 text-center">
-                    <div className="text-2xl font-bold text-primary mb-1">22</div>
+                    <div className="text-2xl font-bold text-primary mb-1">24</div>
                     <p className="text-sm text-muted-foreground">Assessment Questions</p>
                   </Card>
                 </div>
@@ -269,15 +304,47 @@ const LearnMore = () => {
 
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Badge variant="secondary">Your Strengths (5 insights)</Badge>
-                    <Badge variant="secondary">Areas for Growth (5 insights)</Badge>
+                    <Badge variant="secondary">Your Strengths (5+ insights)</Badge>
+                    <Badge variant="secondary">Areas for Growth (5+ insights)</Badge>
                     <Badge variant="secondary">Working Style Analysis</Badge>
+                    <Badge variant="secondary">Natural Tendencies</Badge>
                   </div>
                   <div className="space-y-2">
                     <Badge variant="secondary">Motivation Drivers</Badge>
-                    <Badge variant="secondary">Natural Tendencies</Badge>
                     <Badge variant="secondary">Relationship Insights</Badge>
+                    <Badge variant="secondary">Energy & Recharge Patterns</Badge>
+                    <Badge variant="secondary">Stress Response Analysis</Badge>
                   </div>
+                </div>
+              </div>
+
+              <div>
+                <h4 className="font-semibold mb-3">AI-Enhanced Deep Analysis</h4>
+                <p className="text-muted-foreground mb-4">
+                  Beyond the core assessment, our AI system provides additional layers of insight by analyzing
+                  your text responses for psychological patterns, hidden beliefs, and unconscious motivators
+                  that traditional assessments miss.
+                </p>
+
+                <div className="grid md:grid-cols-3 gap-4">
+                  <Card className="p-4">
+                    <h5 className="font-medium mb-2 text-teal-300">Specific Career Recommendations</h5>
+                    <p className="text-sm text-muted-foreground">
+                      AI-generated specific job titles with fit percentages and detailed reasoning
+                    </p>
+                  </Card>
+                  <Card className="p-4">
+                    <h5 className="font-medium mb-2 text-red-600">Hidden Beliefs & Blockers</h5>
+                    <p className="text-sm text-muted-foreground">
+                      Unconscious patterns around money, success, and fear that may limit career growth
+                    </p>
+                  </Card>
+                  <Card className="p-4">
+                    <h5 className="font-medium mb-2 text-teal-300">Enhanced Personality Analysis</h5>
+                    <p className="text-sm text-muted-foreground">
+                      Deeper cognitive style, motivational drivers, and work environment needs analysis
+                    </p>
+                  </Card>
                 </div>
               </div>
 
@@ -318,8 +385,9 @@ const LearnMore = () => {
                 <h4 className="font-semibold mb-2">How long does it take to complete?</h4>
                 <p className="text-muted-foreground">
                   The assessment typically takes 10-15 minutes to complete. We've designed it to be
-                  comprehensive yet respectful of your time, with 22 carefully selected questions
-                  that maximize insight while minimizing assessment fatigue.
+                  comprehensive yet respectful of your time, with 24 carefully selected questions
+                  that maximize insight while minimizing assessment fatigue. The AI analysis adds
+                  an additional 1-2 minutes of processing time.
                 </p>
               </div>
 
@@ -426,11 +494,33 @@ const LearnMore = () => {
 
               <div>
                 <h4 className="font-semibold mb-3">Technical Transparency</h4>
-                <p className="text-muted-foreground">
+                <p className="text-muted-foreground mb-4">
                   Our assessment runs entirely as client-side code with no backend database or user
                   tracking systems. We use standard web technologies (React, TypeScript) that process
                   your responses locally and generate results without any external communication.
                 </p>
+
+                <div className="bg-muted/50 p-4 rounded-lg">
+                  <h5 className="font-medium mb-2">AI Enhancement with OpenAI GPT</h5>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    To provide deeper insights and personalized recommendations, we use OpenAI's GPT models
+                    to analyze your text responses and generate enhanced personality insights. Here's exactly
+                    how this works:
+                  </p>
+
+                  <ul className="text-sm text-muted-foreground space-y-2 ml-4">
+                    <li>• <strong>What gets sent:</strong> Only your anonymized text responses to open-ended questions</li>
+                    <li>• <strong>What doesn't get sent:</strong> No names, contact info, or identifying details unless you explicitly include them in your text answers</li>
+                    <li>• <strong>Processing:</strong> OpenAI analyzes response patterns to generate insights about personality traits, motivations, and career fit</li>
+                    <li>• <strong>Data retention:</strong> OpenAI processes requests but doesn't store your data for training (we use their API with data retention policies that protect your privacy)</li>
+                  </ul>
+
+                  <p className="text-xs text-muted-foreground mt-3 italic">
+                    You control what information is shared - avoid including personal details in your text responses
+                    if you prefer maximum privacy. The AI analysis is optional and enhances but doesn't replace
+                    our core assessment methodology.
+                  </p>
+                </div>
               </div>
 
               <div>
