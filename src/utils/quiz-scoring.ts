@@ -9,106 +9,194 @@ interface ScoringWeights {
   };
 }
 
-// Sophisticated scoring weights based on psychological research
+// Enhanced scoring weights based on psychological research and personality patterns
 const scoringWeights: ScoringWeights = {
   creative_artist: {
-    childhood_play: 2, // Building/Creating = high, other = lower
-    flow_activities: 2, // Creative activities = high
-    media_themes: 1.5, // Artistic expression = high
-    invisible_work: 3, // Creative work = high
-    perfect_world_contribution: 2, // Creating beautiful things = high
-    hands_vs_knowledge: 1, // Either direction can work
-    personality_energy_source: 1, // Often introverted
-    information_processing: 1.5, // Patterns/possibilities = high
-    work_environment_drain: 2, // Rigid environments = negative
-    recognition_motivation: 1.5, // External recognition often matters
+    childhood_play: 2.5,
+    childhood_environment: 2, 
+    flow_activities: 3,
+    media_themes: 2,
+    invisible_work: 3,
+    perfect_world_contribution: 3,
+    work_environment_energy: 1,
+    decision_making: 1.5,
+    hands_vs_knowledge: 1,
+    personality_energy_source: 1.5,
+    information_processing: 2,
+    stress_response: 1.5,
+    work_environment_drain: 2,
+    legacy_desire: 2.5,
+    recognition_motivation: 2,
+    relationship_depth: 1,
+    conflict_style: 1
   },
   analytical_problem_solver: {
-    childhood_play: 2, // Taking apart/puzzles = high
-    flow_activities: 2, // Problem-solving activities = high
-    media_themes: 1.5, // Innovation/mysteries = high
-    perfect_world_contribution: 2, // Solving problems = high
-    work_environment_energy: -1, // Often prefer independent work
-    decision_making: 2, // Data analysis = high
-    hands_vs_knowledge: 2, // Abstract concepts = high
-    information_processing: 2, // Facts and details = high
-    stress_response: 1.5, // Research/break down = high
+    childhood_play: 3, // Taking apart/puzzles = very high
+    childhood_environment: 2,
+    flow_activities: 2.5,
+    media_themes: 2,
+    invisible_work: 2.5,
+    perfect_world_contribution: 3, // Solving problems = very high
+    work_environment_energy: -2, // NEGATIVE - prefers independent work
+    decision_making: 3, // Data analysis = very high
+    work_pace: 1.5,
+    hands_vs_knowledge: 2.5, // Abstract concepts = high
+    personality_energy_source: -1.5, // NEGATIVE - often introverted
+    information_processing: 2.5, // Both facts AND patterns important
+    stress_response: 3, // Research/break down = very high
+    work_environment_drain: 1.5,
+    legacy_desire: 2,
+    recognition_motivation: -1, // NEGATIVE - often internally motivated
+    relationship_depth: -1, // NEGATIVE - prefers fewer, deeper connections
+    conflict_style: 2
   },
   people_catalyst: {
-    childhood_play: 2, // Organizing games/performing = high
-    childhood_environment: 1.5, // Social environments = high
-    perfect_world_contribution: 2, // Helping people = high
-    work_environment_energy: 2, // Team-based = high
-    decision_making: 1.5, // Consensus building = high
-    personality_energy_source: 1.5, // Often extroverted
-    stress_response: 1.5, // Seek support = high
-    conflict_style: 2, // Address directly/understand perspectives = high
-    relationship_depth: 1, // Can work either way
+    childhood_play: 2.5,
+    childhood_environment: 2.5,
+    flow_activities: 2,
+    media_themes: 1.5,
+    invisible_work: 2,
+    perfect_world_contribution: 3, // Helping people = very high
+    work_environment_energy: 3, // Team-based = very high
+    decision_making: 2.5, // Consensus building = high
+    work_pace: 1.5,
+    hands_vs_knowledge: 1,
+    personality_energy_source: 2.5, // Often extroverted
+    information_processing: 1,
+    stress_response: 2, // Seek support = high
+    work_environment_drain: 2,
+    legacy_desire: 2.5,
+    recognition_motivation: 1.5,
+    relationship_depth: 2, // Many connections
+    conflict_style: 2.5
   },
   systems_builder: {
-    childhood_environment: 1.5, // Structured environments = high
-    perfect_world_contribution: 2, // Building systems = high
-    decision_making: 1.5, // Past examples/proven methods = high
-    work_pace: 1.5, // Steady pace = high
-    information_processing: 1.5, // Facts and details = high
-    stress_response: 2, // Break down into steps = high
-    legacy_desire: 1.5, // Building lasting things = high
+    childhood_play: 2,
+    childhood_environment: 2.5, // Structured environments = high
+    flow_activities: 2,
+    media_themes: 1.5,
+    invisible_work: 2,
+    perfect_world_contribution: 2.5, // Building systems = high
+    work_environment_energy: 1,
+    decision_making: 2.5, // Past examples/proven methods = high
+    work_pace: 2.5, // Steady pace = high
+    hands_vs_knowledge: 1.5,
+    personality_energy_source: 1,
+    information_processing: -2, // NEGATIVE - prefers facts over patterns
+    stress_response: 3, // Break down into steps = very high
+    work_environment_drain: 2,
+    legacy_desire: 3, // Building lasting things = very high
+    recognition_motivation: 1,
+    relationship_depth: 1,
+    conflict_style: 1.5
   },
   hands_on_builder: {
     childhood_play: 3, // Building with blocks/taking apart = very high
-    perfect_world_contribution: 1.5, // Building/creating = high
+    childhood_environment: 2,
+    flow_activities: 2.5,
+    media_themes: 1,
+    invisible_work: 2,
+    perfect_world_contribution: 2, // Building/creating = high
+    work_environment_energy: -1.5, // NEGATIVE - often prefer independent
+    decision_making: 1.5,
+    work_pace: 1.5,
     hands_vs_knowledge: 3, // Physical materials = very high
-    work_environment_drain: 2, // Isolation negative for some, positive for others
+    personality_energy_source: -1, // NEGATIVE - often introverted
+    information_processing: -1.5, // NEGATIVE - prefer concrete over abstract
+    stress_response: 2,
+    work_environment_drain: 1.5,
+    legacy_desire: 2,
+    recognition_motivation: 1,
+    relationship_depth: -1,
+    conflict_style: 1
   },
   knowledge_seeker: {
-    childhood_play: 2, // Reading/puzzles = high
-    childhood_environment: 1.5, // Libraries = high
-    media_themes: 1.5, // Mysteries/knowledge = high
-    invisible_work: 2, // Research/learning = high
-    perfect_world_contribution: 2, // Discovering knowledge = high
-    hands_vs_knowledge: 2, // Abstract concepts = high
-    personality_energy_source: 1, // Often introverted
-    information_processing: 1, // Can be either
-    recognition_motivation: -1, // Often internally motivated
+    childhood_play: 2.5, // Reading/puzzles = high
+    childhood_environment: 2.5, // Libraries = high
+    flow_activities: 3,
+    media_themes: 2, // Mysteries/knowledge = high
+    invisible_work: 3, // Research/learning = very high
+    perfect_world_contribution: 3, // Discovering knowledge = very high
+    work_environment_energy: -2, // NEGATIVE - prefer independent work
+    decision_making: 2.5,
+    work_pace: 1.5,
+    hands_vs_knowledge: 2.5, // Abstract concepts = high
+    personality_energy_source: -2, // NEGATIVE - strongly introverted
+    information_processing: 2, // Both facts and patterns
+    stress_response: 3, // Research = very high
+    work_environment_drain: 2,
+    legacy_desire: 2.5,
+    recognition_motivation: -2, // NEGATIVE - strongly internally motivated
+    relationship_depth: -1.5, // NEGATIVE - prefer deep connections
+    conflict_style: 1.5
   },
   service_helper: {
+    childhood_play: 1.5,
+    childhood_environment: 2,
+    flow_activities: 2,
+    media_themes: 1.5,
+    invisible_work: 2.5,
     perfect_world_contribution: 3, // Helping people = very high
-    legacy_desire: 2, // Helping others grow = high
-    work_environment_drain: 2, // Meaningless work = very negative
-    conflict_style: 1.5, // Understanding perspectives = high
-    relationship_depth: 1.5, // Often prefer deep connections
+    work_environment_energy: 2,
+    decision_making: 2,
+    work_pace: 1.5,
+    hands_vs_knowledge: 1,
+    personality_energy_source: 1.5,
+    information_processing: 1,
+    stress_response: 2,
+    work_environment_drain: 3, // Meaningless work = very negative
+    legacy_desire: 3, // Helping others grow = very high
+    recognition_motivation: 1,
+    relationship_depth: 1.5,
+    conflict_style: 2.5 // Understanding perspectives = high
   },
   entrepreneur_innovator: {
-    childhood_play: 1.5, // Leading activities = high
-    media_themes: 2, // Innovation/building = high
-    invisible_work: 2, // Creating/building = high
-    perfect_world_contribution: 1.5, // Building/innovation = high
-    decision_making: 1.5, // Creative possibilities = high
-    work_pace: 1.5, // Intense bursts = high
-    stress_response: 1.5, // Jump in and act = high
-    recognition_motivation: 1.5, // Often motivated by recognition
+    childhood_play: 2,
+    childhood_environment: 1.5,
+    flow_activities: 2.5,
+    media_themes: 2.5, // Innovation/building = high
+    invisible_work: 2.5, // Creating/building = high
+    perfect_world_contribution: 2,
+    work_environment_energy: 2,
+    decision_making: 2, // Creative possibilities = high
+    work_pace: 2.5, // Intense bursts = high
+    hands_vs_knowledge: 1.5,
+    personality_energy_source: 2, // Often extroverted
+    information_processing: 2, // Patterns/possibilities = high
+    stress_response: 2.5, // Jump in and act = high
+    work_environment_drain: 2,
+    legacy_desire: 2,
+    recognition_motivation: 2.5, // Often motivated by recognition
+    relationship_depth: 1.5,
+    conflict_style: 2
   }
 };
 
 export async function calculateQuizResults(answers: QuizAnswer[], includeAI: boolean = true): Promise<QuizResults> {
-  console.log('Starting quiz scoring with', answers.length, 'answers');
+  console.log('🎯 Starting enhanced quiz scoring with', answers.length, 'answers');
   const answerMap = new Map(answers.map(a => [a.questionId, a.value]));
   const careerScores: { [key: string]: number } = {};
+  const debugScoring: { [key: string]: { [key: string]: number } } = {};
   
-  // Initialize scores
+  // Initialize scores and debug tracking
   careerPaths.forEach(career => {
     careerScores[career.id] = 0;
+    debugScoring[career.id] = {};
   });
 
   // Calculate scores for each career path
   Object.entries(scoringWeights).forEach(([careerId, weights]) => {
+    console.log(`\n📊 Calculating scores for ${careerId}:`);
     Object.entries(weights).forEach(([questionId, weight]) => {
       const answer = answerMap.get(questionId);
       if (answer !== undefined) {
         const score = calculateQuestionScore(questionId, answer, weight);
         careerScores[careerId] += score;
+        debugScoring[careerId][questionId] = score;
+        console.log(`   ${questionId}: ${answer} -> ${score.toFixed(2)} (weight: ${weight})`);
       }
     });
+    console.log(`   Total for ${careerId}: ${careerScores[careerId].toFixed(2)}`);
   });
 
   // Normalize scores to 0-100 range
@@ -192,27 +280,81 @@ function calculateQuestionScore(questionId: string, answer: string | number | st
 }
 
 function getMultipleChoiceScore(questionId: string, answer: string): number {
-  // Scoring logic for specific questions
+  // Enhanced scoring logic for multiple choice questions
   const scoringRules: { [key: string]: { [key: string]: number } } = {
     childhood_play: {
-      "Building things with blocks, Lego, or found objects": 5,
-      "Creating stories, drawing, or imaginative role-play": 4,
-      "Organizing games with friends or leading group activities": 3,
-      "Taking things apart to see how they worked": 5,
-      "Performing for others - singing, dancing, or acting": 4,
-      "Reading books and getting lost in other worlds": 3,
-      "Competing in sports or physical challenges": 2,
-      "Solving puzzles, riddles, or brain teasers": 4
+      "Building things with blocks, Lego, or found objects": 4, // hands_on_builder, systems_builder
+      "Creating stories, drawing, or imaginative role-play": 5, // creative_artist
+      "Organizing games with friends or leading group activities": 4, // people_catalyst, entrepreneur
+      "Taking things apart to see how they worked": 5, // analytical_problem_solver, knowledge_seeker
+      "Performing for others - singing, dancing, or acting": 5, // creative_artist, people_catalyst
+      "Reading books and getting lost in other worlds": 5, // knowledge_seeker
+      "Competing in sports or physical challenges": 2, // lower for analytical careers
+      "Solving puzzles, riddles, or brain teasers": 5 // analytical_problem_solver, knowledge_seeker
+    },
+    childhood_environment: {
+      "Quiet spaces where I could focus deeply on projects": 5, // analytical, knowledge_seeker, creative_artist
+      "Busy, social environments with lots of people around": 2, // negative for analytical
+      "Outdoor spaces where I could explore and move freely": 3,
+      "Structured environments with clear rules and expectations": 4, // systems_builder
+      "Creative spaces with art supplies and materials to experiment": 5, // creative_artist
+      "Libraries or places filled with books and knowledge": 5, // knowledge_seeker
+      "Workshops or garages with tools and mechanical things": 5 // hands_on_builder
     },
     perfect_world_contribution: {
-      "Creating beautiful things that inspire and move people": 5,
-      "Solving complex problems that improve how things work": 5,
-      "Helping people overcome challenges and reach their potential": 5,
-      "Building systems and organizations that serve others": 4,
-      "Discovering new knowledge or pushing boundaries of understanding": 4,
-      "Bringing people together and fostering community": 4,
+      "Creating beautiful things that inspire and move people": 5, // creative_artist
+      "Solving complex problems that improve how things work": 5, // analytical_problem_solver
+      "Helping people overcome challenges and reach their potential": 5, // people_catalyst, service_helper
+      "Building systems and organizations that serve others": 5, // systems_builder
+      "Discovering new knowledge or pushing boundaries of understanding": 5, // knowledge_seeker
+      "Bringing people together and fostering community": 4, // people_catalyst
       "Protecting and preserving what's valuable for future generations": 3,
-      "Teaching and sharing knowledge with others": 4
+      "Teaching and sharing knowledge with others": 4 // service_helper, knowledge_seeker
+    },
+    decision_making: {
+      "Analyze all available data and consider logical outcomes": 5, // analytical_problem_solver
+      "Trust my intuition and gut feelings": 3, // creative_artist
+      "Seek input from others and build consensus": 4, // people_catalyst
+      "Consider the impact on people's feelings and relationships": 4, // service_helper
+      "Look at past examples and proven methods": 5, // systems_builder
+      "Think about creative possibilities and potential innovations": 4, // entrepreneur_innovator, creative_artist
+      "Focus on what aligns with my core values and principles": 3
+    },
+    stress_response: {
+      "Break it down into smaller, manageable steps": 5, // analytical_problem_solver, systems_builder
+      "Seek support and advice from others": 4, // people_catalyst
+      "Take time alone to think through all angles": 5, // knowledge_seeker, analytical_problem_solver
+      "Jump in and start taking action immediately": 4, // entrepreneur_innovator
+      "Look for creative or unconventional solutions": 4, // creative_artist
+      "Research and gather as much information as possible": 5, // knowledge_seeker
+      "Focus on how it affects the people involved": 4 // service_helper
+    },
+    legacy_desire: {
+      "Having created something beautiful that continues to inspire others": 5, // creative_artist
+      "Having solved important problems that made life better for many": 5, // analytical_problem_solver
+      "Having helped people discover their potential and grow": 5, // service_helper
+      "Having built something lasting that serves future generations": 5, // systems_builder
+      "Having pushed the boundaries of human knowledge or capability": 5, // knowledge_seeker
+      "Having brought people together across differences": 4, // people_catalyst
+      "Having stood up for justice and equality": 4, // service_helper
+      "Having been a source of wisdom and guidance for others": 4 // service_helper
+    },
+    conflict_style: {
+      "Address it head-on and work through it directly": 4, // people_catalyst
+      "Take time to process before engaging": 4, // analytical, introverted types
+      "Seek to understand all perspectives first": 5, // service_helper, people_catalyst
+      "Look for creative solutions that work for everyone": 4, // creative_artist
+      "Focus on maintaining harmony and relationships": 4, // service_helper
+      "Stick to logical facts and objective analysis": 5, // analytical_problem_solver
+      "Avoid it if possible and hope it resolves naturally": 2 // generally negative
+    },
+    commitment_style: {
+      "Deep, exclusive partnership with one person": 4, // introverted types
+      "Multiple meaningful connections with different people": 3,
+      "Close friendships with romantic connections as they develop naturally": 3,
+      "Community-oriented with many caring relationships": 4, // people_catalyst
+      "Independent with periodic deep connections": 4, // knowledge_seeker, analytical
+      "Flexible arrangements based on life circumstances": 3
     }
   };
 
@@ -220,8 +362,39 @@ function getMultipleChoiceScore(questionId: string, answer: string): number {
 }
 
 function getScaleScore(questionId: string, answer: number): number {
-  // Scale scores are already numeric, normalize to 1-5 range
-  return answer;
+  // Enhanced scale scoring that considers what each direction means for different careers
+  // Scale questions use 1-7 range, we need to map them appropriately
+  
+  const scaleScoring: { [key: string]: (score: number) => number } = {
+    // Low scores (1-3) = introverted, high scores (5-7) = extroverted
+    personality_energy_source: (score: number) => score, // Direct mapping
+    
+    // Low scores (1-3) = facts/details, high scores (5-7) = patterns/possibilities  
+    information_processing: (score: number) => score, // Direct mapping
+    
+    // Low scores (1-3) = independent work, high scores (5-7) = collaborative work
+    work_environment_energy: (score: number) => score, // Direct mapping
+    
+    // Low scores (1-3) = few deep connections, high scores (5-7) = many light connections
+    relationship_depth: (score: number) => score, // Direct mapping
+    
+    // Low scores (1-3) = steady pace, high scores (5-7) = intense bursts
+    work_pace: (score: number) => score, // Direct mapping
+    
+    // Low scores (1-3) = physical materials, high scores (5-7) = abstract concepts
+    hands_vs_knowledge: (score: number) => score, // Direct mapping
+    
+    // Low scores (1-3) = internal satisfaction, high scores (5-7) = external recognition
+    recognition_motivation: (score: number) => score // Direct mapping
+  };
+  
+  const scoringFunction = scaleScoring[questionId];
+  if (scoringFunction) {
+    return scoringFunction(answer);
+  }
+  
+  // Default: return normalized score (1-7 -> 1-5 range)
+  return ((answer - 1) / 6) * 4 + 1;
 }
 
 function getMultiSelectScore(questionId: string, answers: string[]): number {
@@ -230,27 +403,94 @@ function getMultiSelectScore(questionId: string, answers: string[]): number {
 }
 
 function getTextScore(questionId: string, answer: string): number {
-  // Basic text analysis - could be enhanced with NLP
-  const creativityKeywords = ['create', 'art', 'design', 'music', 'write', 'imagine', 'beautiful'];
-  const analyticalKeywords = ['solve', 'analyze', 'data', 'logic', 'system', 'problem', 'research'];
-  const peopleKeywords = ['help', 'teach', 'team', 'people', 'community', 'relationship'];
+  if (!answer || answer.trim().length === 0) return 3;
   
   const lowerAnswer = answer.toLowerCase();
-  let score = 3; // Base score
   
-  creativityKeywords.forEach(keyword => {
-    if (lowerAnswer.includes(keyword)) score += 0.5;
+  // Career-specific keyword analysis with weighted scoring
+  const careerKeywords = {
+    analytical_problem_solver: {
+      high: ['solve', 'analyze', 'data', 'logic', 'system', 'problem', 'research', 'math', 'science', 'algorithm', 'debug', 'figure out', 'understand', 'calculate', 'method', 'process', 'technical', 'engineering', 'programming', 'code', 'formula', 'theory'],
+      medium: ['think', 'reason', 'study', 'learn', 'investigate', 'discover'],
+      negative: ['feeling', 'emotion', 'intuition', 'creative', 'artistic']
+    },
+    knowledge_seeker: {
+      high: ['learn', 'research', 'study', 'read', 'discover', 'understand', 'explore', 'investigate', 'knowledge', 'books', 'theory', 'academic', 'science', 'history', 'philosophy', 'literature'],
+      medium: ['think', 'analyze', 'question', 'curious', 'wonder'],
+      negative: ['practical', 'hands-on', 'physical']
+    },
+    creative_artist: {
+      high: ['create', 'art', 'design', 'music', 'write', 'imagine', 'beautiful', 'aesthetic', 'visual', 'creative', 'artistic', 'express', 'beauty', 'inspiration', 'painting', 'drawing', 'story', 'novel'],
+      medium: ['feel', 'emotion', 'passion', 'inspiration'],
+      negative: ['data', 'logic', 'systematic', 'analytical']
+    },
+    people_catalyst: {
+      high: ['help', 'teach', 'team', 'people', 'community', 'relationship', 'collaborate', 'mentor', 'coach', 'support', 'guide', 'connect', 'social', 'communication'],
+      medium: ['share', 'discuss', 'group', 'together'],
+      negative: ['alone', 'isolated', 'independent', 'solo']
+    },
+    service_helper: {
+      high: ['help', 'serve', 'care', 'support', 'assist', 'volunteer', 'charity', 'community', 'people', 'healing', 'therapy', 'counseling', 'social work'],
+      medium: ['contribute', 'give', 'share'],
+      negative: ['profit', 'money', 'competition', 'win']
+    },
+    systems_builder: {
+      high: ['build', 'organize', 'structure', 'system', 'process', 'manage', 'plan', 'coordinate', 'efficiency', 'workflow', 'framework', 'infrastructure'],
+      medium: ['improve', 'optimize', 'standardize'],
+      negative: ['chaos', 'random', 'unstructured']
+    },
+    hands_on_builder: {
+      high: ['build', 'make', 'construct', 'fix', 'repair', 'tool', 'hands', 'physical', 'craft', 'mechanical', 'woodworking', 'engineering', 'hardware'],
+      medium: ['create', 'work', 'practical'],
+      negative: ['abstract', 'theoretical', 'conceptual']
+    },
+    entrepreneur_innovator: {
+      high: ['business', 'startup', 'innovate', 'create', 'build', 'leadership', 'opportunity', 'venture', 'market', 'entrepreneurship', 'company'],
+      medium: ['risk', 'challenge', 'growth', 'new'],
+      negative: ['routine', 'predictable', 'stable']
+    }
+  };
+  
+  const scores: { [key: string]: number } = {};
+  
+  // Calculate scores for each career based on keyword matches
+  Object.entries(careerKeywords).forEach(([career, keywords]) => {
+    let careerScore = 3; // Base score
+    
+    // High-impact keywords (+1 each)
+    keywords.high.forEach(keyword => {
+      if (lowerAnswer.includes(keyword)) {
+        careerScore += 1;
+      }
+    });
+    
+    // Medium-impact keywords (+0.5 each)
+    keywords.medium.forEach(keyword => {
+      if (lowerAnswer.includes(keyword)) {
+        careerScore += 0.5;
+      }
+    });
+    
+    // Negative keywords (-0.5 each)
+    keywords.negative.forEach(keyword => {
+      if (lowerAnswer.includes(keyword)) {
+        careerScore -= 0.5;
+      }
+    });
+    
+    scores[career] = Math.max(1, Math.min(7, careerScore));
   });
   
-  analyticalKeywords.forEach(keyword => {
-    if (lowerAnswer.includes(keyword)) score += 0.5;
-  });
+  // For questions that are career-agnostic, return a weighted average
+  // But for flow_activities and invisible_work, we want to detect the career inclination
+  if (questionId === 'flow_activities' || questionId === 'invisible_work' || questionId === 'favorite_stories') {
+    // Return the score that best matches the detected career pattern
+    const maxScore = Math.max(...Object.values(scores));
+    return maxScore;
+  }
   
-  peopleKeywords.forEach(keyword => {
-    if (lowerAnswer.includes(keyword)) score += 0.5;
-  });
-  
-  return Math.min(5, score);
+  // For other text questions, return a moderate score
+  return 4;
 }
 
 function generatePersonalityInsights(answers: QuizAnswer[], answerMap: Map<string, string | number | string[]>): PersonalityInsight {
