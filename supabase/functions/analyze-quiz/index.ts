@@ -158,8 +158,36 @@ Provide specific, actionable insights that go beyond surface-level analysis. Foc
       const content = data.choices[0].message.content;
       console.log('📝 Raw GPT response:', content);
 
-      // Clean the content to ensure it's valid JSON
-      const cleanContent = content.trim();
+      // Helper function to extract JSON from markdown code blocks or plain JSON
+      const extractJSON = (text: string): string => {
+        const trimmed = text.trim();
+        
+        // Check if it's wrapped in markdown code blocks
+        if (trimmed.startsWith('```json') && trimmed.endsWith('```')) {
+          // Extract content between ```json and ```
+          const jsonStart = trimmed.indexOf('\n') + 1;
+          const jsonEnd = trimmed.lastIndexOf('\n```');
+          return trimmed.substring(jsonStart, jsonEnd).trim();
+        }
+        
+        // Check if it's wrapped in generic code blocks
+        if (trimmed.startsWith('```') && trimmed.endsWith('```')) {
+          // Extract content between first and last ```
+          const firstNewline = trimmed.indexOf('\n');
+          if (firstNewline > 0) {
+            const jsonStart = firstNewline + 1;
+            const jsonEnd = trimmed.lastIndexOf('\n```');
+            return trimmed.substring(jsonStart, jsonEnd).trim();
+          }
+        }
+        
+        // Return as-is if it appears to be plain JSON
+        return trimmed;
+      };
+
+      const cleanContent = extractJSON(content);
+      console.log('🧹 Cleaned content:', cleanContent);
+      
       if (!cleanContent.startsWith('{') || !cleanContent.endsWith('}')) {
         throw new Error('Response is not valid JSON format');
       }
