@@ -45,6 +45,7 @@ export interface CareerPath {
   strengths: string[];
   challenges: string[];
   score?: number;
+  aiReasoning?: string;
 }
 
 export interface PersonalityInsight {

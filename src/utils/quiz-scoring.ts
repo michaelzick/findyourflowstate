@@ -2,6 +2,7 @@ import { QuizAnswer, CareerPath, QuizResults, PersonalityInsight, AIAnalysis } f
 import { quizQuestions } from '../data/quiz-questions';
 import { careerPaths } from '../data/career-paths';
 import { analyzeQuizWithAI } from '../services/aiAnalysis';
+import { rankCareerPathsWithAI } from '../services/careerRanking';
 
 interface ScoringWeights {
   [careerId: string]: {
@@ -173,50 +174,65 @@ const scoringWeights: ScoringWeights = {
 };
 
 export async function calculateQuizResults(answers: QuizAnswer[], includeAI: boolean = true): Promise<QuizResults> {
-  console.log('🎯 Starting enhanced quiz scoring with', answers.length, 'answers');
+  console.log('🎯 Starting AI-powered career path ranking');
   const answerMap = new Map(answers.map(a => [a.questionId, a.value]));
-  const careerScores: { [key: string]: number } = {};
-  const debugScoring: { [key: string]: { [key: string]: number } } = {};
   
-  // Initialize scores and debug tracking
-  careerPaths.forEach(career => {
-    careerScores[career.id] = 0;
-    debugScoring[career.id] = {};
-  });
+  // Try AI-powered ranking first
+  let rankedCareers: CareerPath[] = [];
+  let usedAIRanking = false;
+  
+  try {
+    console.log('🤖 Attempting AI-powered career ranking...');
+    rankedCareers = await rankCareerPathsWithAI(answers, careerPaths);
+    usedAIRanking = true;
+    console.log('✅ AI ranking successful!', rankedCareers.map(c => ({ id: c.id, score: c.score })));
+  } catch (error) {
+    console.warn('⚠️ AI ranking failed, falling back to JavaScript algorithm:', error);
+    
+    // Fallback to original JavaScript algorithm
+    const careerScores: { [key: string]: number } = {};
+    const debugScoring: { [key: string]: { [key: string]: number } } = {};
+    
+    // Initialize scores and debug tracking
+    careerPaths.forEach(career => {
+      careerScores[career.id] = 0;
+      debugScoring[career.id] = {};
+    });
 
-  // Calculate scores for each career path
-  Object.entries(scoringWeights).forEach(([careerId, weights]) => {
-    console.log(`\n📊 Calculating scores for ${careerId}:`);
-    Object.entries(weights).forEach(([questionId, weight]) => {
-      const answer = answerMap.get(questionId);
-      if (answer !== undefined) {
-        const score = calculateQuestionScore(questionId, answer, weight);
-        careerScores[careerId] += score;
-        debugScoring[careerId][questionId] = score;
-        console.log(`   ${questionId}: ${answer} -> ${score.toFixed(2)} (weight: ${weight})`);
+    // Calculate scores for each career path
+    Object.entries(scoringWeights).forEach(([careerId, weights]) => {
+      console.log(`\n📊 Calculating scores for ${careerId}:`);
+      Object.entries(weights).forEach(([questionId, weight]) => {
+        const answer = answerMap.get(questionId);
+        if (answer !== undefined) {
+          const score = calculateQuestionScore(questionId, answer, weight);
+          careerScores[careerId] += score;
+          debugScoring[careerId][questionId] = score;
+          console.log(`   ${questionId}: ${answer} -> ${score.toFixed(2)} (weight: ${weight})`);
+        }
+      });
+      console.log(`   Total for ${careerId}: ${careerScores[careerId].toFixed(2)}`);
+    });
+
+    // Normalize scores to 0-100 range
+    const maxScore = Math.max(...Object.values(careerScores));
+    const minScore = Math.min(...Object.values(careerScores));
+    const range = maxScore - minScore;
+
+    Object.keys(careerScores).forEach(careerId => {
+      if (range > 0) {
+        careerScores[careerId] = Math.round(((careerScores[careerId] - minScore) / range) * 100);
+      } else {
+        careerScores[careerId] = 50; // Default if all scores are the same
       }
     });
-    console.log(`   Total for ${careerId}: ${careerScores[careerId].toFixed(2)}`);
-  });
 
-  // Normalize scores to 0-100 range
-  const maxScore = Math.max(...Object.values(careerScores));
-  const minScore = Math.min(...Object.values(careerScores));
-  const range = maxScore - minScore;
-
-  Object.keys(careerScores).forEach(careerId => {
-    if (range > 0) {
-      careerScores[careerId] = Math.round(((careerScores[careerId] - minScore) / range) * 100);
-    } else {
-      careerScores[careerId] = 50; // Default if all scores are the same
-    }
-  });
-
-  // Get top 3 career paths
-  const rankedCareers = careerPaths
-    .map(career => ({ ...career, score: careerScores[career.id] }))
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 3);
+    // Get top 3 career paths using fallback algorithm
+    rankedCareers = careerPaths
+      .map(career => ({ ...career, score: careerScores[career.id] }))
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 3);
+  }
 
   // Generate personality insights
   const personalityInsight = generatePersonalityInsights(answers, answerMap);

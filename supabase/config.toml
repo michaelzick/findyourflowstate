@@ -2,3 +2,6 @@ project_id = "qtlhqsqanbxgfbcjigrl"
 
 [functions.analyze-quiz]
 verify_jwt = false
+
+[functions.rank-career-paths]
+verify_jwt = false
