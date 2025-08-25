@@ -552,5 +552,15 @@ export const quizQuestions: QuizQuestion[] = [
       "The contentment of building something lasting and meaningful"
     ],
     weight: 2
+  },
+
+  // Final Assessment Question
+  {
+    id: "personal_superpower",
+    category: "motivations",
+    type: "text",
+    question: "What is your superpower? Describe one skill or ability that you believe you are better at than almost everyone you meet.",
+    required: true,
+    weight: 2.5
   }
 ];
