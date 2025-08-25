@@ -5,3 +5,6 @@ verify_jwt = false
 
 [functions.rank-career-paths]
 verify_jwt = false
+
+[functions.deep-quiz-analysis]
+verify_jwt = false
