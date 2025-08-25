@@ -134,10 +134,18 @@ Provide only the JSON response with no additional text or formatting.`
     const aiContent = data.choices[0].message.content.trim()
     console.log('🔍 AI Content:', aiContent.substring(0, 200) + '...')
 
-    // Parse the JSON response
+    // Parse the JSON response - handle markdown code blocks
     let analysisResult
     try {
-      analysisResult = JSON.parse(aiContent)
+      // Strip markdown code blocks if present
+      let cleanContent = aiContent.trim()
+      if (cleanContent.startsWith('```json')) {
+        cleanContent = cleanContent.replace(/^```json\s*/, '').replace(/\s*```$/, '')
+      } else if (cleanContent.startsWith('```')) {
+        cleanContent = cleanContent.replace(/^```\s*/, '').replace(/\s*```$/, '')
+      }
+      
+      analysisResult = JSON.parse(cleanContent)
     } catch (parseError) {
       console.error('JSON parse error:', parseError)
       console.error('Raw content:', aiContent)
