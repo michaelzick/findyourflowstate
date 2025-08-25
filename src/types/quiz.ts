@@ -11,7 +11,7 @@ export interface QuizQuestion {
   weight?: number;
 }
 
-export type QuestionCategory = 
+export type QuestionCategory =
   | 'personality'
   | 'work_environment'
   | 'childhood_patterns'
@@ -23,7 +23,7 @@ export type QuestionCategory =
   | 'flow_states'
   | 'motivations';
 
-export type QuestionType = 
+export type QuestionType =
   | 'multiple_choice'
   | 'scale'
   | 'text'
@@ -79,10 +79,37 @@ export interface EnhancedPersonality {
   workEnvironmentNeeds: string;
 }
 
+export interface DeepAnalysis {
+  behavioralPatterns: string[];
+  unconsciousDrivers: string[];
+  blindSpots: string[];
+  selfSabotagePatterns: string[];
+  emotionalTriggers: string[];
+  decisionMakingStyle: string;
+  stressResponse: string;
+  conflictStyle: string;
+  leadershipStyle: string;
+  communicationStyle: string;
+}
+
+export interface LifePurpose {
+  coreContribution: string;
+  meaningfulImpact: string[];
+  naturalGifts: string[];
+  worldNeeds: string[];
+  purposeAlignment: string;
+  fulfillmentFactors: string[];
+  legacyVision: string;
+  spiritualDimension: string;
+  serviceOrientation: string;
+}
+
 export interface AIAnalysis {
   specificOccupations: SpecificOccupation[];
   hiddenBeliefs: HiddenBeliefs;
   enhancedPersonality: EnhancedPersonality;
+  deepAnalysis: DeepAnalysis;
+  lifePurpose: LifePurpose;
 }
 
 export interface QuizResults {

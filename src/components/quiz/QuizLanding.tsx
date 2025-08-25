@@ -1,15 +1,19 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Brain, Users, Target, Clock, CheckCircle } from 'lucide-react';
+import { Brain, Users, Target, Clock, CheckCircle, Upload } from 'lucide-react';
 import { useQuiz } from '@/contexts/QuizContext';
+import { useToast } from '@/hooks/use-toast';
+import { QuizAnswer } from '@/types/quiz';
 import quizHero from '@/assets/quiz-hero.jpg';
 
 export function QuizLanding() {
-  const { nextQuestion } = useQuiz();
+  const { nextQuestion, loadAnswersFromJSON } = useQuiz();
   const navigate = useNavigate();
+  const { toast } = useToast();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const features = [
     {
@@ -44,6 +48,91 @@ export function QuizLanding() {
     "Stress responses and conflict resolution styles",
     "Learning experiences from failures and dislikes"
   ];
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    if (file.type !== 'application/json') {
+      toast({
+        title: "Invalid File Type",
+        description: "Please upload a JSON file.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const content = e.target?.result as string;
+        const jsonData = JSON.parse(content);
+
+        // Validate and process the JSON data
+        const answers = processJSONAnswers(jsonData);
+        if (answers.length > 0) {
+          loadAnswersFromJSON(answers);
+          toast({
+            title: "Answers Loaded Successfully",
+            description: `Loaded ${answers.length} answers from JSON file. You can now review and modify them.`,
+          });
+        } else {
+          toast({
+            title: "No Valid Answers Found",
+            description: "The JSON file doesn't contain valid quiz answers.",
+            variant: "destructive",
+          });
+        }
+      } catch (error) {
+        toast({
+          title: "Invalid JSON File",
+          description: "The file could not be parsed. Please check the JSON format.",
+          variant: "destructive",
+        });
+      }
+    };
+    reader.readAsText(file);
+
+    // Reset the input so the same file can be uploaded again
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  const processJSONAnswers = (jsonData: any): QuizAnswer[] => {
+    const answers: QuizAnswer[] = [];
+
+    // Handle different JSON formats
+    let answersArray: any[] = [];
+
+    if (Array.isArray(jsonData)) {
+      answersArray = jsonData;
+    } else if (jsonData.answers && Array.isArray(jsonData.answers)) {
+      answersArray = jsonData.answers;
+    } else if (typeof jsonData === 'object') {
+      // Convert object format to array format
+      answersArray = Object.entries(jsonData).map(([key, value]) => ({
+        questionId: key,
+        value: value
+      }));
+    }
+
+    // Process each answer
+    answersArray.forEach((item: unknown) => {
+      if (item && typeof item === 'object' && item.questionId && item.value !== undefined) {
+        answers.push({
+          questionId: item.questionId,
+          value: item.value
+        });
+      }
+    });
+
+    return answers;
+  };
+
+  const handleUploadClick = () => {
+    fileInputRef.current?.click();
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -82,6 +171,29 @@ export function QuizLanding() {
               >
                 Learn More
               </Button>
+            </div>
+
+            <div className="mt-8 pt-8 border-t border-border/50">
+              <div className="flex flex-col items-center gap-4">
+                <p className="text-sm text-muted-foreground">
+                  Have previous answers saved as JSON?
+                </p>
+                <Button
+                  variant="secondary"
+                  onClick={handleUploadClick}
+                  className="flex items-center gap-2"
+                >
+                  <Upload className="w-4 h-4" />
+                  Upload JSON Answers
+                </Button>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept=".json"
+                  onChange={handleFileUpload}
+                  className="hidden"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -183,13 +295,24 @@ export function QuizLanding() {
               Join thousands who have gained clarity about their career direction
               through our science-based assessment.
             </p>
-            <Button
-              size="lg"
-              onClick={nextQuestion}
-              className="bg-primary hover:bg-primary/90 text-xl px-12 py-4"
-            >
-              Begin Assessment Now
-            </Button>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Button
+                size="lg"
+                onClick={nextQuestion}
+                className="bg-primary hover:bg-primary/90 text-xl px-12 py-4"
+              >
+                Begin Assessment Now
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                onClick={handleUploadClick}
+                className="text-lg px-8 py-3 flex items-center gap-2"
+              >
+                <Upload className="w-5 h-5" />
+                Upload Previous Answers
+              </Button>
+            </div>
             <p className="text-sm text-muted-foreground">
               Takes 15-20 minutes • No email required • Immediate results
             </p>

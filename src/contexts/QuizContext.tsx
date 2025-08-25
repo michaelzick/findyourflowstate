@@ -21,7 +21,8 @@ type QuizAction =
   | { type: 'UPDATE_AI_ANALYSIS'; payload: QuizResults }
   | { type: 'SET_AI_ANALYSIS_ERROR'; payload: string }
   | { type: 'RESET_QUIZ' }
-  | { type: 'GOTO_QUESTION'; payload: number };
+  | { type: 'GOTO_QUESTION'; payload: number }
+  | { type: 'LOAD_ANSWERS_FROM_JSON'; payload: QuizAnswer[] };
 
 const initialState: QuizState = {
   currentQuestionIndex: -1,
@@ -111,6 +112,13 @@ function quizReducer(state: QuizState, action: QuizAction): QuizState {
           currentQuestionIndex: action.payload,
         };
 
+      case 'LOAD_ANSWERS_FROM_JSON':
+        return {
+          ...state,
+          answers: action.payload,
+          currentQuestionIndex: 0, // Start at first question to review answers
+        };
+
       default:
         return state;
     }
@@ -126,6 +134,7 @@ interface QuizContextType {
   resetQuiz: () => void;
   goToQuestion: (index: number) => void;
   getAnswerForQuestion: (questionId: string) => QuizAnswer | undefined;
+  loadAnswersFromJSON: (answers: QuizAnswer[]) => void;
 }
 
 const QuizContext = createContext<QuizContextType | undefined>(undefined);
@@ -188,6 +197,10 @@ export function QuizProvider({ children }: { children: ReactNode }) {
     return state.answers.find(a => a.questionId === questionId);
   };
 
+  const loadAnswersFromJSON = (answers: QuizAnswer[]) => {
+    dispatch({ type: 'LOAD_ANSWERS_FROM_JSON', payload: answers });
+  };
+
   return (
     <QuizContext.Provider
       value={{
@@ -200,6 +213,7 @@ export function QuizProvider({ children }: { children: ReactNode }) {
         resetQuiz,
         goToQuestion,
         getAnswerForQuestion,
+        loadAnswersFromJSON,
       }}
     >
       {children}
