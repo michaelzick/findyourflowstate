@@ -14,10 +14,10 @@ export const analyzeQuizWithAI = async (
       sampleQuestionIds: answers.slice(0, 5).map(a => a.questionId)
     });
 
-    console.log('📡 Calling Supabase edge function: analyze-quiz');
+    console.log('📡 Calling Supabase edge function: deep-quiz-analysis');
     const startTime = Date.now();
 
-    const { data, error } = await supabase.functions.invoke('analyze-quiz', {
+    const { data, error } = await supabase.functions.invoke('deep-quiz-analysis', {
       body: { answers, careerPaths }
     });
 
@@ -57,8 +57,12 @@ export const analyzeQuizWithAI = async (
       occupationsCount: data.specificOccupations?.length || 0,
       hasHiddenBeliefs: !!data.hiddenBeliefs,
       hasEnhancedPersonality: !!data.enhancedPersonality,
+      hasDeepAnalysis: !!data.deepAnalysis,
+      hasLifePurpose: !!data.lifePurpose,
       successBlockersCount: data.hiddenBeliefs?.successBlockers?.length || 0,
       moneyBeliefsCount: data.hiddenBeliefs?.moneyBeliefs?.length || 0,
+      behavioralPatternsCount: data.deepAnalysis?.behavioralPatterns?.length || 0,
+      naturalGiftsCount: data.lifePurpose?.naturalGifts?.length || 0,
       version: data._version || 'unknown',
       timestamp: data._timestamp || 'unknown'
     });
@@ -73,3 +77,5 @@ export const analyzeQuizWithAI = async (
     throw error; // Re-throw for proper error handling upstream
   }
 };
+
+
