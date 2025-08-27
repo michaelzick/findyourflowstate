@@ -1,25 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuiz } from '@/contexts/QuizContext';
 import { quizQuestions } from '@/data/quiz-questions';
 import { QuizQuestion } from './QuizQuestion';
 import { QuizProgress } from './QuizProgress';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, RotateCcw } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 export function QuizInterface() {
-  const { 
-    state, 
-    answerQuestion, 
-    nextQuestion, 
-    previousQuestion, 
-    completeQuiz, 
+  const {
+    state,
+    answerQuestion,
+    nextQuestion,
+    previousQuestion,
+    completeQuiz,
     getAnswerForQuestion,
     canSubmitQuiz,
-    getIncompleteQuestions
+    getIncompleteQuestions,
+    resetQuiz
   } = useQuiz();
+  const [showResetDialog, setShowResetDialog] = useState(false);
   const { toast } = useToast();
   const currentQuestion = quizQuestions[state.currentQuestionIndex];
+
+  const handleReset = () => {
+    resetQuiz();
+    setShowResetDialog(false);
+    toast({
+      title: "Quiz Reset",
+      description: "Your progress has been cleared. Starting fresh!",
+    });
+  };
   const currentAnswer = getAnswerForQuestion(currentQuestion.id);
   const isLastQuestion = state.currentQuestionIndex === quizQuestions.length - 1;
   const isFirstQuestion = state.currentQuestionIndex === 0;
@@ -76,6 +97,17 @@ export function QuizInterface() {
       {/* Question Content */}
       <div className="flex-1 container mx-auto px-4 py-8">
         <div className="max-w-3xl mx-auto">
+          {/* Reset Link */}
+          <div className="mb-6 text-center">
+            <button
+              onClick={() => setShowResetDialog(true)}
+              className="text-sm text-muted-foreground hover:text-primary underline flex items-center gap-1 mx-auto"
+            >
+              <RotateCcw className="w-3 h-3" />
+              Reset and start over
+            </button>
+          </div>
+
           <QuizQuestion
             question={currentQuestion}
             answer={currentAnswer}
@@ -131,6 +163,24 @@ export function QuizInterface() {
           </div>
         </div>
       </div>
+
+      {/* Reset Confirmation Dialog */}
+      <AlertDialog open={showResetDialog} onOpenChange={setShowResetDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Reset Quiz Progress?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This will permanently delete all your current answers and progress. You'll start from the beginning. This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleReset} className="bg-destructive hover:bg-destructive/90">
+              Reset Quiz
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { useQuiz } from '@/contexts/QuizContext';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';

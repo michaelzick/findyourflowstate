@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer, ReactNode } from 'react';
+import React, { createContext, useContext, useReducer, ReactNode, useEffect } from 'react';
 import { QuizAnswer, QuizResults } from '@/types/quiz';
 import { calculateQuizResults } from '@/utils/quiz-scoring';
 import { quizQuestions } from '@/data/quiz-questions';
@@ -24,7 +24,48 @@ type QuizAction =
   | { type: 'SET_AI_ANALYSIS_ERROR'; payload: string }
   | { type: 'RESET_QUIZ' }
   | { type: 'GOTO_QUESTION'; payload: number }
-  | { type: 'LOAD_ANSWERS_FROM_JSON'; payload: QuizAnswer[] };
+  | { type: 'LOAD_ANSWERS_FROM_JSON'; payload: QuizAnswer[] }
+  | { type: 'LOAD_FROM_LOCALSTORAGE'; payload: { answers: QuizAnswer[]; currentQuestionIndex: number } };
+
+// localStorage utilities
+const QUIZ_STORAGE_KEY = 'career-quiz-progress';
+
+const saveToLocalStorage = (answers: QuizAnswer[], currentQuestionIndex: number) => {
+  try {
+    const data = {
+      answers,
+      currentQuestionIndex,
+      timestamp: new Date().toISOString()
+    };
+    localStorage.setItem(QUIZ_STORAGE_KEY, JSON.stringify(data));
+  } catch (error) {
+    console.warn('Failed to save quiz progress to localStorage:', error);
+  }
+};
+
+const loadFromLocalStorage = () => {
+  try {
+    const stored = localStorage.getItem(QUIZ_STORAGE_KEY);
+    if (stored) {
+      const data = JSON.parse(stored);
+      return {
+        answers: data.answers || [],
+        currentQuestionIndex: data.currentQuestionIndex || -1
+      };
+    }
+  } catch (error) {
+    console.warn('Failed to load quiz progress from localStorage:', error);
+  }
+  return null;
+};
+
+const clearLocalStorage = () => {
+  try {
+    localStorage.removeItem(QUIZ_STORAGE_KEY);
+  } catch (error) {
+    console.warn('Failed to clear quiz progress from localStorage:', error);
+  }
+};
 
 const initialState: QuizState = {
   currentQuestionIndex: -1,
@@ -123,6 +164,13 @@ function quizReducer(state: QuizState, action: QuizAction): QuizState {
           hasUploadedAnswers: true,
         };
 
+      case 'LOAD_FROM_LOCALSTORAGE':
+        return {
+          ...state,
+          answers: action.payload.answers,
+          currentQuestionIndex: action.payload.currentQuestionIndex,
+        };
+
       default:
         return state;
     }
@@ -136,6 +184,7 @@ interface QuizContextType {
   previousQuestion: () => void;
   completeQuiz: () => void;
   resetQuiz: () => void;
+  resetQuizAndClearStorage: () => void;
   goToQuestion: (index: number) => void;
   getAnswerForQuestion: (questionId: string) => QuizAnswer | undefined;
   loadAnswersFromJSON: (answers: QuizAnswer[]) => void;
@@ -148,6 +197,21 @@ const QuizContext = createContext<QuizContextType | undefined>(undefined);
 
 export function QuizProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(quizReducer, initialState);
+
+  // Load from localStorage on mount
+  useEffect(() => {
+    const stored = loadFromLocalStorage();
+    if (stored && stored.answers.length > 0) {
+      dispatch({ type: 'LOAD_FROM_LOCALSTORAGE', payload: stored });
+    }
+  }, []);
+
+  // Save to localStorage whenever answers or currentQuestionIndex changes
+  useEffect(() => {
+    if (state.answers.length > 0 && !state.isComplete) {
+      saveToLocalStorage(state.answers, state.currentQuestionIndex);
+    }
+  }, [state.answers, state.currentQuestionIndex, state.isComplete]);
 
   const answerQuestion = (answer: QuizAnswer) => {
     dispatch({ type: 'ANSWER_QUESTION', payload: answer });
@@ -210,7 +274,7 @@ export function QuizProvider({ children }: { children: ReactNode }) {
 
   const canSubmitQuiz = () => {
     const requiredQuestions = quizQuestions.filter((q) => q.required !== false);
-    return requiredQuestions.every((q) => 
+    return requiredQuestions.every((q) =>
       state.answers.some(a => a.questionId === q.id && a.value !== '' && a.value !== null && a.value !== undefined)
     );
   };
@@ -218,7 +282,7 @@ export function QuizProvider({ children }: { children: ReactNode }) {
   const getIncompleteQuestions = () => {
     const requiredQuestions = quizQuestions.filter((q) => q.required !== false);
     return requiredQuestions
-      .filter((q) => !state.answers.some(a => 
+      .filter((q) => !state.answers.some(a =>
         a.questionId === q.id && a.value !== '' && a.value !== null && a.value !== undefined
       ))
       .map((q) => q.question);
@@ -234,7 +298,7 @@ export function QuizProvider({ children }: { children: ReactNode }) {
     const blob = new Blob([JSON.stringify(answersData, null, 2)], {
       type: 'application/json'
     });
-    
+
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
