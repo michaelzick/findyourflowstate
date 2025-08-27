@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -7,9 +7,17 @@ import { Separator } from '@/components/ui/separator';
 import Footer from '@/components/Footer';
 import { ArrowLeft, PlayCircle, Brain, Target, Users, Building, Hammer, BookOpen, Heart, Lightbulb } from 'lucide-react';
 import { useScrollToTop } from '@/hooks/use-scroll-to-top';
+import { useQuiz } from '@/contexts/QuizContext';
 
 const LearnMore = () => {
   useScrollToTop();
+  const navigate = useNavigate();
+  const { nextQuestion } = useQuiz();
+
+  const handleStartQuiz = () => {
+    navigate('/');
+    nextQuestion();
+  };
   const careerPaths = [
     { name: "Creative Artist", icon: "🎨", description: "Expression through creative mediums and artistic vision" },
     { name: "Analytical Problem Solver", icon: "🔬", description: "Data-driven analysis and systematic problem solving" },
@@ -82,14 +90,12 @@ const LearnMore = () => {
           <div className="flex items-center justify-between">
             <Link to="/" className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
               <ArrowLeft className="h-4 w-4" />
-              Back to Assessment
+              Back to Home
             </Link>
-            <Link to="/">
-              <Button size="lg" className="gap-2">
-                <PlayCircle className="h-5 w-5" />
-                Start Assessment
-              </Button>
-            </Link>
+            <Button size="lg" className="gap-2" onClick={handleStartQuiz}>
+              <PlayCircle className="h-5 w-5" />
+              Start Assessment
+            </Button>
           </div>
         </div>
       </div>
@@ -103,12 +109,10 @@ const LearnMore = () => {
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
             A comprehensive guide to our methodology, what we measure, and how we help you discover your ideal career path.
           </p>
-          <Link to="/">
-            <Button size="lg" className="gap-2">
-              <PlayCircle className="h-5 w-5" />
-              Take the Assessment Now
-            </Button>
-          </Link>
+          <Button size="lg" className="gap-2" onClick={handleStartQuiz}>
+            <PlayCircle className="h-5 w-5" />
+            Take the Assessment Now
+          </Button>
         </div>
 
         {/* Scientific Methodology */}
@@ -566,12 +570,10 @@ const LearnMore = () => {
             your ideal career path, working style, and professional strengths.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/">
-              <Button size="lg" className="gap-2">
-                <PlayCircle className="h-5 w-5" />
-                Start Your Assessment
-              </Button>
-            </Link>
+            <Button size="lg" className="gap-2" onClick={handleStartQuiz}>
+              <PlayCircle className="h-5 w-5" />
+              Start Your Assessment
+            </Button>
             <Link to="/">
               <Button variant="outline" size="lg" className="gap-2">
                 <ArrowLeft className="h-4 w-4" />

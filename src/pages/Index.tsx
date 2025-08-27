@@ -1,5 +1,5 @@
 import React from 'react';
-import { QuizProvider, useQuiz } from '@/contexts/QuizContext';
+import { useQuiz } from '@/contexts/QuizContext';
 import { QuizLanding } from '@/components/quiz/QuizLanding';
 import { QuizInterface } from '@/components/quiz/QuizInterface';
 import { QuizResults } from '@/components/quiz/QuizResults';
@@ -53,14 +53,12 @@ const Index = () => {
   useScrollToTop();
 
   return (
-    <QuizProvider>
-      <div className="min-h-screen bg-background flex flex-col">
-        <div className="flex-1">
-          <QuizContent />
-        </div>
-        <Footer />
+    <div className="min-h-screen bg-background flex flex-col">
+      <div className="flex-1">
+        <QuizContent />
       </div>
-    </QuizProvider>
+      <Footer />
+    </div>
   );
 };
 
