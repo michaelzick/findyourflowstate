@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-export function useScrollToTop() {
+export function useScrollToTop(additionalDeps?: unknown[]) {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    // Scroll to top on pathname change, initial mount, or when additional dependencies change
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [pathname, ...(additionalDeps || [])]);
 }

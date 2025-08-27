@@ -1,4 +1,3 @@
-import React from 'react';
 import { useQuiz } from '@/contexts/QuizContext';
 import { QuizLanding } from '@/components/quiz/QuizLanding';
 import { QuizInterface } from '@/components/quiz/QuizInterface';
@@ -50,7 +49,10 @@ function QuizContent() {
 }
 
 const Index = () => {
-  useScrollToTop();
+  const { state } = useQuiz();
+
+  // Scroll to top on route changes and when quiz state changes (like resets)
+  useScrollToTop([state.currentQuestionIndex]);
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
