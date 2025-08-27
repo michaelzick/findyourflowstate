@@ -264,7 +264,7 @@ const LearnMore = () => {
                     <p className="text-sm text-muted-foreground">Top Recommendations</p>
                   </Card>
                   <Card className="p-4 text-center">
-                    <div className="text-2xl font-bold text-primary mb-1">24</div>
+                    <div className="text-2xl font-bold text-primary mb-1">43</div>
                     <p className="text-sm text-muted-foreground">Assessment Questions</p>
                   </Card>
                 </div>
@@ -344,6 +344,28 @@ const LearnMore = () => {
                     <h5 className="font-medium mb-2 text-teal-300">Enhanced Personality Analysis</h5>
                     <p className="text-sm text-muted-foreground">
                       Deeper cognitive style, motivational drivers, and work environment needs analysis
+                    </p>
+                  </Card>
+                </div>
+              </div>
+
+              <div>
+                <h4 className="font-semibold mb-3">Advanced Features</h4>
+                <p className="text-muted-foreground mb-4">
+                  We've built additional functionality to make your assessment experience seamless and valuable.
+                </p>
+
+                <div className="grid md:grid-cols-2 gap-4">
+                  <Card className="p-4">
+                    <h5 className="font-medium mb-2 text-primary">Save & Resume</h5>
+                    <p className="text-sm text-muted-foreground">
+                      Download your answers as JSON to resume later or use across multiple devices
+                    </p>
+                  </Card>
+                  <Card className="p-4">
+                    <h5 className="font-medium mb-2 text-primary">Comprehensive Validation</h5>
+                    <p className="text-sm text-muted-foreground">
+                      All 43 questions are required to ensure complete, accurate career recommendations
                     </p>
                   </Card>
                 </div>

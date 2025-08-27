@@ -9,6 +9,7 @@ interface QuizState {
   isComplete: boolean;
   isAiAnalysisLoading: boolean;
   aiAnalysisError: string | null;
+  hasUploadedAnswers: boolean;
 }
 
 type QuizAction =
@@ -31,6 +32,7 @@ const initialState: QuizState = {
   isComplete: false,
   isAiAnalysisLoading: false,
   aiAnalysisError: null,
+  hasUploadedAnswers: false,
 };
 
 function quizReducer(state: QuizState, action: QuizAction): QuizState {
@@ -117,6 +119,7 @@ function quizReducer(state: QuizState, action: QuizAction): QuizState {
           ...state,
           answers: action.payload,
           currentQuestionIndex: 0, // Start at first question to review answers
+          hasUploadedAnswers: true,
         };
 
       default:
@@ -135,6 +138,9 @@ interface QuizContextType {
   goToQuestion: (index: number) => void;
   getAnswerForQuestion: (questionId: string) => QuizAnswer | undefined;
   loadAnswersFromJSON: (answers: QuizAnswer[]) => void;
+  canSubmitQuiz: () => boolean;
+  getIncompleteQuestions: () => string[];
+  downloadAnswersAsJSON: () => void;
 }
 
 const QuizContext = createContext<QuizContextType | undefined>(undefined);
@@ -201,6 +207,45 @@ export function QuizProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'LOAD_ANSWERS_FROM_JSON', payload: answers });
   };
 
+  const canSubmitQuiz = () => {
+    const { quizQuestions } = require('@/data/quiz-questions');
+    const requiredQuestions = quizQuestions.filter((q: any) => q.required !== false);
+    return requiredQuestions.every((q: any) => 
+      state.answers.some(a => a.questionId === q.id && a.value !== '' && a.value !== null && a.value !== undefined)
+    );
+  };
+
+  const getIncompleteQuestions = () => {
+    const { quizQuestions } = require('@/data/quiz-questions');
+    const requiredQuestions = quizQuestions.filter((q: any) => q.required !== false);
+    return requiredQuestions
+      .filter((q: any) => !state.answers.some(a => 
+        a.questionId === q.id && a.value !== '' && a.value !== null && a.value !== undefined
+      ))
+      .map((q: any) => q.question);
+  };
+
+  const downloadAnswersAsJSON = () => {
+    const answersData = {
+      timestamp: new Date().toISOString(),
+      totalQuestions: state.answers.length,
+      answers: state.answers
+    };
+
+    const blob = new Blob([JSON.stringify(answersData, null, 2)], {
+      type: 'application/json'
+    });
+    
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `quiz-answers-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <QuizContext.Provider
       value={{
@@ -214,6 +259,9 @@ export function QuizProvider({ children }: { children: ReactNode }) {
         goToQuestion,
         getAnswerForQuestion,
         loadAnswersFromJSON,
+        canSubmitQuiz,
+        getIncompleteQuestions,
+        downloadAnswersAsJSON,
       }}
     >
       {children}

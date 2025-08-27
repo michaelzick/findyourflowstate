@@ -118,8 +118,8 @@ export function QuizLanding() {
     }
 
     // Process each answer
-    answersArray.forEach((item: unknown) => {
-      if (item && typeof item === 'object' && item.questionId && item.value !== undefined) {
+    answersArray.forEach((item: any) => {
+      if (item && typeof item === 'object' && 'questionId' in item && 'value' in item && item.value !== undefined) {
         answers.push({
           questionId: item.questionId,
           value: item.value

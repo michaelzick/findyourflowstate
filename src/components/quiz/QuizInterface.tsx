@@ -8,7 +8,16 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 export function QuizInterface() {
-  const { state, answerQuestion, nextQuestion, previousQuestion, completeQuiz, getAnswerForQuestion } = useQuiz();
+  const { 
+    state, 
+    answerQuestion, 
+    nextQuestion, 
+    previousQuestion, 
+    completeQuiz, 
+    getAnswerForQuestion,
+    canSubmitQuiz,
+    getIncompleteQuestions
+  } = useQuiz();
   const { toast } = useToast();
   const currentQuestion = quizQuestions[state.currentQuestionIndex];
   const currentAnswer = getAnswerForQuestion(currentQuestion.id);
@@ -16,10 +25,21 @@ export function QuizInterface() {
   const isFirstQuestion = state.currentQuestionIndex === 0;
 
   const handleNext = async () => {
-    const currentQuestion = quizQuestions[state.currentQuestionIndex];
-    const currentAnswer = getAnswerForQuestion(currentQuestion.id);
+    if (!canProceed) {
+      toast({
+        title: "Answer Required",
+        description: "Please answer this question before continuing.",
+        variant: "destructive",
+      });
+      return;
+    }
 
-    if (currentQuestion.required && !canProceed) {
+    if (isLastQuestion && !allQuestionsComplete) {
+      toast({
+        title: "Quiz Incomplete",
+        description: `Please complete all questions. ${incompleteQuestions.length} questions remaining.`,
+        variant: "destructive",
+      });
       return;
     }
 
@@ -36,7 +56,10 @@ export function QuizInterface() {
     }
   };
 
-  const canProceed = !currentQuestion.required || currentAnswer;
+  const canProceed = currentAnswer && (currentAnswer.value !== '' && currentAnswer.value !== null && currentAnswer.value !== undefined);
+  const allQuestionsComplete = canSubmitQuiz();
+  const incompleteQuestions = getIncompleteQuestions();
+  const showEarlySubmit = state.hasUploadedAnswers && allQuestionsComplete;
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -76,14 +99,35 @@ export function QuizInterface() {
               {currentQuestion.category.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}
             </div>
 
-            <Button
-              onClick={handleNext}
-              disabled={!canProceed}
-              className="flex items-center gap-2 bg-primary hover:bg-primary/90"
-            >
-              {isLastQuestion ? 'Complete Quiz' : 'Next'}
-              <ArrowRight className="w-4 h-4" />
-            </Button>
+            <div className="flex flex-col items-end gap-2">
+              {showEarlySubmit && (
+                <Button
+                  onClick={completeQuiz}
+                  className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white"
+                >
+                  Submit Quiz Now
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
+              )}
+              <Button
+                onClick={handleNext}
+                disabled={!canProceed}
+                className="flex items-center gap-2 bg-primary hover:bg-primary/90"
+              >
+                {isLastQuestion ? 'Complete Quiz' : 'Next'}
+                <ArrowRight className="w-4 h-4" />
+              </Button>
+              {!canProceed && (
+                <p className="text-sm text-red-500 text-right">
+                  This question is required
+                </p>
+              )}
+              {isLastQuestion && !allQuestionsComplete && (
+                <p className="text-sm text-red-500 text-right max-w-xs">
+                  Complete all questions to submit: {incompleteQuestions.length} remaining
+                </p>
+              )}
+            </div>
           </div>
         </div>
       </div>

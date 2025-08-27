@@ -11,7 +11,7 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
 export function QuizResults() {
-  const { state, resetQuiz } = useQuiz();
+  const { state, resetQuiz, downloadAnswersAsJSON } = useQuiz();
   const { toast } = useToast();
   const results = state.results!;
   const resultsRef = useRef<HTMLDivElement>(null);
@@ -197,6 +197,14 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
     `;
 
     return text;
+  };
+
+  const handleDownloadAnswers = () => {
+    downloadAnswersAsJSON();
+    toast({
+      title: "Answers Downloaded",
+      description: "Your quiz answers have been saved as JSON for future use!",
+    });
   };
 
   const handleCopyResults = () => {
@@ -792,6 +800,10 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
             <Button onClick={handleDownloadPDF} variant="outline" className="flex items-center gap-2">
               <Download className="w-4 h-4" />
               Download PDF
+            </Button>
+            <Button onClick={handleDownloadAnswers} variant="outline" className="flex items-center gap-2">
+              <Download className="w-4 h-4" />
+              Download Your Answers
             </Button>
             <Button onClick={handleCopyResults} variant="outline" className="flex items-center gap-2">
               <Copy className="w-4 h-4" />

@@ -17,6 +17,7 @@ export const quizQuestions: QuizQuestion[] = [
       "Competing in sports or physical challenges",
       "Solving puzzles, riddles, or brain teasers"
     ],
+    required: true,
     weight: 2
   },
   // VARIATION: Childhood avoidance patterns (reverse psychology)
@@ -35,6 +36,7 @@ export const quizQuestions: QuizQuestion[] = [
       "Social gatherings with many other children",
       "Quiet, solitary activities"
     ],
+    required: true,
     weight: 1.5
   },
   {
@@ -64,7 +66,8 @@ export const quizQuestions: QuizQuestion[] = [
       "Creative spaces with art supplies and materials to experiment",
       "Libraries or places filled with books and knowledge",
       "Workshops or garages with tools and mechanical things"
-    ]
+    ],
+    required: true
   },
 
   // Media Preferences & Values
@@ -72,7 +75,8 @@ export const quizQuestions: QuizQuestion[] = [
     id: 'favorite_stories',
     category: 'media_preferences',
     type: 'text',
-    question: "What types of stories (books, movies, TV shows) do you find most compelling? Describe the themes, characters, or conflicts that draw you in."
+    question: "What types of stories (books, movies, TV shows) do you find most compelling? Describe the themes, characters, or conflicts that draw you in.",
+    required: true
   },
   {
     id: 'media_themes',
@@ -90,7 +94,8 @@ export const quizQuestions: QuizQuestion[] = [
       "Personal transformation and growth",
       "Building something from nothing",
       "Artistic expression and beauty"
-    ]
+    ],
+    required: true
   },
 
   // Philosophical & Values Questions
@@ -115,7 +120,8 @@ export const quizQuestions: QuizQuestion[] = [
       "Bringing people together and fostering community",
       "Protecting and preserving what's valuable for future generations",
       "Teaching and sharing knowledge with others"
-    ]
+    ],
+    required: true
   },
 
   // Work Environment & Style
@@ -126,7 +132,8 @@ export const quizQuestions: QuizQuestion[] = [
     question: "Where do you feel most energized and productive?",
     scaleMin: 1,
     scaleMax: 7,
-    scaleLabels: ["Quiet, independent work", "Collaborative, team-based work"]
+    scaleLabels: ["Quiet, independent work", "Collaborative, team-based work"],
+    required: true
   },
   {
     id: 'decision_making',
@@ -141,7 +148,8 @@ export const quizQuestions: QuizQuestion[] = [
       "Look at past examples and proven methods",
       "Think about creative possibilities and potential innovations",
       "Focus on what aligns with my core values and principles"
-    ]
+    ],
+    required: true
   },
   {
     id: 'work_pace',
@@ -150,7 +158,8 @@ export const quizQuestions: QuizQuestion[] = [
     question: "What work rhythm suits you best?",
     scaleMin: 1,
     scaleMax: 7,
-    scaleLabels: ["Steady, consistent pace over time", "Intense bursts with recovery periods"]
+    scaleLabels: ["Steady, consistent pace over time", "Intense bursts with recovery periods"],
+    required: true
   },
   {
     id: 'hands_vs_knowledge',
@@ -159,7 +168,8 @@ export const quizQuestions: QuizQuestion[] = [
     question: "What type of work feels most natural to you?",
     scaleMin: 1,
     scaleMax: 7,
-    scaleLabels: ["Working with my hands and physical materials", "Working with ideas and abstract concepts"]
+    scaleLabels: ["Working with my hands and physical materials", "Working with ideas and abstract concepts"],
+    required: true
   },
 
   // Personality & Behavioral Patterns
