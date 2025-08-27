@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useReducer, ReactNode } from 'react';
 import { QuizAnswer, QuizResults } from '@/types/quiz';
 import { calculateQuizResults } from '@/utils/quiz-scoring';
+import { quizQuestions } from '@/data/quiz-questions';
 
 interface QuizState {
   currentQuestionIndex: number;
@@ -208,21 +209,19 @@ export function QuizProvider({ children }: { children: ReactNode }) {
   };
 
   const canSubmitQuiz = () => {
-    const { quizQuestions } = require('@/data/quiz-questions');
-    const requiredQuestions = quizQuestions.filter((q: any) => q.required !== false);
-    return requiredQuestions.every((q: any) => 
+    const requiredQuestions = quizQuestions.filter((q) => q.required !== false);
+    return requiredQuestions.every((q) => 
       state.answers.some(a => a.questionId === q.id && a.value !== '' && a.value !== null && a.value !== undefined)
     );
   };
 
   const getIncompleteQuestions = () => {
-    const { quizQuestions } = require('@/data/quiz-questions');
-    const requiredQuestions = quizQuestions.filter((q: any) => q.required !== false);
+    const requiredQuestions = quizQuestions.filter((q) => q.required !== false);
     return requiredQuestions
-      .filter((q: any) => !state.answers.some(a => 
+      .filter((q) => !state.answers.some(a => 
         a.questionId === q.id && a.value !== '' && a.value !== null && a.value !== undefined
       ))
-      .map((q: any) => q.question);
+      .map((q) => q.question);
   };
 
   const downloadAnswersAsJSON = () => {
