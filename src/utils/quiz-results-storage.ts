@@ -127,7 +127,7 @@ const validateQuizResults = (results: any): results is QuizResults => {
         return false;
       }
 
-      const requiredPathProps = ['name', 'score', 'description'];
+      const requiredPathProps = ['title', 'score', 'description'];
       for (const pathProp of requiredPathProps) {
         if (!(pathProp in path)) {
           console.warn(`Quiz results validation failed: careerPaths[${i}] missing ${pathProp}`);
@@ -193,7 +193,7 @@ const validateQuizResults = (results: any): results is QuizResults => {
 /**
  * Validate stored data structure and version compatibility
  */
-const validateStoredData = (data: any): data is StoredQuizResults => {
+const validateStoredData = (data: unknown): data is StoredQuizResults => {
   if (!data || typeof data !== 'object') {
     return false;
   }

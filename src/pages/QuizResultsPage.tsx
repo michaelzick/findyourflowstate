@@ -71,21 +71,25 @@ export default function QuizResultsPage() {
         return;
       }
 
-      // Try to load from storage
-      const { results: storedResults, error } = safeLoadQuizResults();
+      // Try to load from storage using the context function
+      try {
+        const storedResults = loadResultsFromStorage();
 
-      if (mounted) {
-        if (storedResults) {
-          setShowActionButtons(false);
-          setIsInitialLoading(false);
-        } else {
-          // No results available, show action buttons
+        if (mounted) {
+          if (storedResults) {
+            setShowActionButtons(false);
+            setIsInitialLoading(false);
+          } else {
+            // No results available, show action buttons
+            setShowActionButtons(true);
+            setIsInitialLoading(false);
+          }
+        }
+      } catch (error) {
+        console.error('Failed to load results from storage:', error);
+        if (mounted) {
           setShowActionButtons(true);
           setIsInitialLoading(false);
-
-          if (error) {
-            setStorageError(error);
-          }
         }
       }
     };
@@ -95,7 +99,7 @@ export default function QuizResultsPage() {
     return () => {
       mounted = false;
     };
-  }, []); // Run only once on mount
+  }, [loadResultsFromStorage, state.results]); // Include loadResultsFromStorage in dependencies
 
   // Handle when results are loaded after initial load (e.g., from quiz completion)
   useEffect(() => {
@@ -140,39 +144,31 @@ export default function QuizResultsPage() {
     return new Promise<void>((resolve) => {
       // Add a small delay to show loading state
       setTimeout(() => {
-        const { results: storedResults, error } = safeLoadQuizResults();
+        try {
+          const storedResults = loadResultsFromStorage();
 
-        if (storedResults) {
-          setShowActionButtons(false);
-          // Update navigation state to reflect results are loaded
-          saveNavigationState({
-            hasResults: true,
-            showActionButtons: false
-          });
-          toast({
-            title: "Results Loaded",
-            description: "Your previous quiz results have been loaded successfully.",
-          });
-        } else {
-          // Handle different error types
-          if (error) {
-            setStorageError(error);
-
-            if (error.isRecoverable()) {
-              // Show error with recovery option
-              toast({
-                title: "Storage Error",
-                description: error.getUserFriendlyMessage(),
-                variant: "destructive",
-              });
-            } else {
-              // Show no results modal for non-recoverable errors
-              setShowNoResultsModal(true);
-            }
+          if (storedResults) {
+            setShowActionButtons(false);
+            // Update navigation state to reflect results are loaded
+            saveNavigationState({
+              hasResults: true,
+              showActionButtons: false
+            });
+            toast({
+              title: "Results Loaded",
+              description: "Your previous quiz results have been loaded successfully.",
+            });
           } else {
-            // No error, just no results
+            // No results found
             setShowNoResultsModal(true);
           }
+        } catch (error) {
+          console.error('Failed to load results:', error);
+          toast({
+            title: "Error",
+            description: "Failed to load previous results. Please try again.",
+            variant: "destructive",
+          });
         }
         resolve();
       }, 800); // Small delay to show loading state
@@ -203,15 +199,17 @@ export default function QuizResultsPage() {
         });
 
         // Try to load results again after repair
-        const { results, error } = safeLoadQuizResults();
-        if (results) {
-          setShowActionButtons(false);
-          saveNavigationState({
-            hasResults: true,
-            showActionButtons: false
-          });
-        } else if (error) {
-          setStorageError(error);
+        try {
+          const results = loadResultsFromStorage();
+          if (results) {
+            setShowActionButtons(false);
+            saveNavigationState({
+              hasResults: true,
+              showActionButtons: false
+            });
+          }
+        } catch (error) {
+          console.error('Failed to load results after repair:', error);
         }
       } else {
         toast({
