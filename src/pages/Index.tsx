@@ -1,7 +1,6 @@
 import { useQuiz } from '@/contexts/QuizContext';
 import { QuizLanding } from '@/components/quiz/QuizLanding';
 import { QuizInterface } from '@/components/quiz/QuizInterface';
-import { QuizResults } from '@/components/quiz/QuizResults';
 import { QuizLoadingModal } from '@/components/quiz/QuizLoadingModal';
 import Footer from '@/components/Footer';
 import { quizQuestions } from '@/data/quiz-questions';
@@ -13,14 +12,8 @@ function QuizContent() {
   // Show loading modal when quiz is complete but results are being processed
   const showLoadingModal = state.isComplete && (!state.results || state.isAiAnalysisLoading);
 
-  if (state.isComplete && state.results && !state.isAiAnalysisLoading) {
-    return (
-      <>
-        <QuizResults />
-        <QuizLoadingModal isOpen={showLoadingModal} />
-      </>
-    );
-  }
+  // When quiz is complete, we navigate to /quiz-results instead of showing results inline
+  // So we only show the loading modal during processing, then navigation happens
 
   if (state.currentQuestionIndex === -1) {
     return (

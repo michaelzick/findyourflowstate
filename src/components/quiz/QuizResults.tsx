@@ -4,13 +4,18 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { RotateCcw, Download, Copy } from 'lucide-react';
+import { RotateCcw, Download, Copy, X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { AIAnalysisStatus, AIAnalysisLoading } from './AIAnalysisStatus';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
-export function QuizResults() {
+interface QuizResultsProps {
+  showClearButton?: boolean;
+  onClearResults?: () => void;
+}
+
+export function QuizResults({ showClearButton = false, onClearResults }: QuizResultsProps) {
   const { state, resetQuiz, downloadAnswersAsJSON } = useQuiz();
   const { toast } = useToast();
   const results = state.results!;
@@ -269,11 +274,11 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background animate-in fade-in-0 duration-500">
       <div className="container mx-auto px-4 py-8">
         <div ref={resultsRef} className="max-w-4xl mx-auto space-y-8">
           {/* Header */}
-          <div className="text-center space-y-4">
+          <div className="text-center space-y-4 animate-in slide-in-from-top-4 duration-700">
             <h1 className="text-4xl font-bold">
               Your Career Assessment Results
             </h1>
@@ -809,10 +814,17 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
               <Copy className="w-4 h-4" />
               Copy Results To Clipboard
             </Button>
-            <Button onClick={resetQuiz} variant="default" className="flex items-center gap-2 bg-primary hover:bg-primary/90">
-              <RotateCcw className="w-4 h-4" />
-              Take Quiz Again
-            </Button>
+            {showClearButton && onClearResults ? (
+              <Button onClick={onClearResults} variant="outline" className="flex items-center gap-2">
+                <X className="w-4 h-4" />
+                Clear Results
+              </Button>
+            ) : (
+              <Button onClick={resetQuiz} variant="default" className="flex items-center gap-2 bg-primary hover:bg-primary/90">
+                <RotateCcw className="w-4 h-4" />
+                Take Quiz Again
+              </Button>
+            )}
           </div>
         </div>
       </div>
