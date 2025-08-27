@@ -761,7 +761,7 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                     <h3 className="font-semibold mb-3 text-teal-300">Fulfillment Factors</h3>
                     <div className="flex flex-wrap gap-2">
                       {results.aiAnalysis.lifePurpose.fulfillmentFactors.map((factor, index) => (
-                        <Badge key={index} variant="secondary" className="bg-primary/10 text-primary border-primary/20">
+                        <Badge key={index} variant="secondary">
                           {factor}
                         </Badge>
                       ))}
