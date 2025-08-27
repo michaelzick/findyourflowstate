@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { RotateCcw, History, Loader2 } from 'lucide-react';
@@ -15,7 +15,10 @@ export function ResultsActionButtons({ onStartNewQuiz, onLoadPrevious, isLoading
   const handleStartNewQuiz = async () => {
     setLoadingAction('start');
     try {
-      await onStartNewQuiz();
+      const result = onStartNewQuiz();
+      if (result instanceof Promise) {
+        await result;
+      }
     } finally {
       setLoadingAction(null);
     }
@@ -24,7 +27,10 @@ export function ResultsActionButtons({ onStartNewQuiz, onLoadPrevious, isLoading
   const handleLoadPrevious = async () => {
     setLoadingAction('load');
     try {
-      await onLoadPrevious();
+      const result = onLoadPrevious();
+      if (result instanceof Promise) {
+        await result;
+      }
     } finally {
       setLoadingAction(null);
     }
@@ -54,52 +60,48 @@ export function ResultsActionButtons({ onStartNewQuiz, onLoadPrevious, isLoading
                 </p>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-4">
-                {/* Start New Quiz Button - Left */}
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                {/* Start New Quiz Button */}
                 <Button
                   onClick={handleStartNewQuiz}
                   size="lg"
                   disabled={isLoading || loadingAction !== null}
-                  className="h-20 flex flex-col items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-200 hover:scale-105 disabled:hover:scale-100 focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                  className="gap-2"
                   aria-label="Start a new quiz assessment"
                   aria-describedby="start-quiz-description"
                 >
                   {loadingAction === 'start' ? (
                     <>
-                      <Loader2 className="w-6 h-6 animate-spin" />
-                      <span className="text-lg font-medium">Starting...</span>
-                      <span className="text-sm opacity-90">Please wait</span>
+                      <Loader2 className="h-5 w-5 animate-spin" />
+                      Starting...
                     </>
                   ) : (
                     <>
-                      <RotateCcw className="w-6 h-6" />
-                      <span className="text-lg font-medium">Start New Quiz</span>
-                      <span className="text-sm opacity-90">Begin fresh assessment</span>
+                      <RotateCcw className="h-5 w-5" />
+                      Start New Quiz
                     </>
                   )}
                 </Button>
 
-                {/* Load Previous Results Button - Right */}
+                {/* Load Previous Results Button */}
                 <Button
                   onClick={handleLoadPrevious}
                   size="lg"
                   variant="outline"
                   disabled={isLoading || loadingAction !== null}
-                  className="h-20 flex flex-col items-center justify-center gap-2 border-border hover:bg-accent hover:text-accent-foreground transition-all duration-200 hover:scale-105 disabled:hover:scale-100 focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                  className="gap-2"
                   aria-label="Load your previous quiz results"
                   aria-describedby="load-results-description"
                 >
                   {loadingAction === 'load' ? (
                     <>
-                      <Loader2 className="w-6 h-6 animate-spin" />
-                      <span className="text-lg font-medium">Loading...</span>
-                      <span className="text-sm opacity-90">Please wait</span>
+                      <Loader2 className="h-5 w-5 animate-spin" />
+                      Loading...
                     </>
                   ) : (
                     <>
-                      <History className="w-6 h-6" />
-                      <span className="text-lg font-medium">Load Previous Results</span>
-                      <span className="text-sm opacity-90">View saved analysis</span>
+                      <History className="h-5 w-5" />
+                      Load Previous Results
                     </>
                   )}
                 </Button>
