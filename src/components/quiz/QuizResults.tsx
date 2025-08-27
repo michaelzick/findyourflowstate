@@ -805,7 +805,7 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
           {/* Original Footer Position Marker */}
           <div ref={originalPositionRef} className="w-full">
             {/* Actions - Original Position */}
-            <div className="flex flex-wrap justify-center gap-4 pt-4 pb-8">
+            <div className="flex flex-wrap justify-center gap-4 pb-4">
               <Button onClick={handleDownloadPDF} variant="outline" className="flex items-center gap-2">
                 <Download className="w-4 h-4" />
                 Download PDF
