@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { RotateCcw, Download, Copy, X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useStickyFooter } from '@/hooks/use-sticky-footer';
 import { AIAnalysisStatus, AIAnalysisLoading } from './AIAnalysisStatus';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
@@ -20,6 +21,7 @@ export function QuizResults({ showClearButton = false, onClearResults }: QuizRes
   const { toast } = useToast();
   const results = state.results!;
   const resultsRef = useRef<HTMLDivElement>(null);
+  const { isSticky, footerRef, originalPositionRef } = useStickyFooter({ offset: 150 });
 
   const generateComprehensiveText = () => {
     const text = `
@@ -800,29 +802,101 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
             </Card>
           ) : null}
 
-          {/* Actions */}
-          <div className="flex flex-wrap justify-center gap-4">
-            <Button onClick={handleDownloadPDF} variant="outline" className="flex items-center gap-2">
+          {/* Original Footer Position Marker */}
+          <div ref={originalPositionRef} className="w-full">
+            {/* Actions - Original Position */}
+            <div className="flex flex-wrap justify-center gap-4 pt-4 pb-8">
+              <Button onClick={handleDownloadPDF} variant="outline" className="flex items-center gap-2">
+                <Download className="w-4 h-4" />
+                Download PDF
+              </Button>
+              <Button onClick={handleDownloadAnswers} variant="outline" className="flex items-center gap-2">
+                <Download className="w-4 h-4" />
+                Download Your Answers
+              </Button>
+              <Button onClick={handleCopyResults} variant="outline" className="flex items-center gap-2">
+                <Copy className="w-4 h-4" />
+                Copy Results To Clipboard
+              </Button>
+              {showClearButton && onClearResults ? (
+                <Button onClick={onClearResults} variant="outline" className="flex items-center gap-2">
+                  <X className="w-4 h-4" />
+                  Clear Results
+                </Button>
+              ) : (
+                <Button onClick={resetQuiz} variant="default" className="flex items-center gap-2 bg-primary hover:bg-primary/90">
+                  <RotateCcw className="w-4 h-4" />
+                  Take Quiz Again
+                </Button>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Sticky Footer */}
+      <div
+        ref={footerRef}
+        className={`
+          fixed bottom-0 left-0 right-0 z-50
+          bg-background/95 backdrop-blur-sm border-t border-border
+          transition-transform duration-300 ease-in-out
+          ${isSticky ? 'translate-y-0' : 'translate-y-full'}
+        `}
+      >
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
+            <Button
+              onClick={handleDownloadPDF}
+              variant="outline"
+              size="sm"
+              className="flex items-center gap-2"
+            >
               <Download className="w-4 h-4" />
-              Download PDF
+              <span className="hidden sm:inline">Download PDF</span>
+              <span className="sm:hidden">PDF</span>
             </Button>
-            <Button onClick={handleDownloadAnswers} variant="outline" className="flex items-center gap-2">
+            <Button
+              onClick={handleDownloadAnswers}
+              variant="outline"
+              size="sm"
+              className="flex items-center gap-2"
+            >
               <Download className="w-4 h-4" />
-              Download Your Answers
+              <span className="hidden sm:inline">Download Answers</span>
+              <span className="sm:hidden">Answers</span>
             </Button>
-            <Button onClick={handleCopyResults} variant="outline" className="flex items-center gap-2">
+            <Button
+              onClick={handleCopyResults}
+              variant="outline"
+              size="sm"
+              className="flex items-center gap-2"
+            >
               <Copy className="w-4 h-4" />
-              Copy Results To Clipboard
+              <span className="hidden sm:inline">Copy to Clipboard</span>
+              <span className="sm:hidden">Copy</span>
             </Button>
             {showClearButton && onClearResults ? (
-              <Button onClick={onClearResults} variant="outline" className="flex items-center gap-2">
+              <Button
+                onClick={onClearResults}
+                variant="outline"
+                size="sm"
+                className="flex items-center gap-2"
+              >
                 <X className="w-4 h-4" />
-                Clear Results
+                <span className="hidden sm:inline">Clear Results</span>
+                <span className="sm:hidden">Clear</span>
               </Button>
             ) : (
-              <Button onClick={resetQuiz} variant="default" className="flex items-center gap-2 bg-primary hover:bg-primary/90">
+              <Button
+                onClick={resetQuiz}
+                variant="default"
+                size="sm"
+                className="flex items-center gap-2 bg-primary hover:bg-primary/90"
+              >
                 <RotateCcw className="w-4 h-4" />
-                Take Quiz Again
+                <span className="hidden sm:inline">Take Quiz Again</span>
+                <span className="sm:hidden">Retake</span>
               </Button>
             )}
           </div>
