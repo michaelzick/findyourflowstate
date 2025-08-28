@@ -296,6 +296,8 @@ interface QuizContextType {
   clearActiveResults: () => void;
   hasStoredResults: () => boolean;
   setResultsRoute: (isResultsRoute: boolean) => void;
+  loadSavedProgress: () => boolean;
+  hasSavedProgress: () => boolean;
 }
 
 const QuizContext = createContext<QuizContextType | undefined>(undefined);
@@ -304,13 +306,9 @@ export function QuizProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(quizReducer, initialState);
   const navigate = useNavigate();
 
-  // Load from localStorage on mount
-  useEffect(() => {
-    const stored = loadFromLocalStorage();
-    if (stored && stored.answers.length > 0) {
-      dispatch({ type: 'LOAD_FROM_LOCALSTORAGE', payload: stored });
-    }
-  }, []);
+  // Don't automatically load from localStorage on mount
+  // This prevents the quiz from auto-resuming when user refreshes the homepage
+  // Instead, we'll provide a method to explicitly restore progress when needed
 
   // Save to localStorage whenever answers or currentQuestionIndex changes
   useEffect(() => {
@@ -495,6 +493,20 @@ export function QuizProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'SET_RESULTS_ROUTE', payload: isResultsRoute });
   };
 
+  const loadSavedProgress = (): boolean => {
+    const stored = loadFromLocalStorage();
+    if (stored && stored.answers.length > 0) {
+      dispatch({ type: 'LOAD_FROM_LOCALSTORAGE', payload: stored });
+      return true;
+    }
+    return false;
+  };
+
+  const hasSavedProgress = (): boolean => {
+    const stored = loadFromLocalStorage();
+    return !!(stored && stored.answers.length > 0);
+  };
+
   return (
     <QuizContext.Provider
       value={{
@@ -517,6 +529,8 @@ export function QuizProvider({ children }: { children: ReactNode }) {
         clearActiveResults,
         hasStoredResults,
         setResultsRoute,
+        loadSavedProgress,
+        hasSavedProgress,
       }}
     >
       {children}

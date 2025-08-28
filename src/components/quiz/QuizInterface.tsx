@@ -27,18 +27,18 @@ export function QuizInterface() {
     getAnswerForQuestion,
     canSubmitQuiz,
     getIncompleteQuestions,
-    resetQuiz
+    resetQuizAndClearStorage
   } = useQuiz();
   const [showResetDialog, setShowResetDialog] = useState(false);
   const { toast } = useToast();
   const currentQuestion = quizQuestions[state.currentQuestionIndex];
 
   const handleReset = () => {
-    resetQuiz();
+    resetQuizAndClearStorage();
     setShowResetDialog(false);
     toast({
       title: "Quiz Reset",
-      description: "Your progress has been cleared. Starting fresh!",
+      description: "All progress and saved data have been cleared. Starting fresh!",
     });
   };
   const currentAnswer = getAnswerForQuestion(currentQuestion.id);

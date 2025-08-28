@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -6,15 +6,51 @@ import { Badge } from '@/components/ui/badge';
 import { Brain, Users, Target, Clock, CheckCircle, Upload } from 'lucide-react';
 import { useQuiz } from '@/contexts/QuizContext';
 import { useToast } from '@/hooks/use-toast';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { QuizAnswer } from '@/types/quiz';
 import psychologistImage from '@/assets/psychologist2.webp';
 import clientImage from '@/assets/client2.webp';
 
 export function QuizLanding() {
-  const { nextQuestion, loadAnswersFromJSON } = useQuiz();
+  const { nextQuestion, loadAnswersFromJSON, hasSavedProgress, loadSavedProgress, resetQuizAndClearStorage } = useQuiz();
   const navigate = useNavigate();
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const hasProgress = hasSavedProgress();
+  const [showResetDialog, setShowResetDialog] = useState(false);
+
+  const handleContinueQuiz = () => {
+    const loaded = loadSavedProgress();
+    if (loaded) {
+      toast({
+        title: "Progress Restored",
+        description: "Your previous quiz progress has been restored.",
+      });
+    }
+  };
+
+  const handleStartOver = () => {
+    setShowResetDialog(true);
+  };
+
+  const handleConfirmReset = () => {
+    resetQuizAndClearStorage();
+    setShowResetDialog(false);
+    nextQuestion(); // Start the quiz after clearing
+    toast({
+      title: "Quiz Reset",
+      description: "All progress and saved data have been cleared. Starting fresh!",
+    });
+  };
 
   const features = [
     {
@@ -100,7 +136,7 @@ export function QuizLanding() {
     }
   };
 
-  const processJSONAnswers = (jsonData: any): QuizAnswer[] => {
+  const processJSONAnswers = (jsonData: unknown): QuizAnswer[] => {
     const answers: QuizAnswer[] = [];
 
     // Handle different JSON formats
@@ -184,13 +220,33 @@ export function QuizLanding() {
               to determine your three most compatible career paths with deep personality insights.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Button
-                size="lg"
-                onClick={nextQuestion}
-                className="bg-primary hover:bg-primary/90 text-lg px-8 py-3"
-              >
-                Start Your Assessment
-              </Button>
+              {hasProgress ? (
+                <>
+                  <Button
+                    size="lg"
+                    onClick={handleContinueQuiz}
+                    className="bg-primary hover:bg-primary/90 text-lg px-8 py-3"
+                  >
+                    Continue Quiz
+                  </Button>
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    onClick={handleStartOver}
+                    className="text-lg px-8 py-3"
+                  >
+                    Start Over
+                  </Button>
+                </>
+              ) : (
+                <Button
+                  size="lg"
+                  onClick={nextQuestion}
+                  className="bg-primary hover:bg-primary/90 text-lg px-8 py-3"
+                >
+                  Start Your Assessment
+                </Button>
+              )}
               <Button
                 size="lg"
                 variant="outline"
@@ -324,13 +380,33 @@ export function QuizLanding() {
               through our science-based assessment.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Button
-                size="lg"
-                onClick={nextQuestion}
-                className="bg-primary hover:bg-primary/90 text-xl px-12 py-4"
-              >
-                Begin Assessment Now
-              </Button>
+              {hasProgress ? (
+                <>
+                  <Button
+                    size="lg"
+                    onClick={handleContinueQuiz}
+                    className="bg-primary hover:bg-primary/90 text-xl px-12 py-4"
+                  >
+                    Continue Quiz
+                  </Button>
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    onClick={handleStartOver}
+                    className="text-lg px-8 py-3"
+                  >
+                    Start Over
+                  </Button>
+                </>
+              ) : (
+                <Button
+                  size="lg"
+                  onClick={nextQuestion}
+                  className="bg-primary hover:bg-primary/90 text-xl px-12 py-4"
+                >
+                  Begin Assessment Now
+                </Button>
+              )}
               <Button
                 size="lg"
                 variant="outline"
@@ -347,6 +423,24 @@ export function QuizLanding() {
           </div>
         </div>
       </section>
+
+      {/* Reset Confirmation Dialog */}
+      <AlertDialog open={showResetDialog} onOpenChange={setShowResetDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Reset Quiz Progress?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This will permanently delete all your current answers and progress. You'll start from the beginning. This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleConfirmReset} className="bg-destructive hover:bg-destructive/90">
+              Reset Quiz
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
