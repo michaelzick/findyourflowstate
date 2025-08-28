@@ -7,8 +7,8 @@ import { Brain, Users, Target, Clock, CheckCircle, Upload } from 'lucide-react';
 import { useQuiz } from '@/contexts/QuizContext';
 import { useToast } from '@/hooks/use-toast';
 import { QuizAnswer } from '@/types/quiz';
-import psychologistImage from '@/assets/psychologist-colored-pencil.jpg';
-import clientImage from '@/assets/client-colored-pencil.jpg';
+import psychologistImage from '@/assets/psychologist2.webp';
+import clientImage from '@/assets/client2.webp';
 
 export function QuizLanding() {
   const { nextQuestion, loadAnswersFromJSON } = useQuiz();
@@ -142,21 +142,21 @@ export function QuizLanding() {
       <section className="relative overflow-hidden">
         {/* Split Background Images */}
         <div className="absolute inset-0 grid grid-cols-2">
-          {/* Psychologist Side */}
-          <div className="relative">
-            <div
-              className="absolute inset-0 bg-cover bg-center opacity-30 transform scale-x-[-1]"
-              style={{ backgroundImage: `url(${psychologistImage})` }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent to-background/80" />
-          </div>
           {/* Client Side */}
           <div className="relative">
             <div
-              className="absolute inset-0 bg-cover bg-center opacity-30"
+              className="absolute inset-0 bg-cover bg-top opacity-30"
               style={{ backgroundImage: `url(${clientImage})` }}
             />
             <div className="absolute inset-0 bg-gradient-to-l from-transparent to-background/80" />
+          </div>
+          {/* Psychologist Side */}
+          <div className="relative">
+            <div
+              className="absolute inset-0 bg-cover bg-top opacity-30 transform scale-x-[-1]"
+              style={{ backgroundImage: `url(${psychologistImage})` }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent to-background/80" />
           </div>
         </div>
 
