@@ -411,9 +411,9 @@ const LearnMore = () => {
               <div>
                 <h4 className="font-semibold mb-2">How long does it take to complete?</h4>
                 <p className="text-muted-foreground">
-                  The assessment typically takes 10-15 minutes to complete. We've designed it to be
-                  comprehensive yet respectful of your time, with 24 carefully selected questions
-                  that maximize insight while minimizing assessment fatigue. The AI analysis adds
+                  The assessment typically takes 45-60 minutes to complete. We've designed it to be
+                  comprehensive and deeply insightful, with 43 carefully crafted questions
+                  that include both quick selections and thoughtful written responses. The AI analysis adds
                   an additional 1-2 minutes of processing time.
                 </p>
               </div>

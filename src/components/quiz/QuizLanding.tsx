@@ -33,8 +33,8 @@ export function QuizLanding() {
     },
     {
       icon: Clock,
-      title: "15-20 Minutes",
-      description: "Comprehensive assessment that respects your time while being thorough"
+      title: "45-60 Minutes",
+      description: "In-depth assessment with thoughtful questions that reveal deep insights"
     }
   ];
 
@@ -118,7 +118,7 @@ export function QuizLanding() {
     }
 
     // Process each answer
-    answersArray.forEach((item: any) => {
+    answersArray.forEach((item: unknown) => {
       if (item && typeof item === 'object' && 'questionId' in item && 'value' in item && item.value !== undefined) {
         answers.push({
           questionId: item.questionId,
@@ -314,7 +314,7 @@ export function QuizLanding() {
               </Button>
             </div>
             <p className="text-sm text-muted-foreground">
-              Takes 15-20 minutes • No email required • Immediate results
+              Takes 45-60 minutes • No email required • Immediate results
             </p>
           </div>
         </div>
