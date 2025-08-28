@@ -171,7 +171,7 @@ export function QuizLanding() {
 
         <div className="relative container mx-auto px-4 py-20 text-center z-10">
           <div className="max-w-4xl mx-auto space-y-8">
-            <Badge className="mb-2">
+            <Badge className="mb-1">
               Scientifically-Based Career Assessment
             </Badge>
             <h1 className="text-5xl md:text-6xl font-bold text-primary">
