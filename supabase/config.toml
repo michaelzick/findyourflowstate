@@ -8,3 +8,6 @@ verify_jwt = false
 
 [functions.deep-quiz-analysis]
 verify_jwt = false
+
+[functions.generate-therapy-images]
+verify_jwt = false

@@ -7,7 +7,8 @@ import { Brain, Users, Target, Clock, CheckCircle, Upload } from 'lucide-react';
 import { useQuiz } from '@/contexts/QuizContext';
 import { useToast } from '@/hooks/use-toast';
 import { QuizAnswer } from '@/types/quiz';
-import quizHero from '@/assets/quiz-hero.jpg';
+import psychologistImage from '@/assets/psychologist-colored-pencil.jpg';
+import clientImage from '@/assets/client-colored-pencil.jpg';
 
 export function QuizLanding() {
   const { nextQuestion, loadAnswersFromJSON } = useQuiz();
@@ -120,9 +121,10 @@ export function QuizLanding() {
     // Process each answer
     answersArray.forEach((item: unknown) => {
       if (item && typeof item === 'object' && 'questionId' in item && 'value' in item && item.value !== undefined) {
+        const typedItem = item as { questionId: string; value: string | number | string[] };
         answers.push({
-          questionId: item.questionId,
-          value: item.value
+          questionId: typedItem.questionId,
+          value: typedItem.value
         });
       }
     });
@@ -138,12 +140,36 @@ export function QuizLanding() {
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-primary/10" />
-        <div
-          className="absolute inset-0 bg-cover bg-center opacity-20"
-          style={{ backgroundImage: `url(${quizHero})` }}
-        />
-        <div className="relative container mx-auto px-4 py-20 text-center">
+        {/* Split Background Images */}
+        <div className="absolute inset-0 grid grid-cols-2">
+          {/* Psychologist Side */}
+          <div className="relative">
+            <div
+              className="absolute inset-0 bg-cover bg-center opacity-30"
+              style={{ backgroundImage: `url(${psychologistImage})` }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent to-background/80" />
+          </div>
+          {/* Client Side */}
+          <div className="relative">
+            <div
+              className="absolute inset-0 bg-cover bg-center opacity-30"
+              style={{ backgroundImage: `url(${clientImage})` }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-l from-transparent to-background/80" />
+          </div>
+        </div>
+        
+        {/* Mobile Background - Single Image */}
+        <div className="absolute inset-0 md:hidden">
+          <div
+            className="absolute inset-0 bg-cover bg-center opacity-25"
+            style={{ backgroundImage: `url(${psychologistImage})` }}
+          />
+          <div className="absolute inset-0 bg-background/70" />
+        </div>
+
+        <div className="relative container mx-auto px-4 py-20 text-center z-10">
           <div className="max-w-4xl mx-auto space-y-8">
             <Badge className="mb-4">
               Scientifically-Based Career Assessment
