@@ -145,7 +145,7 @@ export function QuizLanding() {
           {/* Psychologist Side */}
           <div className="relative">
             <div
-              className="absolute inset-0 bg-cover bg-center opacity-30"
+              className="absolute inset-0 bg-cover bg-center opacity-30 transform scale-x-[-1]"
               style={{ backgroundImage: `url(${psychologistImage})` }}
             />
             <div className="absolute inset-0 bg-gradient-to-r from-transparent to-background/80" />
@@ -199,7 +199,7 @@ export function QuizLanding() {
               </Button>
             </div>
 
-            <div className="mt-8 pt-8 border-t border-border/50">
+            <div className="mt-8">
               <div className="flex flex-col items-center gap-4">
                 <p className="text-sm text-muted-foreground">
                   Have previous answers saved as JSON?
