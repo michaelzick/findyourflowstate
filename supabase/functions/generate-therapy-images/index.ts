@@ -26,9 +26,9 @@ serve(async (req) => {
 
     let prompt = ''
     if (imageType === 'psychologist') {
-      prompt = 'Colored pencil drawing style, professional male psychologist sitting in therapy session, writing in notebook, listening pose, warm muted earth tones, soft shading, gentle lighting, peaceful expression, professional attire, therapy office setting, hand-drawn artistic style, sketch-like quality, subtle colors'
+      prompt = 'Colored pencil drawing style, single male psychologist only, sitting in chair facing right, notebook in lap, listening intently, looking to his right, warm muted earth tones, soft shading, gentle lighting, professional attire, therapy office background, hand-drawn artistic style, sketch-like quality, subtle colors, no text, no signatures, no artist marks, only one person in image'
     } else {
-      prompt = 'Colored pencil drawing style, professional woman sitting in therapy session, hands gesturing while speaking, expressive pose, warm muted earth tones, soft shading, gentle lighting, engaged expression, comfortable clothing, therapy setting, hand-drawn artistic style, sketch-like quality, subtle colors'
+      prompt = 'Colored pencil drawing style, single woman only, sitting facing left, hands gesturing while talking, animated expression, speaking to someone on her left, warm muted earth tones, soft shading, gentle lighting, comfortable clothing, therapy setting background, hand-drawn artistic style, sketch-like quality, subtle colors, no text, no signatures, no artist marks, only one person in image'
     }
 
     console.log(`Generating ${imageType} image with prompt:`, prompt)
