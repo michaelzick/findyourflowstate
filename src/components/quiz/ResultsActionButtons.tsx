@@ -12,25 +12,19 @@ interface ResultsActionButtonsProps {
 export function ResultsActionButtons({ onStartNewQuiz, onLoadPrevious, isLoading = false }: ResultsActionButtonsProps) {
   const [loadingAction, setLoadingAction] = useState<'start' | 'load' | null>(null);
 
-  const handleStartNewQuiz = async () => {
+  const handleStartNewQuiz = () => {
     setLoadingAction('start');
     try {
-      const result = onStartNewQuiz();
-      if (result instanceof Promise) {
-        await result;
-      }
+      onStartNewQuiz();
     } finally {
       setLoadingAction(null);
     }
   };
 
-  const handleLoadPrevious = async () => {
+  const handleLoadPrevious = () => {
     setLoadingAction('load');
     try {
-      const result = onLoadPrevious();
-      if (result instanceof Promise) {
-        await result;
-      }
+      onLoadPrevious();
     } finally {
       setLoadingAction(null);
     }

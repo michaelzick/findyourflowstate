@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { QuizProvider } from '@/contexts/QuizContext';
 import QuizResultsPage from '@/pages/QuizResultsPage';
 import { mockQuizResults } from './mocks/quiz-data';
+import { QuizResultsStorageError, StorageError } from '@/utils/quiz-results-storage';
 
 // Mock the hooks
 vi.mock('@/hooks/use-scroll-to-top', () => ({
@@ -217,7 +218,7 @@ describe('Loading States and Transitions Tests', () => {
       const { safeLoadQuizResults } = await import('@/utils/quiz-results-storage');
       vi.mocked(safeLoadQuizResults).mockReturnValue({
         results: null,
-        error: new Error('Storage error'),
+        error: new QuizResultsStorageError(StorageError.UNKNOWN_ERROR, 'Storage error'),
       });
 
       render(

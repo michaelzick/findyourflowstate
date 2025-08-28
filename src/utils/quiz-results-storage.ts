@@ -198,25 +198,27 @@ const validateStoredData = (data: unknown): data is StoredQuizResults => {
     return false;
   }
 
+  const typedData = data as Record<string, any>;
+
   // Check required metadata
-  if (!data.timestamp || !data.version || !data.quizVersion || !data.results) {
+  if (!typedData.timestamp || !typedData.version || !typedData.quizVersion || !typedData.results) {
     return false;
   }
 
   // Validate timestamp
-  const timestamp = new Date(data.timestamp);
+  const timestamp = new Date(typedData.timestamp);
   if (isNaN(timestamp.getTime())) {
     return false;
   }
 
   // Validate version format (basic semver check)
   const versionRegex = /^\d+\.\d+\.\d+$/;
-  if (!versionRegex.test(data.version) || !versionRegex.test(data.quizVersion)) {
+  if (!versionRegex.test(typedData.version) || !versionRegex.test(typedData.quizVersion)) {
     return false;
   }
 
   // Validate the actual results data
-  return validateQuizResults(data.results);
+  return validateQuizResults(typedData.results);
 };
 
 /**

@@ -110,7 +110,7 @@ describe('LocalStorage Persistence Tests', () => {
 
       expect(result.success).toBe(false);
       expect(result.error).toBeInstanceOf(QuizResultsStorageError);
-      expect(result.error?.type).toBe(StorageError.STORAGE_UNAVAILABLE);
+      expect(result.error?.type).toBe(StorageError.UNAVAILABLE);
 
       // Restore original localStorage
       Object.defineProperty(window, 'localStorage', {
@@ -163,7 +163,7 @@ describe('LocalStorage Persistence Tests', () => {
 
       expect(result.results).toBeNull();
       expect(result.error).toBeInstanceOf(QuizResultsStorageError);
-      expect(result.error?.type).toBe(StorageError.INVALID_DATA);
+      expect(result.error?.type).toBe(StorageError.CORRUPTED_DATA);
     });
   });
 
@@ -211,7 +211,7 @@ describe('LocalStorage Persistence Tests', () => {
 
       expect(result.success).toBe(false);
       expect(result.error).toBeInstanceOf(QuizResultsStorageError);
-      expect(result.error?.type).toBe(StorageError.INVALID_DATA);
+      expect(result.error?.type).toBe(StorageError.VALIDATION_FAILED);
     });
 
     it('validates timestamp format', () => {
@@ -226,7 +226,7 @@ describe('LocalStorage Persistence Tests', () => {
 
       expect(result.results).toBeNull();
       expect(result.error).toBeInstanceOf(QuizResultsStorageError);
-      expect(result.error?.type).toBe(StorageError.INVALID_DATA);
+      expect(result.error?.type).toBe(StorageError.CORRUPTED_DATA);
     });
   });
 
