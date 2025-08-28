@@ -121,7 +121,7 @@ export function QuizLanding() {
     // Process each answer
     answersArray.forEach((item: unknown) => {
       if (item && typeof item === 'object' && 'questionId' in item && 'value' in item && item.value !== undefined) {
-        const typedItem = item as { questionId: string; value: string | number | string[] };
+        const typedItem = item as { questionId: string; value: string | number | string[]; };
         answers.push({
           questionId: typedItem.questionId,
           value: typedItem.value
@@ -159,7 +159,7 @@ export function QuizLanding() {
             <div className="absolute inset-0 bg-gradient-to-l from-transparent to-background/80" />
           </div>
         </div>
-        
+
         {/* Mobile Background - Single Image */}
         <div className="absolute inset-0 md:hidden">
           <div
@@ -171,11 +171,13 @@ export function QuizLanding() {
 
         <div className="relative container mx-auto px-4 py-20 text-center z-10">
           <div className="max-w-4xl mx-auto space-y-8">
-            <Badge className="mb-4">
+            <Badge className="mb-2">
               Scientifically-Based Career Assessment
             </Badge>
             <h1 className="text-5xl md:text-6xl font-bold text-primary">
-              Discover Your Optimal Career Path
+              Discover Your Optimal
+              <br />
+              Career Path
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
               A comprehensive quiz that combines psychology, neuroscience, and behavioral science
