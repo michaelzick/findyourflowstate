@@ -1,16 +1,11 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { BrowserRouter } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { QuizProvider } from '@/contexts/QuizContext';
-import QuizResultsPage from '@/pages/QuizResultsPage';
-import { mockQuizResults, mockCorruptedResults } from './mocks/quiz-data';
+import { mockQuizResults } from './mocks/quiz-data';
 import {
   safeLoadQuizResults,
   safeSaveQuizResults,
   QuizResultsStorageError,
-  StorageError
+  StorageError,
+  type QuizResults
 } from '@/utils/quiz-results-storage';
 
 // Mock the hooks
@@ -39,24 +34,7 @@ vi.mock('@/utils/navigation-state', () => ({
   markActionButtonsNavigation: vi.fn(),
 }));
 
-const TestWrapper = ({ children }: { children: React.ReactNode }) => {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: { retry: false },
-      mutations: { retry: false },
-    },
-  });
-
-  return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <QuizProvider>
-          {children}
-        </QuizProvider>
-      </BrowserRouter>
-    </QueryClientProvider>
-  );
-};
+// Test wrapper removed as it's not used in these localStorage-only tests
 
 describe('LocalStorage Persistence Tests', () => {
   beforeEach(() => {
