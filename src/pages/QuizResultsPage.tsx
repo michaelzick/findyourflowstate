@@ -269,8 +269,8 @@ export default function QuizResultsPage() {
     markActionButtonsNavigation();
   };
 
-  // Show results if available
-  if (state.results) {
+  // Show results if available and not showing action buttons
+  if (state.results && !showActionButtons) {
     return (
       <>
         <QuizResults
