@@ -17,7 +17,6 @@ export const quizQuestions: QuizQuestion[] = [
       "Competing in sports or physical challenges",
       "Solving puzzles, riddles, or brain teasers"
     ],
-    required: true,
     weight: 2
   },
   // VARIATION: Childhood avoidance patterns (reverse psychology)
@@ -28,7 +27,7 @@ export const quizQuestions: QuizQuestion[] = [
     question: "As a child, which activities did you consistently avoid or find boring?",
     options: [
       "Sitting still for long periods like reading or studying",
-      "Team sports or competitive group activities", 
+      "Team sports or competitive group activities",
       "Arts and crafts or creative projects",
       "Being the center of attention or performing",
       "Complex games with lots of rules",
@@ -36,22 +35,20 @@ export const quizQuestions: QuizQuestion[] = [
       "Social gatherings with many other children",
       "Quiet, solitary activities"
     ],
-    required: true,
     weight: 1.5
   },
   {
     id: 'flow_activities',
     category: 'flow_states',
     type: 'text',
-    question: "Describe a time when you completely lost track of time because you were so absorbed in what you were doing. What were you doing and what made it so engaging?",
-    required: true
+    question: "Describe a time when you completely lost track of time because you were so absorbed in what you were doing. What were you doing and what made it so engaging?"
   },
   // VARIATION: Energy drain activities (reverse flow)
   {
     id: 'energy_drain_activities',
     category: 'flow_states',
     type: 'text',
-    question: "Describe an activity or situation that consistently drains your energy or makes time feel like it's crawling. What specifically makes it so difficult for you?"
+    question: "Describe an activity or situation that consistently drains your energy or makes time feel like it's crawling. What specifically makes it so difficult for you?",
   },
   {
     id: 'childhood_environment',
@@ -67,7 +64,6 @@ export const quizQuestions: QuizQuestion[] = [
       "Libraries or places filled with books and knowledge",
       "Workshops or garages with tools and mechanical things"
     ],
-    required: true
   },
 
   // Media Preferences & Values
@@ -76,7 +72,6 @@ export const quizQuestions: QuizQuestion[] = [
     category: 'media_preferences',
     type: 'text',
     question: "What types of stories (books, movies, TV shows) do you find most compelling? Describe the themes, characters, or conflicts that draw you in.",
-    required: true
   },
   {
     id: 'media_themes',
@@ -95,7 +90,6 @@ export const quizQuestions: QuizQuestion[] = [
       "Building something from nothing",
       "Artistic expression and beauty"
     ],
-    required: true
   },
 
   // Philosophical & Values Questions
@@ -104,7 +98,6 @@ export const quizQuestions: QuizQuestion[] = [
     category: 'values_philosophy',
     type: 'text',
     question: "If no one could see what you were doing and every job paid the same, what would you choose to do with your time? What draws you to that activity?",
-    required: true
   },
   {
     id: 'perfect_world_contribution',
@@ -121,7 +114,6 @@ export const quizQuestions: QuizQuestion[] = [
       "Protecting and preserving what's valuable for future generations",
       "Teaching and sharing knowledge with others"
     ],
-    required: true
   },
 
   // Work Environment & Style
@@ -133,7 +125,6 @@ export const quizQuestions: QuizQuestion[] = [
     scaleMin: 1,
     scaleMax: 7,
     scaleLabels: ["Quiet, independent work", "Collaborative, team-based work"],
-    required: true
   },
   {
     id: 'decision_making',
@@ -149,7 +140,6 @@ export const quizQuestions: QuizQuestion[] = [
       "Think about creative possibilities and potential innovations",
       "Focus on what aligns with my core values and principles"
     ],
-    required: true
   },
   {
     id: 'work_pace',
@@ -159,7 +149,6 @@ export const quizQuestions: QuizQuestion[] = [
     scaleMin: 1,
     scaleMax: 7,
     scaleLabels: ["Steady, consistent pace over time", "Intense bursts with recovery periods"],
-    required: true
   },
   {
     id: 'hands_vs_knowledge',
@@ -169,7 +158,6 @@ export const quizQuestions: QuizQuestion[] = [
     scaleMin: 1,
     scaleMax: 7,
     scaleLabels: ["Working with my hands and physical materials", "Working with ideas and abstract concepts"],
-    required: true
   },
 
   // Personality & Behavioral Patterns
@@ -308,15 +296,13 @@ export const quizQuestions: QuizQuestion[] = [
     category: "values_philosophy",
     type: "text",
     question: "Describe your relationship with money. What does financial success mean to you, and what fears or beliefs about money have influenced your life choices?",
-    required: false,
     weight: 1.0
   },
   {
-    id: "success_definition_1", 
+    id: "success_definition_1",
     category: "motivations",
     type: "text",
     question: "How do you define personal and professional success? What fears or beliefs about achievement have shaped your goals and decisions?",
-    required: false,
     weight: 1.0
   },
 
@@ -325,10 +311,9 @@ export const quizQuestions: QuizQuestion[] = [
   // Envy-based self-discovery
   {
     id: "envy_analysis",
-    category: "motivations", 
+    category: "motivations",
     type: "text",
     question: "Who are you envious of? What do they have? What have they accomplished? What do you think it says about you?",
-    required: true,
     weight: 2.5
   },
 
@@ -336,9 +321,8 @@ export const quizQuestions: QuizQuestion[] = [
   {
     id: "magic_wand_life",
     category: "values_philosophy",
-    type: "text", 
+    type: "text",
     question: "If you could wave a magic wand and have any life you want, what would it look like? What would you have? What would you be doing? Where would you be living? Who is in your life?",
-    required: true,
     weight: 2.5
   },
 
@@ -351,7 +335,7 @@ export const quizQuestions: QuizQuestion[] = [
     question: "If you had to choose, would you rather be:",
     options: [
       "Wealthy but completely unknown",
-      "Famous but struggling financially", 
+      "Famous but struggling financially",
       "Moderately successful in both areas",
       "Neither - I value other things more"
     ],
@@ -360,7 +344,7 @@ export const quizQuestions: QuizQuestion[] = [
 
   {
     id: "fame_vs_impact",
-    category: "values_philosophy", 
+    category: "values_philosophy",
     type: "multiple_choice",
     question: "Which would bring you more satisfaction?",
     options: [
@@ -375,7 +359,7 @@ export const quizQuestions: QuizQuestion[] = [
   {
     id: "passion_vs_security",
     category: "work_style",
-    type: "multiple_choice", 
+    type: "multiple_choice",
     question: "Which scenario appeals to you more?",
     options: [
       "High-paying job doing work you find boring or meaningless",
@@ -393,7 +377,7 @@ export const quizQuestions: QuizQuestion[] = [
     question: "In your career, which would you prioritize?",
     options: [
       "Job security with limited growth potential",
-      "High potential for advancement with significant uncertainty", 
+      "High potential for advancement with significant uncertainty",
       "Consistent work-life balance with average pay",
       "Intense periods of work with extended time off"
     ],
@@ -401,7 +385,7 @@ export const quizQuestions: QuizQuestion[] = [
   },
 
   // QUESTION VARIATIONS (to detect bias and increase accuracy)
-  
+
   // VARIATION: Decision making under uncertainty
   {
     id: "uncertainty_response",
@@ -410,7 +394,7 @@ export const quizQuestions: QuizQuestion[] = [
     question: "When facing uncertainty, your natural response is to:",
     options: [
       "Gather more information until you feel confident",
-      "Make the best decision with available information and adjust as needed", 
+      "Make the best decision with available information and adjust as needed",
       "Seek advice from trusted advisors or mentors",
       "Trust your instincts and act quickly",
       "Consider multiple scenarios and prepare contingency plans",
@@ -432,7 +416,7 @@ export const quizQuestions: QuizQuestion[] = [
       "Dealing with office politics and interpersonal drama",
       "Working under tight deadlines with little flexibility",
       "Being expected to multitask constantly",
-      "Having unclear role expectations or responsibilities", 
+      "Having unclear role expectations or responsibilities",
       "Working in a highly competitive, win-lose environment",
       "Being in an environment where creativity is discouraged"
     ],
@@ -441,7 +425,7 @@ export const quizQuestions: QuizQuestion[] = [
 
   // VARIATION: Legacy from negative perspective
   {
-    id: "legacy_avoidance", 
+    id: "legacy_avoidance",
     category: "motivations",
     type: "multiple_choice",
     question: "What would you most want to avoid being remembered for?",
@@ -464,7 +448,7 @@ export const quizQuestions: QuizQuestion[] = [
   {
     id: "risk_perception",
     category: "personality",
-    type: "multiple_choice", 
+    type: "multiple_choice",
     question: "When evaluating a new opportunity, you typically:",
     options: [
       "Focus on what could go wrong and prepare for challenges",
@@ -478,7 +462,7 @@ export const quizQuestions: QuizQuestion[] = [
     weight: 1.5
   },
 
-  // Temporal orientation  
+  // Temporal orientation
   {
     id: "time_focus",
     category: "personality",
@@ -502,13 +486,13 @@ export const quizQuestions: QuizQuestion[] = [
   {
     id: "fear_motivators",
     category: "motivations",
-    type: "multi_select", 
+    type: "multi_select",
     question: "Which fears, if any, drive some of your major life decisions? (Select all that apply)",
     options: [
       "Fear of not being good enough or competent",
       "Fear of being alone or abandoned by others",
       "Fear of financial insecurity or poverty",
-      "Fear of wasting my life or potential", 
+      "Fear of wasting my life or potential",
       "Fear of being judged or criticized by others",
       "Fear of failure or making mistakes",
       "Fear of success and the responsibilities it brings",
@@ -534,7 +518,7 @@ export const quizQuestions: QuizQuestion[] = [
     question: "When under significant pressure or stress, which value becomes most important to you?",
     options: [
       "Maintaining integrity and authenticity",
-      "Protecting relationships and connections with others", 
+      "Protecting relationships and connections with others",
       "Achieving the goal regardless of personal cost",
       "Preserving my physical and mental well-being",
       "Being fair and just to everyone involved",
@@ -556,7 +540,7 @@ export const quizQuestions: QuizQuestion[] = [
       "The joy of creative expression and artistic creation",
       "The fulfillment of helping others grow and succeed",
       "The excitement of solving complex problems",
-      "The peace of deep connection with nature or spirituality", 
+      "The peace of deep connection with nature or spirituality",
       "The thrill of competition and winning",
       "The pleasure of learning and discovering new knowledge",
       "The contentment of building something lasting and meaningful"
@@ -570,7 +554,6 @@ export const quizQuestions: QuizQuestion[] = [
     category: "motivations",
     type: "text",
     question: "What is your superpower? Describe one skill or ability that you believe you are better at than almost everyone you meet.",
-    required: true,
     weight: 2.5
   }
 ];

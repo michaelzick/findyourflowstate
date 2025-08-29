@@ -1,4 +1,3 @@
-import React from 'react';
 import { QuizQuestion as QuizQuestionType, QuizAnswer } from '@/types/quiz';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -146,9 +145,6 @@ export function QuizQuestion({ question, answer, onAnswer, className }: QuizQues
           <h2 className="text-xl font-semibold text-foreground mb-2">
             {question.question}
           </h2>
-          {question.required && (
-            <p className="text-sm text-muted-foreground">* Required</p>
-          )}
         </div>
         {renderQuestion()}
       </div>
