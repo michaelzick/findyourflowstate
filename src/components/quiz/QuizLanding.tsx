@@ -199,7 +199,7 @@ export function QuizLanding() {
         {/* Mobile Background - Single Image */}
         <div className="absolute inset-0 md:hidden">
           <div
-            className="absolute inset-0 bg-cover bg-center opacity-60"
+            className="absolute inset-0 bg-cover bg-center opacity-60 transform scale-x-[-1]"
             style={{ backgroundImage: `url(${psychologistImage})` }}
           />
           <div className="absolute inset-0 bg-background/70" />
