@@ -24,24 +24,20 @@ export default function QuizQuestionPage() {
       return;
     }
 
-    // If quiz hasn't started (currentQuestionIndex is -1), try to load saved progress first
-    if (state.currentQuestionIndex === -1) {
-      // Try to load saved progress silently (without navigation)
-      const progressLoaded = loadSavedProgressSilent();
-
-      // If no saved progress was loaded, start at the requested question
-      if (!progressLoaded) {
-        goToQuestion(questionIndex, true); // Skip navigation since we're already on the correct URL
-      }
-      // If progress was loaded but doesn't match current URL, sync to current URL
-      else {
-        // The progress was loaded, but we need to sync to the current URL
+    // Always ensure we're on the correct question for the URL
+    // This handles both fresh page loads and navigation
+    if (state.currentQuestionIndex !== questionIndex) {
+      // Try to load saved progress first if quiz hasn't started
+      if (state.currentQuestionIndex === -1) {
+        const progressLoaded = loadSavedProgressSilent();
+        // If progress was loaded but doesn't match URL, or no progress, go to URL question
+        if (!progressLoaded || state.currentQuestionIndex !== questionIndex) {
+          goToQuestion(questionIndex, true);
+        }
+      } else {
+        // Quiz is active but URL doesn't match current question, sync to URL
         goToQuestion(questionIndex, true);
       }
-    }
-    // If the URL doesn't match the current question, sync them
-    else if (state.currentQuestionIndex !== questionIndex) {
-      goToQuestion(questionIndex, true); // Skip navigation since we're already on the correct URL
     }
   }, [questionIndex, isValidQuestion, navigate, state.currentQuestionIndex, goToQuestion, loadSavedProgressSilent]);
 
@@ -57,6 +53,24 @@ export default function QuizQuestionPage() {
 
   if (!isValidQuestion) {
     return null; // Will redirect in useEffect
+  }
+
+  // Show loading state while quiz context is initializing
+  if (state.currentQuestionIndex === -1) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <div className="relative">
+            <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary/20 border-t-primary mx-auto"></div>
+            <div className="absolute inset-0 rounded-full h-12 w-12 border-4 border-transparent border-t-primary/40 animate-spin mx-auto" style={{ animationDirection: 'reverse', animationDuration: '1.5s' }}></div>
+          </div>
+          <div className="space-y-2">
+            <p className="text-lg font-medium">Loading question {questionNumber}...</p>
+            <p className="text-sm text-muted-foreground">Please wait while we prepare your quiz</p>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (

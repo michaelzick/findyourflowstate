@@ -32,6 +32,19 @@ export function QuizInterface() {
   } = useQuiz();
   const [showResetDialog, setShowResetDialog] = useState(false);
   const { toast } = useToast();
+
+  // Guard against invalid question index
+  if (state.currentQuestionIndex < 0 || state.currentQuestionIndex >= quizQuestions.length) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <div className="animate-spin rounded-full h-8 w-8 border-4 border-primary/20 border-t-primary mx-auto"></div>
+          <p className="text-muted-foreground">Loading question...</p>
+        </div>
+      </div>
+    );
+  }
+
   const currentQuestion = quizQuestions[state.currentQuestionIndex];
 
   const handleReset = () => {
