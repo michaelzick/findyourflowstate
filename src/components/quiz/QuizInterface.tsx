@@ -72,7 +72,7 @@ export function QuizInterface() {
     if (isLastQuestion && !allQuestionsComplete) {
       toast({
         title: "Quiz Incomplete",
-        description: `Please complete all questions. ${incompleteQuestions.length} questions remaining.`,
+        description: `Please complete all questions. ${remainingQuestions} questions remaining.`,
         variant: "destructive",
       });
       return;
@@ -94,6 +94,15 @@ export function QuizInterface() {
   const canProceed = currentAnswer && (currentAnswer.value !== '' && currentAnswer.value !== null && currentAnswer.value !== undefined);
   const allQuestionsComplete = canSubmitQuiz();
   const incompleteQuestions = getIncompleteQuestions();
+
+  // Calculate remaining questions more accurately
+  // Total questions minus questions that have been answered
+  const totalQuestions = quizQuestions.length;
+  const answeredQuestions = state.answers.filter(a =>
+    a.value !== '' && a.value !== null && a.value !== undefined
+  ).length;
+  const remainingQuestions = totalQuestions - answeredQuestions;
+
   const showEarlySubmit = state.hasUploadedAnswers && allQuestionsComplete;
 
   return (
@@ -178,7 +187,7 @@ export function QuizInterface() {
               )}
               {isLastQuestion && !allQuestionsComplete && (
                 <p className="text-sm text-red-500 text-right max-w-xs">
-                  Complete all questions to submit: {incompleteQuestions.length} remaining
+                  Complete all questions to submit: {remainingQuestions} remaining
                 </p>
               )}
             </div>
