@@ -92,7 +92,7 @@ const isLocalStorageAvailable = (): boolean => {
 /**
  * Validate that quiz results data is complete and valid
  */
-const validateQuizResults = (results: any): results is QuizResults => {
+const validateQuizResults = (results: unknown): results is QuizResults => {
   try {
     if (!results || typeof results !== 'object') {
       console.warn('Quiz results validation failed: not an object');
@@ -198,7 +198,7 @@ const validateStoredData = (data: unknown): data is StoredQuizResults => {
     return false;
   }
 
-  const typedData = data as Record<string, any>;
+  const typedData = data as Record<string, unknown>;
 
   // Check required metadata
   if (!typedData.timestamp || !typedData.version || !typedData.quizVersion || !typedData.results) {

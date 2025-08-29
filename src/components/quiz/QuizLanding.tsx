@@ -144,11 +144,11 @@ export function QuizLanding() {
 
     if (Array.isArray(jsonData)) {
       answersArray = jsonData;
-    } else if (jsonData.answers && Array.isArray(jsonData.answers)) {
-      answersArray = jsonData.answers;
-    } else if (typeof jsonData === 'object') {
+    } else if (jsonData && typeof jsonData === 'object' && 'answers' in jsonData && Array.isArray((jsonData as { answers: unknown; }).answers)) {
+      answersArray = (jsonData as { answers: unknown[]; }).answers;
+    } else if (jsonData && typeof jsonData === 'object' && jsonData !== null) {
       // Convert object format to array format
-      answersArray = Object.entries(jsonData).map(([key, value]) => ({
+      answersArray = Object.entries(jsonData as Record<string, unknown>).map(([key, value]) => ({
         questionId: key,
         value: value
       }));

@@ -45,13 +45,13 @@ serve(async (req) => {
             messages: [
               {
                 role: 'system',
-                content: `You are an expert career psychologist specializing in psychological assessment and career-personality alignment. 
+                content: `You are an expert career psychologist specializing in psychological assessment and career-personality alignment.
 
 Your task is to analyze quiz responses and rank the provided career paths by psychological fit, providing accurate scores (0-100) for each career path based on deep personality analysis.
 
 **CRITICAL ANALYSIS REQUIREMENTS:**
 1. Consider introversion vs extroversion patterns in answers
-2. Analyze analytical vs creative thinking preferences  
+2. Analyze analytical vs creative thinking preferences
 3. Look for hands-on vs theoretical work preferences
 4. Examine people-oriented vs task-oriented tendencies
 5. Consider structured vs flexible work environment needs
@@ -59,7 +59,7 @@ Your task is to analyze quiz responses and rank the provided career paths by psy
 
 **SCORING GUIDELINES:**
 - 85-100: Exceptional fit (clear personality alignment)
-- 70-84: Strong fit (good alignment with some considerations) 
+- 70-84: Strong fit (good alignment with some considerations)
 - 55-69: Moderate fit (mixed alignment, some challenges)
 - 40-54: Weak fit (significant misalignment)
 - Below 40: Poor fit (major psychological mismatch)
@@ -75,7 +75,7 @@ Your task is to analyze quiz responses and rank the provided career paths by psy
   ]
 }
 
-**IMPORTANT:** 
+**IMPORTANT:**
 - Include ALL career paths from input, ranked by psychological fit
 - Provide realistic scores - not every career should score 90+
 - Reference specific quiz responses in your reasoning
@@ -155,7 +155,7 @@ Provide accurate psychological assessment with realistic scoring that reflects t
       // Helper function to extract and sanitize JSON from markdown code blocks or plain JSON
       const extractJSON = (text: string): string => {
         let trimmed = text.trim();
-        
+
         // Check if it's wrapped in markdown code blocks
         if (trimmed.startsWith('```json') && trimmed.endsWith('```')) {
           // Extract content between ```json and ```
@@ -171,24 +171,25 @@ Provide accurate psychological assessment with realistic scoring that reflects t
             trimmed = trimmed.substring(jsonStart, jsonEnd).trim();
           }
         }
-        
+
         // Sanitize the JSON string to remove/escape problematic characters
-        let sanitized = trimmed
+        const sanitized = trimmed
           // Remove any control characters except valid JSON whitespace
-          .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '')
+          // eslint-disable-next-line no-control-regex
+          .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, '')
           // Fix common escape sequence issues
           .replace(/\\n/g, '\\n')
           .replace(/\\r/g, '\\r')
           .replace(/\\t/g, '\\t')
           // Remove any trailing commas before closing braces/brackets
           .replace(/,(\s*[}\]])/g, '$1');
-        
+
         return sanitized;
       };
 
       const cleanContent = extractJSON(content);
       console.log('🧹 Cleaned content:', cleanContent);
-      
+
       if (!cleanContent.startsWith('{') || !cleanContent.endsWith('}')) {
         throw new Error('Response is not valid JSON format');
       }

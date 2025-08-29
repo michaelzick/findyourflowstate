@@ -68,7 +68,7 @@ export function useBrowserNavigation(options: UseBrowserNavigationOptions = {}) 
   }, [location.pathname, onNavigateAway]);
 
   // Utility function to navigate with proper history management
-  const navigateWithHistory = useCallback((to: string, options?: { replace?: boolean; state?: any }) => {
+  const navigateWithHistory = useCallback((to: string, options?: { replace?: boolean; state?: unknown }) => {
     navigate(to, {
       replace: options?.replace || false,
       state: options?.state

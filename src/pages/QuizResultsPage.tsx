@@ -55,7 +55,7 @@ export default function QuizResultsPage() {
     return () => {
       setResultsRoute(false);
     };
-  }, []); // Empty dependency array - only run on mount/unmount
+  }, [setResultsRoute]); // Include setResultsRoute in dependency array
 
   // Handle initial page load logic - run only once
   useEffect(() => {

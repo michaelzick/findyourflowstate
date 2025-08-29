@@ -207,7 +207,7 @@ describe('LocalStorage Persistence Tests', () => {
         completedAt: new Date().toISOString(),
       };
 
-      const result = safeSaveQuizResults(invalidResults as any);
+      const result = safeSaveQuizResults(invalidResults as QuizResults);
 
       expect(result.success).toBe(false);
       expect(result.error).toBeInstanceOf(QuizResultsStorageError);

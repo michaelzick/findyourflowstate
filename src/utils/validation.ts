@@ -3,7 +3,7 @@ import { QuizAnswer, QuizResults } from '@/types/quiz';
 // Validation utilities for edge cases and data integrity
 
 export class ValidationError extends Error {
-  constructor(message: string, public field?: string, public value?: any) {
+  constructor(message: string, public field?: string, public value?: unknown) {
     super(message);
     this.name = 'ValidationError';
   }
@@ -12,7 +12,7 @@ export class ValidationError extends Error {
 /**
  * Validate quiz answer data
  */
-export const validateQuizAnswer = (answer: any): answer is QuizAnswer => {
+export const validateQuizAnswer = (answer: unknown): answer is QuizAnswer => {
   if (!answer || typeof answer !== 'object') {
     throw new ValidationError('Answer must be an object');
   }
@@ -37,7 +37,7 @@ export const validateQuizAnswer = (answer: any): answer is QuizAnswer => {
 /**
  * Validate array of quiz answers
  */
-export const validateQuizAnswers = (answers: any[]): answers is QuizAnswer[] => {
+export const validateQuizAnswers = (answers: unknown[]): answers is QuizAnswer[] => {
   if (!Array.isArray(answers)) {
     throw new ValidationError('Answers must be an array');
   }
@@ -71,7 +71,7 @@ export const validateQuizAnswers = (answers: any[]): answers is QuizAnswer[] => 
 /**
  * Validate career path data
  */
-export const validateCareerPath = (path: any) => {
+export const validateCareerPath = (path: unknown) => {
   if (!path || typeof path !== 'object') {
     throw new ValidationError('Career path must be an object');
   }
@@ -94,7 +94,7 @@ export const validateCareerPath = (path: any) => {
 /**
  * Validate complete quiz results
  */
-export const validateCompleteQuizResults = (results: any): results is QuizResults => {
+export const validateCompleteQuizResults = (results: unknown): results is QuizResults => {
   if (!results || typeof results !== 'object') {
     throw new ValidationError('Quiz results must be an object');
   }
@@ -108,7 +108,7 @@ export const validateCompleteQuizResults = (results: any): results is QuizResult
     throw new ValidationError('Quiz results must have at least one career path', 'careerPaths', results.careerPaths);
   }
 
-  results.careerPaths.forEach((path: any, index: number) => {
+  results.careerPaths.forEach((path: unknown, index: number) => {
     try {
       validateCareerPath(path);
     } catch (error) {
@@ -155,7 +155,7 @@ export const validateCompleteQuizResults = (results: any): results is QuizResult
         throw new ValidationError('AI analysis specificOccupations must be an array', 'aiAnalysis.specificOccupations', results.aiAnalysis.specificOccupations);
       }
 
-      results.aiAnalysis.specificOccupations.forEach((occupation: any, index: number) => {
+      results.aiAnalysis.specificOccupations.forEach((occupation: unknown, index: number) => {
         if (!occupation || typeof occupation !== 'object') {
           throw new ValidationError(
             `AI analysis specific occupation at index ${index} must be an object`,
@@ -182,8 +182,8 @@ export const validateCompleteQuizResults = (results: any): results is QuizResult
  * Safe validation wrapper that returns boolean instead of throwing
  */
 export const safeValidate = <T>(
-  validator: (data: any) => data is T,
-  data: any
+  validator: (data: unknown) => data is T,
+  data: unknown
 ): { isValid: boolean; error: ValidationError | null; data: T | null } => {
   try {
     const isValid = validator(data);
@@ -200,7 +200,7 @@ export const safeValidate = <T>(
 /**
  * Sanitize user input to prevent XSS and other issues
  */
-export const sanitizeString = (input: any): string => {
+export const sanitizeString = (input: unknown): string => {
   if (typeof input !== 'string') {
     return String(input || '');
   }
@@ -215,7 +215,7 @@ export const sanitizeString = (input: any): string => {
 /**
  * Validate and sanitize quiz answer before processing
  */
-export const sanitizeQuizAnswer = (answer: any): QuizAnswer => {
+export const sanitizeQuizAnswer = (answer: unknown): QuizAnswer => {
   const validation = safeValidate(validateQuizAnswer, answer);
 
   if (!validation.isValid || !validation.data) {

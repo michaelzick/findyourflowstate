@@ -69,14 +69,15 @@ export function clearNavigationState(): void {
 export function isDirectNavigation(): boolean {
   if (typeof window !== 'undefined') {
     // Use modern Navigation API if available
-    if ('navigation' in window && (window as any).navigation?.currentEntry) {
-      const entry = (window as any).navigation.currentEntry;
-      return entry.navigationType === 'reload' || entry.navigationType === 'traverse';
+    if ('navigation' in window && (window as Record<string, unknown>).navigation) {
+      const navigation = (window as Record<string, unknown>).navigation as { currentEntry?: { navigationType?: string } };
+      const entry = navigation.currentEntry;
+      return entry?.navigationType === 'reload' || entry?.navigationType === 'traverse';
     }
 
     // Fallback to performance.navigation (deprecated but still widely supported)
     if (window.performance?.navigation) {
-      const navigationType = (window.performance.navigation as any).type;
+      const navigationType = (window.performance.navigation as { type?: number }).type;
       const TYPE_RELOAD = 1;
       const TYPE_NAVIGATE = 0;
       return navigationType === TYPE_RELOAD || navigationType === TYPE_NAVIGATE;
