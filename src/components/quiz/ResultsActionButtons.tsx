@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { RotateCcw, History, Loader2 } from 'lucide-react';
@@ -11,6 +11,13 @@ interface ResultsActionButtonsProps {
 
 export function ResultsActionButtons({ onStartNewQuiz, onLoadPrevious, isLoading = false }: ResultsActionButtonsProps) {
   const [loadingAction, setLoadingAction] = useState<'start' | 'load' | null>(null);
+  const [isAnimated, setIsAnimated] = useState(false);
+
+  useEffect(() => {
+    // Trigger animation only once on mount
+    const timer = setTimeout(() => setIsAnimated(true), 50);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleStartNewQuiz = () => {
     setLoadingAction('start');
@@ -31,11 +38,11 @@ export function ResultsActionButtons({ onStartNewQuiz, onLoadPrevious, isLoading
   };
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center animate-in fade-in-0 duration-500">
+    <div className="min-h-screen bg-background flex items-center justify-center">
       <div className="container mx-auto px-4">
         <div className="max-w-2xl mx-auto space-y-8">
           {/* Header */}
-          <div className="text-center space-y-4 animate-in slide-in-from-top-4 duration-700">
+          <div className="text-center space-y-4">
             <h1 className="text-4xl font-bold">
               Quiz Results
             </h1>
@@ -45,7 +52,10 @@ export function ResultsActionButtons({ onStartNewQuiz, onLoadPrevious, isLoading
           </div>
 
           {/* Action Buttons Card */}
-          <Card className="p-8 bg-quiz-card border-border shadow-quiz animate-in slide-in-from-bottom-4 duration-700 delay-200">
+          <Card className={`p-8 bg-quiz-card border-border shadow-quiz transition-all duration-500 ${isAnimated
+              ? 'translate-y-0 opacity-100'
+              : 'translate-y-4 opacity-0'
+            }`}>
             <div className="space-y-6">
               <div className="text-center">
                 <h2 className="text-2xl font-semibold mb-2">What would you like to do?</h2>
