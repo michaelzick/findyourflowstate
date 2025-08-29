@@ -116,7 +116,6 @@ export default function QuizResultsPage() {
       <>
         <QuizResults
           showClearButton={true}
-          onClearResults={handleClearResults}
         />
         <QuizResultsModals
           showNoResultsModal={showNoResultsModal}

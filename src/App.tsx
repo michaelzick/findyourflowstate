@@ -10,6 +10,7 @@ import Index from "./pages/Index";
 import LearnMore from "./pages/LearnMore";
 import QuizResultsPage from "./pages/QuizResultsPage";
 import QuizResultsClearPage from "./pages/QuizResultsClearPage";
+import QuizQuestionPage from "./pages/QuizQuestionPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -53,6 +54,14 @@ const App = () => (
                   element={
                     <RouteErrorBoundary routeName="quiz results clear page">
                       <QuizResultsClearPage />
+                    </RouteErrorBoundary>
+                  }
+                />
+                <Route
+                  path="/question/:questionNumber"
+                  element={
+                    <RouteErrorBoundary routeName="quiz question page">
+                      <QuizQuestionPage />
                     </RouteErrorBoundary>
                   }
                 />

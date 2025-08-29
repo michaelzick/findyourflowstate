@@ -285,7 +285,7 @@ interface QuizContextType {
   completeQuiz: () => void;
   resetQuiz: () => void;
   resetQuizAndClearStorage: () => void;
-  goToQuestion: (index: number) => void;
+  goToQuestion: (index: number, skipNavigation?: boolean) => void;
   getAnswerForQuestion: (questionId: string) => QuizAnswer | undefined;
   loadAnswersFromJSON: (answers: QuizAnswer[]) => void;
   canSubmitQuiz: () => boolean;
@@ -297,6 +297,7 @@ interface QuizContextType {
   hasStoredResults: () => boolean;
   setResultsRoute: (isResultsRoute: boolean) => void;
   loadSavedProgress: () => boolean;
+  loadSavedProgressSilent: () => boolean;
   hasSavedProgress: () => boolean;
 }
 
@@ -322,11 +323,30 @@ export function QuizProvider({ children }: { children: ReactNode }) {
   };
 
   const nextQuestion = () => {
+    const currentIndex = state.currentQuestionIndex;
+    const nextIndex = currentIndex + 1;
+
     dispatch({ type: 'NEXT_QUESTION' });
+
+    // Navigate to the next question URL if we're not at the end
+    if (nextIndex < quizQuestions.length) {
+      navigate(`/question/${nextIndex + 1}`);
+    }
   };
 
   const previousQuestion = () => {
+    const currentIndex = state.currentQuestionIndex;
+    const prevIndex = currentIndex - 1;
+
     dispatch({ type: 'PREVIOUS_QUESTION' });
+
+    // Navigate to the previous question URL if we're not at the beginning
+    if (prevIndex >= 0) {
+      navigate(`/question/${prevIndex + 1}`);
+    } else {
+      // If going before the first question, go to home
+      navigate('/');
+    }
   };
 
   const completeQuiz = async () => {
@@ -407,10 +427,18 @@ export function QuizProvider({ children }: { children: ReactNode }) {
 
     // Reset the quiz state
     dispatch({ type: 'RESET_QUIZ' });
+
+    // Navigate back to home page
+    navigate('/');
   };
 
-  const goToQuestion = (index: number) => {
+  const goToQuestion = (index: number, skipNavigation = false) => {
     dispatch({ type: 'GOTO_QUESTION', payload: index });
+
+    // Navigate to the appropriate question URL only if not skipping navigation
+    if (!skipNavigation && index >= 0 && index < quizQuestions.length) {
+      navigate(`/question/${index + 1}`);
+    }
   };
 
   const getAnswerForQuestion = (questionId: string) => {
@@ -497,6 +525,20 @@ export function QuizProvider({ children }: { children: ReactNode }) {
     const stored = loadFromLocalStorage();
     if (stored && stored.answers.length > 0) {
       dispatch({ type: 'LOAD_FROM_LOCALSTORAGE', payload: stored });
+
+      // Navigate to the current question after loading progress
+      const questionIndex = stored.currentQuestionIndex >= 0 ? stored.currentQuestionIndex : 0;
+      navigate(`/question/${questionIndex + 1}`);
+
+      return true;
+    }
+    return false;
+  };
+
+  const loadSavedProgressSilent = (): boolean => {
+    const stored = loadFromLocalStorage();
+    if (stored && stored.answers.length > 0) {
+      dispatch({ type: 'LOAD_FROM_LOCALSTORAGE', payload: stored });
       return true;
     }
     return false;
@@ -530,6 +572,7 @@ export function QuizProvider({ children }: { children: ReactNode }) {
         hasStoredResults,
         setResultsRoute,
         loadSavedProgress,
+        loadSavedProgressSilent,
         hasSavedProgress,
       }}
     >

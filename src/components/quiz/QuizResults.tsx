@@ -14,10 +14,9 @@ import jsPDF from 'jspdf';
 
 interface QuizResultsProps {
   showClearButton?: boolean;
-  onClearResults?: () => void;
 }
 
-export function QuizResults({ showClearButton = false, onClearResults }: QuizResultsProps) {
+export function QuizResults({ showClearButton = false }: QuizResultsProps) {
   const { state, resetQuiz, downloadAnswersAsJSON } = useQuiz();
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -820,8 +819,8 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                 <Copy className="w-4 h-4" />
                 Copy Results To Clipboard
               </Button>
-              {showClearButton && onClearResults ? (
-                <Button onClick={onClearResults} variant="outline" className="flex items-center gap-2">
+              {showClearButton ? (
+                <Button onClick={() => navigate('/quiz-results/clear-results')} variant="outline" className="flex items-center gap-2">
                   <X className="w-4 h-4" />
                   Clear Results
                 </Button>

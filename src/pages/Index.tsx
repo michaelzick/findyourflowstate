@@ -1,38 +1,30 @@
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useQuiz } from '@/contexts/QuizContext';
 import { QuizLanding } from '@/components/quiz/QuizLanding';
-import { QuizInterface } from '@/components/quiz/QuizInterface';
 import { QuizLoadingModal } from '@/components/quiz/QuizLoadingModal';
 import Footer from '@/components/Footer';
-import { quizQuestions } from '@/data/quiz-questions';
 import { useScrollToTop } from '@/hooks/use-scroll-to-top';
 
 function QuizContent() {
   const { state } = useQuiz();
+  const navigate = useNavigate();
 
   // Show loading modal when quiz is complete but results are being processed
   const showLoadingModal = state.isComplete && (!state.results || state.isAiAnalysisLoading);
 
-  // When quiz is complete, we navigate to /quiz-results instead of showing results inline
-  // So we only show the loading modal during processing, then navigation happens
+  // Don't automatically redirect to quiz questions from homepage
+  // Users should be able to return to homepage even with quiz progress
+  // The "Continue Quiz" button will handle resuming the quiz
 
-  if (state.currentQuestionIndex === -1) {
-    return (
-      <>
-        <QuizLanding />
-        <QuizLoadingModal isOpen={showLoadingModal} />
-      </>
-    );
-  }
+  // If quiz is complete, navigate to results
+  useEffect(() => {
+    if (state.isComplete && state.results && !state.isAiAnalysisLoading) {
+      navigate('/quiz-results');
+    }
+  }, [state.isComplete, state.results, state.isAiAnalysisLoading, navigate]);
 
-  if (state.currentQuestionIndex < quizQuestions.length) {
-    return (
-      <>
-        <QuizInterface />
-        <QuizLoadingModal isOpen={showLoadingModal} />
-      </>
-    );
-  }
-
+  // Only show landing page when quiz hasn't started
   return (
     <>
       <QuizLanding />

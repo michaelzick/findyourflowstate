@@ -21,7 +21,7 @@ import psychologistImage from '@/assets/psychologist2.webp';
 import clientImage from '@/assets/client2.webp';
 
 export function QuizLanding() {
-  const { nextQuestion, loadAnswersFromJSON, hasSavedProgress, loadSavedProgress, resetQuizAndClearStorage } = useQuiz();
+  const { nextQuestion, goToQuestion, loadAnswersFromJSON, hasSavedProgress, loadSavedProgress, resetQuizAndClearStorage } = useQuiz();
   const navigate = useNavigate();
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -45,11 +45,15 @@ export function QuizLanding() {
   const handleConfirmReset = () => {
     resetQuizAndClearStorage();
     setShowResetDialog(false);
-    nextQuestion(); // Start the quiz after clearing
+    // Don't navigate anywhere - resetQuizAndClearStorage already navigates to home
     toast({
       title: "Quiz Reset",
       description: "All progress and saved data have been cleared. Starting fresh!",
     });
+  };
+
+  const handleStartQuiz = () => {
+    goToQuestion(0); // Navigate to first question
   };
 
   const features = [
@@ -241,7 +245,7 @@ export function QuizLanding() {
               ) : (
                 <Button
                   size="lg"
-                  onClick={nextQuestion}
+                  onClick={handleStartQuiz}
                   className="bg-primary hover:bg-primary/90 text-lg px-8 py-3"
                 >
                   Start Your Assessment
@@ -401,7 +405,7 @@ export function QuizLanding() {
               ) : (
                 <Button
                   size="lg"
-                  onClick={nextQuestion}
+                  onClick={handleStartQuiz}
                   className="bg-primary hover:bg-primary/90 text-xl px-12 py-4"
                 >
                   Begin Assessment Now
