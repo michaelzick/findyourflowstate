@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useQuiz } from '@/contexts/QuizContext';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -19,6 +20,7 @@ interface QuizResultsProps {
 export function QuizResults({ showClearButton = false, onClearResults }: QuizResultsProps) {
   const { state, resetQuiz, downloadAnswersAsJSON } = useQuiz();
   const { toast } = useToast();
+  const navigate = useNavigate();
   const results = state.results!;
   const resultsRef = useRef<HTMLDivElement>(null);
   const { isSticky, footerRef, originalPositionRef } = useStickyFooter({ offset: 150 });
@@ -876,9 +878,9 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
               <span className="hidden sm:inline">Copy to Clipboard</span>
               <span className="sm:hidden">Copy</span>
             </Button>
-            {showClearButton && onClearResults ? (
+            {showClearButton ? (
               <Button
-                onClick={onClearResults}
+                onClick={() => navigate('/quiz-results/clear-results')}
                 variant="outline"
                 size="sm"
                 className="flex items-center gap-2"

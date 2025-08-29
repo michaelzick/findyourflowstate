@@ -9,6 +9,7 @@ import { RouteErrorBoundary } from "@/components/RouteErrorBoundary";
 import Index from "./pages/Index";
 import LearnMore from "./pages/LearnMore";
 import QuizResultsPage from "./pages/QuizResultsPage";
+import QuizResultsClearPage from "./pages/QuizResultsClearPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -44,6 +45,14 @@ const App = () => (
                   element={
                     <RouteErrorBoundary routeName="quiz results page">
                       <QuizResultsPage />
+                    </RouteErrorBoundary>
+                  }
+                />
+                <Route
+                  path="/quiz-results/clear-results"
+                  element={
+                    <RouteErrorBoundary routeName="quiz results clear page">
+                      <QuizResultsClearPage />
                     </RouteErrorBoundary>
                   }
                 />
