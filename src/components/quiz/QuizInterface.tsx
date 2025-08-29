@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useQuiz } from '@/contexts/QuizContext';
 import { quizQuestions } from '@/data/quiz-questions';
 import { QuizQuestion } from './QuizQuestion';
@@ -84,9 +85,17 @@ export function QuizInterface() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      {/* Back to Home Button - Fixed position at top-left */}
+      <div className="absolute top-4 left-4 z-20">
+        <Link to="/" className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
+          <ArrowLeft className="h-4 w-4" />
+          Back to Home
+        </Link>
+      </div>
+
       {/* Header with Progress */}
       <div className="border-b border-border bg-card/30 backdrop-blur-sm sticky top-0 z-10">
-        <div className="container mx-auto px-4 py-6">
+        <div className="container mx-auto px-4 pt-12 pb-6">
           <QuizProgress
             currentQuestion={state.currentQuestionIndex}
             totalQuestions={quizQuestions.length}
@@ -101,9 +110,9 @@ export function QuizInterface() {
           <div className="mb-6 text-center">
             <button
               onClick={() => setShowResetDialog(true)}
-              className="text-sm text-muted-foreground hover:text-primary underline flex items-center gap-1 mx-auto"
+              className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mx-auto"
             >
-              <RotateCcw className="w-3 h-3" />
+              <RotateCcw className="h-4 w-4" />
               Reset and start over
             </button>
           </div>

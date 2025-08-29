@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { RotateCcw, History, Loader2 } from 'lucide-react';
+import { RotateCcw, History, Loader2, ArrowLeft } from 'lucide-react';
 
 interface ResultsActionButtonsProps {
   onStartNewQuiz: () => void;
@@ -39,6 +40,14 @@ export function ResultsActionButtons({ onStartNewQuiz, onLoadPrevious, isLoading
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center">
+      {/* Back to Home Button */}
+      <div className="absolute top-4 left-4">
+        <Link to="/" className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
+          <ArrowLeft className="h-4 w-4" />
+          Back to Home
+        </Link>
+      </div>
+
       <div className="container mx-auto px-4">
         <div className="max-w-2xl mx-auto space-y-8">
           {/* Header */}
@@ -53,8 +62,8 @@ export function ResultsActionButtons({ onStartNewQuiz, onLoadPrevious, isLoading
 
           {/* Action Buttons Card */}
           <Card className={`p-8 bg-quiz-card border-border shadow-quiz transition-all duration-500 ${isAnimated
-              ? 'translate-y-0 opacity-100'
-              : 'translate-y-4 opacity-0'
+            ? 'translate-y-0 opacity-100'
+            : 'translate-y-4 opacity-0'
             }`}>
             <div className="space-y-6">
               <div className="text-center">
