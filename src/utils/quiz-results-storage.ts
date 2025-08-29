@@ -99,63 +99,66 @@ const validateQuizResults = (results: unknown): results is QuizResults => {
       return false;
     }
 
+    const typedResults = results as Record<string, unknown>;
+
     // Check required properties
     const requiredProps = ['careerPaths', 'personalityInsight', 'confidence', 'completedAt'];
     for (const prop of requiredProps) {
-      if (!(prop in results)) {
+      if (!(prop in typedResults)) {
         console.warn(`Quiz results validation failed: missing property ${prop}`);
         return false;
       }
     }
 
     // Validate careerPaths array
-    if (!Array.isArray(results.careerPaths)) {
+    if (!Array.isArray(typedResults.careerPaths)) {
       console.warn('Quiz results validation failed: careerPaths is not an array');
       return false;
     }
 
-    if (results.careerPaths.length === 0) {
+    if (typedResults.careerPaths.length === 0) {
       console.warn('Quiz results validation failed: careerPaths array is empty');
       return false;
     }
 
     // Validate each career path has required properties
-    for (let i = 0; i < results.careerPaths.length; i++) {
-      const path = results.careerPaths[i];
+    for (let i = 0; i < typedResults.careerPaths.length; i++) {
+      const path = typedResults.careerPaths[i];
       if (!path || typeof path !== 'object') {
         console.warn(`Quiz results validation failed: careerPaths[${i}] is not an object`);
         return false;
       }
 
+      const typedPath = path as Record<string, unknown>;
       const requiredPathProps = ['title', 'score', 'description'];
       for (const pathProp of requiredPathProps) {
-        if (!(pathProp in path)) {
+        if (!(pathProp in typedPath)) {
           console.warn(`Quiz results validation failed: careerPaths[${i}] missing ${pathProp}`);
           return false;
         }
       }
 
       // Validate score is a number
-      if (typeof path.score !== 'number' || path.score < 0 || path.score > 100) {
+      if (typeof typedPath.score !== 'number' || typedPath.score < 0 || typedPath.score > 100) {
         console.warn(`Quiz results validation failed: careerPaths[${i}] has invalid score`);
         return false;
       }
     }
 
     // Validate personalityInsight object
-    if (!results.personalityInsight || typeof results.personalityInsight !== 'object') {
+    if (!typedResults.personalityInsight || typeof typedResults.personalityInsight !== 'object') {
       console.warn('Quiz results validation failed: personalityInsight is not an object');
       return false;
     }
 
     // Validate confidence is a number
-    if (typeof results.confidence !== 'number' || results.confidence < 0 || results.confidence > 100) {
+    if (typeof typedResults.confidence !== 'number' || typedResults.confidence < 0 || typedResults.confidence > 100) {
       console.warn('Quiz results validation failed: confidence is not a valid number');
       return false;
     }
 
     // Validate completedAt is a valid date
-    const completedAt = new Date(results.completedAt);
+    const completedAt = new Date(typedResults.completedAt as string | number | Date);
     if (isNaN(completedAt.getTime())) {
       console.warn('Quiz results validation failed: completedAt is not a valid date');
       return false;
@@ -170,14 +173,15 @@ const validateQuizResults = (results: unknown): results is QuizResults => {
     }
 
     // Optional: Validate AI analysis if present
-    if (results.aiAnalysis) {
-      if (typeof results.aiAnalysis !== 'object') {
+    if (typedResults.aiAnalysis) {
+      if (typeof typedResults.aiAnalysis !== 'object') {
         console.warn('Quiz results validation failed: aiAnalysis is not an object');
         return false;
       }
 
+      const typedAiAnalysis = typedResults.aiAnalysis as Record<string, unknown>;
       // Validate specific occupations if present
-      if (results.aiAnalysis.specificOccupations && !Array.isArray(results.aiAnalysis.specificOccupations)) {
+      if (typedAiAnalysis.specificOccupations && !Array.isArray(typedAiAnalysis.specificOccupations)) {
         console.warn('Quiz results validation failed: aiAnalysis.specificOccupations is not an array');
         return false;
       }
@@ -206,14 +210,14 @@ const validateStoredData = (data: unknown): data is StoredQuizResults => {
   }
 
   // Validate timestamp
-  const timestamp = new Date(typedData.timestamp);
+  const timestamp = new Date(typedData.timestamp as string | number | Date);
   if (isNaN(timestamp.getTime())) {
     return false;
   }
 
   // Validate version format (basic semver check)
   const versionRegex = /^\d+\.\d+\.\d+$/;
-  if (!versionRegex.test(typedData.version) || !versionRegex.test(typedData.quizVersion)) {
+  if (!versionRegex.test(typedData.version as string) || !versionRegex.test(typedData.quizVersion as string)) {
     return false;
   }
 
