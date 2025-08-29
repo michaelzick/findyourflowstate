@@ -4,9 +4,9 @@ import {
   safeLoadQuizResults,
   safeSaveQuizResults,
   QuizResultsStorageError,
-  StorageError,
-  type QuizResults
+  StorageError
 } from '@/utils/quiz-results-storage';
+import type { QuizResults } from '@/types/quiz';
 
 // Mock the hooks
 vi.mock('@/hooks/use-scroll-to-top', () => ({
@@ -181,11 +181,11 @@ describe('LocalStorage Persistence Tests', () => {
   describe('Data Validation', () => {
     it('validates required fields in results', () => {
       const invalidResults = {
-        // Missing required fields like answers, scores, etc.
+        // Missing required fields like careerPaths, personalityInsight, confidence
         completedAt: new Date().toISOString(),
       };
 
-      const result = safeSaveQuizResults(invalidResults as QuizResults);
+      const result = safeSaveQuizResults(invalidResults as unknown as QuizResults);
 
       expect(result.success).toBe(false);
       expect(result.error).toBeInstanceOf(QuizResultsStorageError);
