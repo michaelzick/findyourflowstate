@@ -193,7 +193,7 @@ export function QuizLanding() {
           {/* Psychologist Side */}
           <div className="relative">
             <div
-              className="absolute inset-0 bg-cover bg-top opacity-35 transform scale-x-[-1]"
+              className="absolute inset-0 bg-cover bg-top opacity-35"
               style={{ backgroundImage: `url(${psychologistImage})` }}
             />
             <div className="absolute inset-0 bg-gradient-to-r from-transparent to-background/80" />
@@ -203,7 +203,7 @@ export function QuizLanding() {
         {/* Mobile Background - Single Image */}
         <div className="absolute inset-0 md:hidden">
           <div
-            className="absolute inset-0 bg-cover bg-center opacity-60 transform scale-x-[-1]"
+            className="absolute inset-0 bg-cover bg-center opacity-60"
             style={{ backgroundImage: `url(${psychologistImage})` }}
           />
           <div className="absolute inset-0 bg-background/70" />
