@@ -246,13 +246,19 @@ export function QuizLanding() {
               Find Your Flow State
             </h1>
             <h2 className="text-4xl md:text-5xl font-bold text-muted-foreground">
-              Discover Your Optimal
-              <br />
               Discover Your Optimal Career Path
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              A comprehensive quiz that combines psychology, neuroscience, and behavioral science
-              to determine your three most compatible career paths with deep personality insights.
+              A comprehensive career quiz that combines psychology, neuroscience, and behavioral science
+              to determine your three most compatible career paths with deep{' '}
+              <a
+                href="/personality-types-careers.html"
+                className="text-primary underline hover:no-underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                personality type insights
+              </a>.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               {hasProgress ? (
@@ -338,11 +344,18 @@ export function QuizLanding() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold mb-4">
-              Why This Assessment Is Different
+              Why This Career Quiz Is Different From Other Personality Tests
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Unlike simple personality tests, we dive deep into your authentic self
-              using cutting-edge psychological research and unconventional insights.
+              Unlike simple personality quizzes, our career assessment combines psychology, neuroscience, and behavioral science to provide accurate career guidance based on your unique personality type and work preferences. Learn more about{' '}
+              <a
+                href="/career-quiz-guide.html"
+                className="text-primary underline hover:no-underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                how career quizzes work
+              </a>.
             </p>
           </div>
 
@@ -364,10 +377,10 @@ export function QuizLanding() {
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-3xl font-bold mb-4">
-                What Makes This Assessment Comprehensive
+                What Makes This Career Quiz and Personality Assessment Comprehensive
               </h2>
               <p className="text-lg text-muted-foreground">
-                We go beyond traditional career assessments to understand the complete you
+                Our career quiz goes beyond traditional personality tests to analyze your complete personality type, work style, and career preferences for accurate job matching
               </p>
             </div>
 
@@ -471,8 +484,47 @@ export function QuizLanding() {
               Takes 45-60 minutes • No email required • Immediate results
             </p>
 
+            {/* FAQ Section for SEO */}
+            <div className="mt-16 pt-8 border-t border-border/30">
+              <div className="max-w-3xl mx-auto">
+                <h2 className="text-2xl font-bold text-center mb-8">Frequently Asked Questions About Career Quizzes</h2>
+                <div className="space-y-6 text-left" itemScope itemType="https://schema.org/FAQPage">
+                  <div itemScope itemType="https://schema.org/Question">
+                    <h3 className="text-lg font-semibold mb-2" itemProp="name">What is this career quiz and how does it work?</h3>
+                    <div itemScope itemType="https://schema.org/Answer" itemProp="acceptedAnswer">
+                      <p className="text-muted-foreground" itemProp="text">Our free career quiz is a comprehensive personality assessment that combines psychology, neuroscience, and behavioral science to identify your ideal career path. It analyzes your personality type, work preferences, and behavioral patterns to match you with your top 3 most compatible careers.</p>
+                    </div>
+                  </div>
+                  <div itemScope itemType="https://schema.org/Question">
+                    <h3 className="text-lg font-semibold mb-2" itemProp="name">How accurate is this personality and career test?</h3>
+                    <div itemScope itemType="https://schema.org/Answer" itemProp="acceptedAnswer">
+                      <p className="text-muted-foreground" itemProp="text">This career assessment is based on established psychological research and behavioral science principles. While no test is 100% accurate, our quiz provides scientifically-backed insights into your personality type and career compatibility to guide your career decisions.</p>
+                    </div>
+                  </div>
+                  <div itemScope itemType="https://schema.org/Question">
+                    <h3 className="text-lg font-semibold mb-2" itemProp="name">Is this career quiz really free?</h3>
+                    <div itemScope itemType="https://schema.org/Answer" itemProp="acceptedAnswer">
+                      <p className="text-muted-foreground" itemProp="text">Yes! This career quiz is completely free with no hidden costs, email requirements, or subscriptions. You get immediate access to your personality type results and career recommendations without any payment.</p>
+                    </div>
+                  </div>
+                  <div itemScope itemType="https://schema.org/Question">
+                    <h3 className="text-lg font-semibold mb-2" itemProp="name">How long does the career assessment take?</h3>
+                    <div itemScope itemType="https://schema.org/Answer" itemProp="acceptedAnswer">
+                      <p className="text-muted-foreground" itemProp="text">The career quiz typically takes 45-60 minutes to complete. This comprehensive assessment covers multiple aspects of your personality and work preferences to provide accurate career guidance.</p>
+                    </div>
+                  </div>
+                  <div itemScope itemType="https://schema.org/Question">
+                    <h3 className="text-lg font-semibold mb-2" itemProp="name">What careers will this personality quiz recommend?</h3>
+                    <div itemScope itemType="https://schema.org/Answer" itemProp="acceptedAnswer">
+                      <p className="text-muted-foreground" itemProp="text">Based on your personality type and assessment results, you'll receive your top 3 most compatible career paths with detailed explanations of why each career matches your personality, work style, and preferences.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {/* Support Section */}
-            <div className="pt-4">
+            <div className="pt-8">
               <div className="flex flex-col items-center gap-4">
                 <p className="text-m text-muted-foreground">
                   This assessment is completely free. If it helps you, consider supporting{' '}
