@@ -18,11 +18,10 @@ import {
 } from "@/components/ui/alert-dialog";
 import { QuizAnswer } from '@/types/quiz';
 import { safeJSONParse, sanitizeString } from '@/utils/security';
-import psychologistImage from '@/assets/psychologist2.webp';
-import clientImage from '@/assets/client2.webp';
+import fyfsWaveImage from '@/assets/fyfs-wave.webp';
 
 export function QuizLanding() {
-  const { nextQuestion, goToQuestion, loadAnswersFromJSON, hasSavedProgress, loadSavedProgress, resetQuizAndClearStorage } = useQuiz();
+  const { goToQuestion, loadAnswersFromJSON, hasSavedProgress, loadSavedProgress, resetQuizAndClearStorage } = useQuiz();
   const navigate = useNavigate();
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -109,7 +108,7 @@ export function QuizLanding() {
       try {
         const content = e.target?.result as string;
         const jsonData = safeJSONParse(content);
-        
+
         if (!jsonData) {
           toast({
             title: "Invalid or Unsafe JSON",
@@ -172,19 +171,19 @@ export function QuizLanding() {
     answersArray.forEach((item: unknown) => {
       if (item && typeof item === 'object' && 'questionId' in item && 'value' in item && item.value !== undefined) {
         const typedItem = item as { questionId: string; value: string | number | string[]; };
-        
+
         // Sanitize string values
         let sanitizedValue: string | number | string[];
         if (typeof typedItem.value === 'string') {
           sanitizedValue = sanitizeString(typedItem.value);
         } else if (Array.isArray(typedItem.value)) {
-          sanitizedValue = typedItem.value.map(v => 
+          sanitizedValue = typedItem.value.map(v =>
             typeof v === 'string' ? sanitizeString(v) : v
           );
         } else {
           sanitizedValue = typedItem.value;
         }
-        
+
         answers.push({
           questionId: sanitizeString(typedItem.questionId),
           value: sanitizedValue
@@ -203,33 +202,12 @@ export function QuizLanding() {
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <section className="relative overflow-hidden">
-        {/* Split Background Images - Desktop Only */}
-        <div className="absolute inset-0 grid grid-cols-2 hidden md:grid">
-          {/* Client Side */}
-          <div className="relative">
-            <div
-              className="absolute inset-0 bg-cover bg-top opacity-35"
-              style={{ backgroundImage: `url(${clientImage})` }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-l from-transparent to-background/80" />
-          </div>
-          {/* Psychologist Side */}
-          <div className="relative">
-            <div
-              className="absolute inset-0 bg-cover bg-top opacity-35"
-              style={{ backgroundImage: `url(${psychologistImage})` }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent to-background/80" />
-          </div>
-        </div>
-
-        {/* Mobile Background - Single Image */}
-        <div className="absolute inset-0 md:hidden">
+        {/* Single Background Image - All Devices */}
+        <div className="absolute inset-0">
           <div
-            className="absolute inset-0 bg-cover bg-center opacity-60"
-            style={{ backgroundImage: `url(${psychologistImage})` }}
+            className="absolute inset-0 bg-cover bg-center opacity-40"
+            style={{ backgroundImage: `url(${fyfsWaveImage})` }}
           />
-          <div className="absolute inset-0 bg-background/70" />
         </div>
 
         <div className="relative container mx-auto px-4 py-20 text-center z-10">
