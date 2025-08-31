@@ -215,11 +215,14 @@ export function QuizLanding() {
             <Badge className="mb-1">
               Scientifically-Based Career Assessment
             </Badge>
-            <h1 className="text-5xl md:text-6xl font-bold text-primary">
+            <h1 className="text-6xl md:text-7xl font-bold text-primary">
+              Find Your Flow State
+            </h1>
+            <h2 className="text-4xl md:text-5xl font-bold text-muted-foreground">
               Discover Your Optimal
               <br />
-              Career Path
-            </h1>
+              Discover Your Optimal Career Path
+            </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
               A comprehensive quiz that combines psychology, neuroscience, and behavioral science
               to determine your three most compatible career paths with deep personality insights.
