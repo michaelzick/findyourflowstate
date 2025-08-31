@@ -277,6 +277,33 @@
             text-decoration: underline;
         }
 
+        /* Creator link styling - matches landing page */
+        .creator-link {
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .footer .creator-link:hover {
+            text-decoration: none !important; /* Override the general footer link hover style with higher specificity */
+        }
+
+        .creator-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0.125rem;
+            background-color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .creator-link:hover::after {
+            width: 100%;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .container {
@@ -488,7 +515,7 @@
             </div>
 
             <div class="footer">
-                <p>© 2025 Find Your Flow State | <a href="https://www.zickonezero.com">ZICKONEZERO Creative</a></p>
+                <p>© 2025 Find Your Flow State | <a href="https://www.zickonezero.com/" target="_blank" rel="noopener noreferrer" class="creator-link">ZICKONEZERO Creative</a></p>
                 <p><a href="/">Back to Career Quiz</a></p>
             </div>
         </article>
