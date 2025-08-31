@@ -14,7 +14,7 @@
   "prefer_related_applications": false,
   "screenshots": [
     {
-      "src": "/src/assets/fyfs-wave-square.webp",
+      "src": "/fyfs-wave-square.webp",
       "sizes": "1200x1200",
       "type": "image/webp",
       "form_factor": "wide"
@@ -27,7 +27,7 @@
       "type": "image/x-icon"
     },
     {
-      "src": "/src/assets/fyfs-wave-square.webp",
+      "src": "/fyfs-wave-square.webp",
       "sizes": "512x512",
       "type": "image/webp",
       "purpose": "any maskable"
