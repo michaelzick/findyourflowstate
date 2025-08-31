@@ -22,12 +22,12 @@ import { safeJSONParse, sanitizeString } from '@/utils/security';
 import fyfsWaveImage from '@/assets/fyfs-wave.webp';
 
 export function QuizLanding() {
-  const { goToQuestion, loadAnswersFromJSON, hasSavedProgress, loadSavedProgress, resetQuizAndClearStorage } = useQuiz();
+  const { state, goToQuestion, loadAnswersFromJSON, loadSavedProgress, resetQuizAndClearStorage } = useQuiz();
   const navigate = useNavigate();
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
-  const hasProgress = hasSavedProgress();
+  const hasProgress = state.answers.length > 0;
   const [showResetDialog, setShowResetDialog] = useState(false);
   const [scrollY, setScrollY] = useState(0);
 
