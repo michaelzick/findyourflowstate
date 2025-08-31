@@ -7,6 +7,7 @@ Sitemap: https://findyourflowstate.zickonezero.com/sitemap.xml
 # Allow search engines to crawl all content
 Allow: /quiz
 Allow: /quiz-results
+Allow: /learn-more
 Allow: /career-quiz-guide.html
 
 # Block any admin or private areas (if they exist)
@@ -15,6 +16,7 @@ Disallow: /private/
 Disallow: /*.json$
 Disallow: /src/
 Disallow: /node_modules/
+Disallow: /browserconfig.xml
 
 # Crawl delay (optional - helps with server load)
 Crawl-delay: 1
