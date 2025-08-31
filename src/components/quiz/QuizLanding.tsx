@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -25,8 +25,10 @@ export function QuizLanding() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
   const hasProgress = hasSavedProgress();
   const [showResetDialog, setShowResetDialog] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
 
   const handleContinueQuiz = () => {
     const loaded = loadSavedProgress();
@@ -51,6 +53,25 @@ export function QuizLanding() {
       description: "All progress and saved data have been cleared. Starting fresh!",
     });
   };
+
+  // Parallax scroll effect with throttling for performance
+  useEffect(() => {
+    let ticking = false;
+
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const scrollPosition = window.scrollY;
+          setScrollY(scrollPosition);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleStartQuiz = () => {
     goToQuestion(0); // Navigate to first question
@@ -201,16 +222,21 @@ export function QuizLanding() {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="relative overflow-hidden">
-        {/* Single Background Image - All Devices */}
+      <section ref={heroRef} className="relative overflow-hidden min-h-screen">
+        {/* Single Background Image with Parallax Effect */}
         <div className="absolute inset-0">
           <div
-            className="absolute inset-0 bg-cover bg-center opacity-40"
-            style={{ backgroundImage: `url(${fyfsWaveImage})` }}
+            className="absolute inset-0 bg-cover bg-center transition-all duration-75 ease-out"
+            style={{
+              backgroundImage: `url(${fyfsWaveImage})`,
+              transform: `translateY(${scrollY * 0.5}px) scale(${1 + scrollY * 0.0001})`,
+              transformOrigin: 'center center',
+              opacity: 0.45
+            }}
           />
         </div>
 
-        <div className="relative container mx-auto px-4 py-20 text-center z-10">
+        <div className="relative container mx-auto px-4 py-20 text-center z-10 flex items-center min-h-screen">
           <div className="max-w-4xl mx-auto space-y-8">
             <Badge className="mb-1">
               Scientifically-Based Career Assessment
