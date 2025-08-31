@@ -25,7 +25,7 @@ export function BuyMeCoffeeButton({
       variant="outline"
       onClick={handleClick}
       className={cn(
-        "bg-[#FFDD00] hover:bg-[#FFDD00]/90 text-black border-[#FFDD00] hover:border-[#FFDD00]/90 font-medium flex items-center transition-all duration-200 hover:scale-105",
+        "bg-[#FFDD00] hover:bg-[#FFDD00]/90 text-black hover:text-black border-[#FFDD00] hover:border-[#FFDD00]/90 font-medium flex items-center transition-all duration-200 hover:scale-105",
         showIcon && "gap-2",
         className
       )}
