@@ -14,8 +14,8 @@
   "prefer_related_applications": false,
   "screenshots": [
     {
-      "src": "/src/assets/psychologist2.webp",
-      "sizes": "1200x630",
+      "src": "/src/assets/fyfs-wave-square.webp",
+      "sizes": "1200x1200",
       "type": "image/webp",
       "form_factor": "wide"
     }
@@ -27,7 +27,7 @@
       "type": "image/x-icon"
     },
     {
-      "src": "/src/assets/psychologist2.webp",
+      "src": "/src/assets/fyfs-wave-square.webp",
       "sizes": "512x512",
       "type": "image/webp",
       "purpose": "any maskable"
