@@ -294,7 +294,7 @@ export function QuizLanding() {
 
             <div className="mt-8">
               <div className="flex flex-col items-center gap-4">
-                <p className="text-sm text-muted-foreground">
+                <p className="text-m text-muted-foreground">
                   Have previous answers saved as JSON?
                 </p>
                 <Button
@@ -314,8 +314,8 @@ export function QuizLanding() {
                 />
 
                 {/* Buy Me A Coffee Button */}
-                <p className="text-sm text-muted-foreground mt-6">
-                  Enjoying this free assessment?
+                <p className="text-m text-muted-foreground mt-6">
+                  This assessment is completely free. If it helps you, consider supporting the creator. 😉
                 </p>
                 <BuyMeCoffeeButton />
               </div>
@@ -458,16 +458,18 @@ export function QuizLanding() {
                 Upload Previous Answers
               </Button>
             </div>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-m text-muted-foreground">
               Takes 45-60 minutes • No email required • Immediate results
             </p>
 
             {/* Support Section */}
-            <div className="mt-8 pt-6 border-t border-border/30">
-              <p className="text-sm text-muted-foreground mb-4">
-                This assessment is completely free. If it helps you, consider supporting the creator:
-              </p>
-              <BuyMeCoffeeButton showEmoji />
+            <div className="pt-4">
+              <div className="flex flex-col items-center gap-4">
+                <p className="text-m text-muted-foreground">
+                  This assessment is completely free. If it helps you, consider supporting the creator. 😉
+                </p>
+                <BuyMeCoffeeButton />
+              </div>
             </div>
           </div>
         </div>

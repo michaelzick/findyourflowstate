@@ -807,31 +807,36 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
           {/* Original Footer Position Marker */}
           <div ref={originalPositionRef} className="w-full">
             {/* Actions - Original Position */}
-            <div className="flex flex-wrap justify-center gap-4 pb-4 max-w-4xl mx-auto">
-              <Button onClick={handleDownloadPDF} variant="outline" className="flex items-center gap-2">
+            <div className="flex flex-wrap justify-center gap-3 pb-4 max-w-4xl mx-auto">
+              <Button onClick={handleDownloadPDF} variant="outline" size="sm" className="flex items-center gap-2">
                 <Download className="w-4 h-4" />
-                Download PDF
+                <span className="hidden sm:inline">Download PDF</span>
+                <span className="sm:hidden">PDF</span>
               </Button>
-              <Button onClick={handleDownloadAnswers} variant="outline" className="flex items-center gap-2">
+              <Button onClick={handleDownloadAnswers} variant="outline" size="sm" className="flex items-center gap-2">
                 <Download className="w-4 h-4" />
-                Download Your Answers
+                <span className="hidden sm:inline">Download Answers</span>
+                <span className="sm:hidden">Answers</span>
               </Button>
-              <Button onClick={handleCopyResults} variant="outline" className="flex items-center gap-2">
+              <Button onClick={handleCopyResults} variant="outline" size="sm" className="flex items-center gap-2">
                 <Copy className="w-4 h-4" />
-                Copy Results To Clipboard
+                <span className="hidden sm:inline">Copy to Clipboard</span>
+                <span className="sm:hidden">Copy</span>
               </Button>
               {showClearButton ? (
-                <Button onClick={() => navigate('/quiz-results/clear-results')} variant="outline" className="flex items-center gap-2">
+                <Button onClick={() => navigate('/quiz-results/clear-results')} variant="outline" size="sm" className="flex items-center gap-2">
                   <X className="w-4 h-4" />
-                  Clear Results
+                  <span className="hidden sm:inline">Clear Results</span>
+                  <span className="sm:hidden">Clear</span>
                 </Button>
               ) : (
-                <Button onClick={resetQuiz} variant="default" className="flex items-center gap-2 bg-primary hover:bg-primary/90">
+                <Button onClick={resetQuiz} variant="default" size="sm" className="flex items-center gap-2 bg-primary hover:bg-primary/90">
                   <RotateCcw className="w-4 h-4" />
-                  Take Quiz Again
+                  <span className="hidden sm:inline">Take Quiz Again</span>
+                  <span className="sm:hidden">Retake</span>
                 </Button>
               )}
-              <BuyMeCoffeeButton />
+              <BuyMeCoffeeButton size="sm" />
             </div>
           </div>
         </div>
