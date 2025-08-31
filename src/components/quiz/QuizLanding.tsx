@@ -17,6 +17,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { QuizAnswer } from '@/types/quiz';
+import { safeJSONParse, sanitizeString } from '@/utils/security';
 import psychologistImage from '@/assets/psychologist2.webp';
 import clientImage from '@/assets/client2.webp';
 
@@ -107,7 +108,16 @@ export function QuizLanding() {
     reader.onload = (e) => {
       try {
         const content = e.target?.result as string;
-        const jsonData = JSON.parse(content);
+        const jsonData = safeJSONParse(content);
+        
+        if (!jsonData) {
+          toast({
+            title: "Invalid or Unsafe JSON",
+            description: "The JSON file contains potentially unsafe content or is malformed.",
+            variant: "destructive",
+          });
+          return;
+        }
 
         // Validate and process the JSON data
         const answers = processJSONAnswers(jsonData);
@@ -126,8 +136,8 @@ export function QuizLanding() {
         }
       } catch (error) {
         toast({
-          title: "Invalid JSON File",
-          description: "The file could not be parsed. Please check the JSON format.",
+          title: "File Processing Error",
+          description: "The file could not be processed safely.",
           variant: "destructive",
         });
       }
@@ -158,13 +168,26 @@ export function QuizLanding() {
       }));
     }
 
-    // Process each answer
+    // Process each answer with security validation
     answersArray.forEach((item: unknown) => {
       if (item && typeof item === 'object' && 'questionId' in item && 'value' in item && item.value !== undefined) {
         const typedItem = item as { questionId: string; value: string | number | string[]; };
+        
+        // Sanitize string values
+        let sanitizedValue: string | number | string[];
+        if (typeof typedItem.value === 'string') {
+          sanitizedValue = sanitizeString(typedItem.value);
+        } else if (Array.isArray(typedItem.value)) {
+          sanitizedValue = typedItem.value.map(v => 
+            typeof v === 'string' ? sanitizeString(v) : v
+          );
+        } else {
+          sanitizedValue = typedItem.value;
+        }
+        
         answers.push({
-          questionId: typedItem.questionId,
-          value: typedItem.value
+          questionId: sanitizeString(typedItem.questionId),
+          value: sanitizedValue
         });
       }
     });

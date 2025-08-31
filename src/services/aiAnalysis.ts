@@ -1,20 +1,32 @@
 import { supabase } from "@/integrations/supabase/client";
 import type { QuizAnswer, CareerPath, AIAnalysis } from "@/types/quiz";
 
+// Service-specific logger that respects production environment
+const createLogger = (prefix: string) => {
+  const isProduction = process.env.NODE_ENV === 'production';
+  return {
+    log: (...args: unknown[]) => !isProduction && console.log(`[${prefix}]`, ...args),
+    error: (...args: unknown[]) => !isProduction && console.error(`[${prefix}]`, ...args),
+    warn: (...args: unknown[]) => !isProduction && console.warn(`[${prefix}]`, ...args),
+  };
+};
+
+const logger = createLogger('AIAnalysis');
+
 export const analyzeQuizWithAI = async (
   answers: QuizAnswer[],
   careerPaths: CareerPath[]
 ): Promise<AIAnalysis | null> => {
   try {
-    console.log('🚀 Starting AI analysis...');
-    console.log('📥 Input validation:', {
+    logger.log('🚀 Starting AI analysis...');
+    logger.log('📥 Input validation:', {
       answersCount: answers.length,
       careerPathsCount: careerPaths.length,
       hasTextResponses: answers.some(a => typeof a.value === 'string' && a.value.length > 20),
       sampleQuestionIds: answers.slice(0, 5).map(a => a.questionId)
     });
 
-    console.log('📡 Calling Supabase edge function: deep-quiz-analysis');
+    logger.log('📡 Calling Supabase edge function: deep-quiz-analysis');
     const startTime = Date.now();
 
     const { data, error } = await supabase.functions.invoke('deep-quiz-analysis', {
@@ -22,10 +34,10 @@ export const analyzeQuizWithAI = async (
     });
 
     const duration = Date.now() - startTime;
-    console.log(`⏱️ Edge function call completed in ${duration}ms`);
+    logger.log(`⏱️ Edge function call completed in ${duration}ms`);
 
     if (error) {
-      console.error('❌ Supabase function error:', {
+      logger.error('❌ Supabase function error:', {
         message: error.message,
         details: error.details,
         hint: error.hint,
@@ -35,24 +47,24 @@ export const analyzeQuizWithAI = async (
     }
 
     if (!data) {
-      console.error('❌ Edge function returned no data');
+      logger.error('❌ Edge function returned no data');
       throw new Error('AI Analysis returned empty response');
     }
 
     // Validate the returned data structure
-    console.log('🔍 Validating AI analysis response structure...');
+    logger.log('🔍 Validating AI analysis response structure...');
     const isValid = data &&
       typeof data === 'object' &&
       (data.specificOccupations || data.hiddenBeliefs || data.enhancedPersonality);
 
     if (!isValid) {
-      console.error('❌ Invalid AI analysis response structure:', data);
+      logger.error('❌ Invalid AI analysis response structure:', data);
       throw new Error('AI Analysis returned invalid data structure');
     }
 
-    console.log('✅ AI analysis completed successfully');
-    console.log('📊 Full response data:', JSON.stringify(data, null, 2));
-    console.log('📊 Response summary:', {
+    logger.log('✅ AI analysis completed successfully');
+    logger.log('📊 Full response data:', JSON.stringify(data, null, 2));
+    logger.log('📊 Response summary:', {
       hasSpecificOccupations: !!(data.specificOccupations?.length),
       occupationsCount: data.specificOccupations?.length || 0,
       hasHiddenBeliefs: !!data.hiddenBeliefs,
@@ -69,7 +81,7 @@ export const analyzeQuizWithAI = async (
 
     return data as AIAnalysis;
   } catch (error) {
-    console.error('💥 AI Analysis service failed:', {
+    logger.error('💥 AI Analysis service failed:', {
       error: error.message,
       stack: error.stack?.split('\n').slice(0, 3).join('\n'),
       timestamp: new Date().toISOString()

@@ -14,7 +14,7 @@ export default defineConfig(({ mode }) => {
   return {
     server: {
       host: "::",
-      port: isLocalhost ? 8081 : 8080,
+      port: 8080,
     },
     preview: {
       port: 4173,

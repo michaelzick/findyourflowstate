@@ -1,6 +1,18 @@
 import { supabase } from '@/integrations/supabase/client';
 import { QuizAnswer, CareerPath } from '@/types/quiz';
 
+// Service-specific logger that respects production environment
+const createLogger = (prefix: string) => {
+  const isProduction = process.env.NODE_ENV === 'production';
+  return {
+    log: (...args: unknown[]) => !isProduction && console.log(`[${prefix}]`, ...args),
+    error: (...args: unknown[]) => !isProduction && console.error(`[${prefix}]`, ...args),
+    warn: (...args: unknown[]) => !isProduction && console.warn(`[${prefix}]`, ...args),
+  };
+};
+
+const logger = createLogger('CareerRanking');
+
 interface CareerRanking {
   id: string;
   score: number;
@@ -15,8 +27,8 @@ export async function rankCareerPathsWithAI(
   answers: QuizAnswer[], 
   careerPaths: CareerPath[]
 ): Promise<CareerPath[]> {
-  console.log('🎯 Starting AI-powered career path ranking');
-  console.log('📊 Input:', { answersCount: answers.length, careerPathsCount: careerPaths.length });
+  logger.log('🎯 Starting AI-powered career path ranking');
+  logger.log('📊 Input:', { answersCount: answers.length, careerPathsCount: careerPaths.length });
 
   try {
     const { data, error } = await supabase.functions.invoke('rank-career-paths', {
@@ -27,17 +39,17 @@ export async function rankCareerPathsWithAI(
     });
 
     if (error) {
-      console.error('❌ Supabase function error:', error);
+      logger.error('❌ Supabase function error:', error);
       throw error;
     }
 
     if (!data || !data.rankedCareerPaths) {
-      console.error('❌ Invalid response structure:', data);
+      logger.error('❌ Invalid response structure:', data);
       throw new Error('Invalid response from ranking service');
     }
 
-    console.log('✅ AI ranking successful');
-    console.log('📈 Rankings received:', data.rankedCareerPaths.length);
+    logger.log('✅ AI ranking successful');
+    logger.log('📈 Rankings received:', data.rankedCareerPaths.length);
 
     // Map the AI rankings back to full CareerPath objects
     const rankedPaths = data.rankedCareerPaths.map((ranking: CareerRanking) => {
@@ -59,7 +71,7 @@ export async function rankCareerPathsWithAI(
       .slice(0, 3);
 
   } catch (error) {
-    console.error('❌ Career ranking failed:', error);
+    logger.error('❌ Career ranking failed:', error);
     throw error;
   }
 }

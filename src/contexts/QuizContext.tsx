@@ -3,16 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { QuizAnswer, QuizResults } from '@/types/quiz';
 import { calculateQuizResults } from '@/utils/quiz-scoring';
 import { quizQuestions } from '@/data/quiz-questions';
-import {
-  clearQuizResults,
-  saveQuizResults,
-  loadQuizResults,
-  hasStoredQuizResults,
-  safeSaveQuizResults,
-  safeLoadQuizResults,
-  QuizResultsStorageError
-} from '@/utils/quiz-results-storage';
+import { hasStoredQuizResults, clearQuizResults, saveQuizResults, loadQuizResults, safeSaveQuizResults } from '@/utils/quiz-results-storage';
 import { markQuizCompletionNavigation, clearNavigationState } from '@/utils/navigation-state';
+import { useQuizStorage } from '@/hooks/useQuizStorage';
+import { useConsoleLogger } from '@/hooks/useConsoleLogger';
 
 interface QuizState {
   currentQuestionIndex: number;
@@ -306,6 +300,8 @@ const QuizContext = createContext<QuizContextType | undefined>(undefined);
 export function QuizProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(quizReducer, initialState);
   const navigate = useNavigate();
+  const storage = useQuizStorage();
+  const logger = useConsoleLogger({ prefix: 'QuizProvider' });
 
   // Don't automatically load from localStorage on mount
   // This prevents the quiz from auto-resuming when user refreshes the homepage
@@ -358,11 +354,11 @@ export function QuizProvider({ children }: { children: ReactNode }) {
       dispatch({ type: 'SET_RESULTS', payload: basicResults });
 
       // Save basic results to localStorage immediately
-      const saveResult = safeSaveQuizResults(basicResults);
+      const saveResult = storage.saveResults(basicResults);
       if (saveResult.success) {
         dispatch({ type: 'SAVE_RESULTS_TO_STORAGE', payload: basicResults });
       } else {
-        console.warn('Failed to save basic results to localStorage:', saveResult.error);
+        logger.warn('Failed to save basic results to localStorage:', saveResult.error);
         // Continue with AI analysis even if storage fails
         // Could show a toast notification here if needed
       }
@@ -376,9 +372,9 @@ export function QuizProvider({ children }: { children: ReactNode }) {
 
       // Then enhance with AI analysis in the background
       try {
-        console.log('🤖 Starting AI enhancement phase...');
+        logger.log('🤖 Starting AI enhancement phase...');
         const enhancedResults = await calculateQuizResults(state.answers, true);
-        console.log('🎯 AI enhancement completed:', {
+        logger.log('🎯 AI enhancement completed:', {
           hasAiAnalysis: !!enhancedResults.aiAnalysis,
           specificOccupationsCount: enhancedResults.aiAnalysis?.specificOccupations?.length || 0,
           hasHiddenBeliefs: !!enhancedResults.aiAnalysis?.hiddenBeliefs,
@@ -387,15 +383,15 @@ export function QuizProvider({ children }: { children: ReactNode }) {
         dispatch({ type: 'UPDATE_AI_ANALYSIS', payload: enhancedResults });
 
         // Save enhanced results to localStorage
-        const enhancedSaveResult = safeSaveQuizResults(enhancedResults);
+        const enhancedSaveResult = storage.saveResults(enhancedResults);
         if (enhancedSaveResult.success) {
           dispatch({ type: 'SAVE_RESULTS_TO_STORAGE', payload: enhancedResults });
         } else {
-          console.warn('Failed to save enhanced results to localStorage:', enhancedSaveResult.error);
+          logger.warn('Failed to save enhanced results to localStorage:', enhancedSaveResult.error);
           // Results are still available in state even if storage fails
         }
       } catch (aiError) {
-        console.error('💥 AI analysis failed:', aiError);
+        logger.error('💥 AI analysis failed:', aiError);
         const errorMessage = aiError instanceof Error ? aiError.message : 'AI analysis failed';
         dispatch({ type: 'SET_AI_ANALYSIS_ERROR', payload: errorMessage });
       }
@@ -416,9 +412,9 @@ export function QuizProvider({ children }: { children: ReactNode }) {
 
     // Clear quiz results from localStorage
     try {
-      clearQuizResults();
+      storage.clearResults();
     } catch (error) {
-      console.warn('Failed to clear quiz results from storage:', error);
+      logger.warn('Failed to clear quiz results from storage:', error);
       // Continue with reset even if clearing results fails
     }
 
@@ -487,26 +483,24 @@ export function QuizProvider({ children }: { children: ReactNode }) {
   };
 
   const saveResultsToStorage = (results: QuizResults) => {
-    try {
-      saveQuizResults(results);
+    const result = storage.saveResults(results);
+    if (result.success) {
       dispatch({ type: 'SAVE_RESULTS_TO_STORAGE', payload: results });
-    } catch (error) {
-      console.error('Failed to save results to storage:', error);
-      // Re-throw the error so calling components can handle it appropriately
-      throw error;
+    } else {
+      logger.error('Failed to save results to storage:', result.error);
+      throw new Error(result.error || 'Failed to save results');
     }
   };
 
   const loadResultsFromStorage = (): QuizResults | null => {
-    try {
-      const results = loadQuizResults();
-      dispatch({ type: 'LOAD_RESULTS_FROM_STORAGE', payload: results });
-      return results;
-    } catch (error) {
-      console.error('Failed to load results from storage:', error);
-      // For loading, we return null instead of throwing to allow graceful degradation
-      return null;
+    const result = storage.loadResults();
+    dispatch({ type: 'LOAD_RESULTS_FROM_STORAGE', payload: result.results });
+    
+    if (result.error) {
+      logger.error('Failed to load results from storage:', result.error);
     }
+    
+    return result.results;
   };
 
   const clearActiveResults = () => {
