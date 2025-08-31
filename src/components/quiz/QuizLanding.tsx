@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { BuyMeCoffeeButton } from '@/components/ui/buy-me-coffee-button';
 import { Brain, Users, Target, Clock, CheckCircle, Upload } from 'lucide-react';
 import { useQuiz } from '@/contexts/QuizContext';
 import { useToast } from '@/hooks/use-toast';
@@ -311,6 +312,12 @@ export function QuizLanding() {
                   onChange={handleFileUpload}
                   className="hidden"
                 />
+
+                {/* Buy Me A Coffee Button */}
+                <p className="text-sm text-muted-foreground mt-6">
+                  Enjoying this free assessment?
+                </p>
+                <BuyMeCoffeeButton />
               </div>
             </div>
           </div>
@@ -454,6 +461,14 @@ export function QuizLanding() {
             <p className="text-sm text-muted-foreground">
               Takes 45-60 minutes • No email required • Immediate results
             </p>
+
+            {/* Support Section */}
+            <div className="mt-8 pt-6 border-t border-border/30">
+              <p className="text-sm text-muted-foreground mb-4">
+                This assessment is completely free. If it helps you, consider supporting the creator:
+              </p>
+              <BuyMeCoffeeButton showEmoji />
+            </div>
           </div>
         </div>
       </section>

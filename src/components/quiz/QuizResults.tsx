@@ -4,6 +4,7 @@ import { useQuiz } from '@/contexts/QuizContext';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { BuyMeCoffeeButton } from '@/components/ui/buy-me-coffee-button';
 import { Progress } from '@/components/ui/progress';
 import { RotateCcw, Download, Copy, X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
@@ -806,7 +807,7 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
           {/* Original Footer Position Marker */}
           <div ref={originalPositionRef} className="w-full">
             {/* Actions - Original Position */}
-            <div className="flex flex-wrap justify-center gap-4 pb-4">
+            <div className="flex flex-wrap justify-center gap-4 pb-4 max-w-4xl mx-auto">
               <Button onClick={handleDownloadPDF} variant="outline" className="flex items-center gap-2">
                 <Download className="w-4 h-4" />
                 Download PDF
@@ -830,6 +831,7 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                   Take Quiz Again
                 </Button>
               )}
+              <BuyMeCoffeeButton />
             </div>
           </div>
         </div>
@@ -900,6 +902,7 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                 <span className="sm:hidden">Retake</span>
               </Button>
             )}
+            <BuyMeCoffeeButton size="sm" />
           </div>
         </div>
       </div>
