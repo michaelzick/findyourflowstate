@@ -241,7 +241,7 @@ export function QuizLanding() {
             <Badge className="mb-1">
               Scientifically-Based Career Assessment
             </Badge>
-            <h1 className="text-6xl md:text-7xl font-bold text-primary">
+            <h1 className="text-7xl md:text-8xl font-bold text-primary">
               Find Your Flow State
             </h1>
             <h2 className="text-4xl md:text-5xl font-bold text-muted-foreground">
