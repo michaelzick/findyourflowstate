@@ -315,7 +315,16 @@ export function QuizLanding() {
 
                 {/* Buy Me A Coffee Button */}
                 <p className="text-m text-muted-foreground mt-6">
-                  This assessment is completely free. If it helps you, consider supporting the creator. 😉
+                  This assessment is completely free. If it helps you, consider supporting{' '}
+                  <a
+                    href="https://www.zickonezero.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
+                  >
+                    the creator
+                  </a>
+                  . 😉
                 </p>
                 <BuyMeCoffeeButton />
               </div>
@@ -466,7 +475,16 @@ export function QuizLanding() {
             <div className="pt-4">
               <div className="flex flex-col items-center gap-4">
                 <p className="text-m text-muted-foreground">
-                  This assessment is completely free. If it helps you, consider supporting the creator. 😉
+                  This assessment is completely free. If it helps you, consider supporting{' '}
+                  <a
+                    href="https://www.zickonezero.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
+                  >
+                    the creator
+                  </a>
+                  . 😉
                 </p>
                 <BuyMeCoffeeButton />
               </div>
