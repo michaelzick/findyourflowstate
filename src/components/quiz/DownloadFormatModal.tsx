@@ -47,11 +47,10 @@ export function DownloadFormatModal({
                 </CardTitle>
               </CardHeader>
               <CardContent className="pt-0">
-                <ul className="text-sm text-muted-foreground space-y-1">
-                  <li>• Clean, structured format</li>
-                  <li>• Perfect for developers</li>
-                  <li>• Works with GitHub, Notion, MindNode, etc.</li>
-                  <li>• Easy to read and edit</li>
+                <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
+                  <li className="pl-0" style={{ textIndent: '-1em', paddingLeft: '1.2em' }}>Clean, structured format</li>
+                  <li className="pl-0" style={{ textIndent: '-1em', paddingLeft: '1.2em' }}>Perfect for developers</li>
+                  <li className="pl-0" style={{ textIndent: '-1em', paddingLeft: '1.2em' }}>Works with GitHub, Notion, etc.</li>
                 </ul>
               </CardContent>
             </Card>
@@ -64,11 +63,10 @@ export function DownloadFormatModal({
                 </CardTitle>
               </CardHeader>
               <CardContent className="pt-0">
-                <ul className="text-sm text-muted-foreground space-y-1">
-                  <li>• Formatted text document</li>
-                  <li>• Compatible with Word, Pages</li>
-                  <li>• Preserves text formatting</li>
-                  <li>• Works across platforms</li>
+                <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
+                  <li className="pl-0" style={{ textIndent: '-1em', paddingLeft: '1.2em' }}>Compatible with Word, Pages, etc.</li>
+                  <li className="pl-0" style={{ textIndent: '-1em', paddingLeft: '1.2em' }}>Preserves text formatting</li>
+                  <li className="pl-0" style={{ textIndent: '-1em', paddingLeft: '1.2em' }}>Works across platforms</li>
                 </ul>
               </CardContent>
             </Card>
