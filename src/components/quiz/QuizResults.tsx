@@ -11,7 +11,6 @@ import { useToast } from '@/hooks/use-toast';
 import { useStickyFooter } from '@/hooks/use-sticky-footer';
 import { AIAnalysisStatus, AIAnalysisLoading } from './AIAnalysisStatus';
 import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
 
 interface QuizResultsProps {
   showClearButton?: boolean;
@@ -225,53 +224,98 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
     });
   };
 
-  const handleDownloadPDF = async () => {
+  const handleDownloadResults = async () => {
     if (!resultsRef.current) return;
 
     try {
       toast({
-        title: "Generating PDF",
-        description: "Please wait while we create your PDF...",
+        title: "Generating Image",
+        description: "Please wait while we create your results image...",
       });
 
-      // Configure html2canvas for better quality
+      // Store original styles to restore later
+      const originalStyle = resultsRef.current.style.cssText;
+
+      // Temporarily optimize element for image capture
+      resultsRef.current.style.cssText += `
+        transform: none !important;
+        position: relative !important;
+        left: 0 !important;
+        top: 0 !important;
+      `;
+
+      // Wait for layout to settle
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      // Configure html2canvas for optimal PNG generation
       const canvas = await html2canvas(resultsRef.current, {
-        scale: 2,
+        scale: 3, // Very high quality for crisp text
         useCORS: true,
         allowTaint: true,
-        backgroundColor: '#181715',
+        backgroundColor: null, // Preserve original background colors
         width: resultsRef.current.scrollWidth,
         height: resultsRef.current.scrollHeight,
+        windowWidth: resultsRef.current.scrollWidth,
+        windowHeight: resultsRef.current.scrollHeight,
+        scrollX: 0,
+        scrollY: 0,
+        x: 0,
+        y: 0,
+        // Enhanced text and image rendering
+        letterRendering: true,
+        foreignObjectRendering: true,
+        imageTimeout: 15000,
+        // Optimize for high-quality capture
+        onclone: (clonedDoc, clonedElement) => {
+          // Ensure cloned element has proper styling
+          const target = clonedElement.querySelector('[data-results-target]') as HTMLElement;
+          if (target) {
+            target.style.transform = 'none';
+            target.style.position = 'relative';
+            target.style.left = '0';
+            target.style.top = '0';
+          }
+        }
       });
 
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('p', 'mm', 'a4');
+      // Restore original styles
+      resultsRef.current.style.cssText = originalStyle;
 
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
-      const imgWidth = canvas.width;
-      const imgHeight = canvas.height;
+      // Convert canvas to PNG blob
+      canvas.toBlob((blob) => {
+        if (!blob) {
+          throw new Error('Failed to generate image');
+        }
 
-      // Calculate scaling to fit page
-      const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
-      const scaledWidth = imgWidth * ratio;
-      const scaledHeight = imgHeight * ratio;
+        // Create download with timestamp
+        const timestamp = new Date().toISOString().slice(0, 10);
+        const filename = `career-assessment-results-${timestamp}.png`;
 
-      // Center the image
-      const x = (pdfWidth - scaledWidth) / 2;
-      const y = (pdfHeight - scaledHeight) / 2;
+        // Create and trigger download
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = filename;
+        link.style.display = 'none';
 
-      pdf.addImage(imgData, 'PNG', x, y, scaledWidth, scaledHeight);
-      pdf.save('career-assessment-results.pdf');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
 
-      toast({
-        title: "PDF Downloaded",
-        description: "Your results have been saved as a PDF!",
-      });
+        // Clean up object URL
+        setTimeout(() => URL.revokeObjectURL(url), 100);
+
+        toast({
+          title: "Results Downloaded",
+          description: "Your high-quality results image has been saved!",
+        });
+      }, 'image/png', 1.0); // Maximum quality PNG
+
     } catch (error) {
+      console.error('Image generation error:', error);
       toast({
         title: "Error",
-        description: "Failed to generate PDF. Please try again.",
+        description: "Failed to generate results image. Please try again.",
         variant: "destructive",
       });
     }
@@ -280,7 +324,7 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
   return (
     <div className="min-h-screen bg-background animate-in fade-in-0 duration-500">
       <div className="container mx-auto px-4 py-8">
-        <div ref={resultsRef} className="max-w-4xl mx-auto space-y-8">
+        <div ref={resultsRef} className="max-w-4xl mx-auto space-y-8" data-results-target="true">
           {/* Header */}
           <div className="text-center space-y-4 animate-in slide-in-from-top-4 duration-700">
             <h1 className="text-4xl font-bold">
@@ -808,10 +852,10 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
           <div ref={originalPositionRef} className="w-full">
             {/* Actions - Original Position */}
             <div className="flex flex-wrap justify-center gap-3 pb-4 max-w-4xl mx-auto">
-              <Button onClick={handleDownloadPDF} variant="outline" size="sm" className="flex items-center gap-2">
+              <Button onClick={handleDownloadResults} variant="outline" size="sm" className="flex items-center gap-2">
                 <Download className="w-4 h-4" />
-                <span className="hidden sm:inline">Download PDF</span>
-                <span className="sm:hidden">PDF</span>
+                <span className="hidden sm:inline">Download Results</span>
+                <span className="sm:hidden">Results</span>
               </Button>
               <Button onClick={handleDownloadAnswers} variant="outline" size="sm" className="flex items-center gap-2">
                 <Download className="w-4 h-4" />
@@ -855,14 +899,14 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
         <div className="container mx-auto px-4 py-4">
           <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
             <Button
-              onClick={handleDownloadPDF}
+              onClick={handleDownloadResults}
               variant="outline"
               size="sm"
               className="flex items-center gap-2"
             >
               <Download className="w-4 h-4" />
-              <span className="hidden sm:inline">Download PDF</span>
-              <span className="sm:hidden">PDF</span>
+              <span className="hidden sm:inline">Download Results</span>
+              <span className="sm:hidden">Results</span>
             </Button>
             <Button
               onClick={handleDownloadAnswers}

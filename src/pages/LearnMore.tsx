@@ -512,7 +512,7 @@ const LearnMore = () => {
                   You have complete control over your results. You can:
                 </p>
                 <ul className="list-disc list-inside text-muted-foreground space-y-1 ml-4">
-                  <li>Download a comprehensive PDF report with all styling preserved</li>
+                  <li>Download a high-quality image of your results with all styling preserved</li>
                   <li>Copy detailed text results to your clipboard for sharing</li>
                   <li>Save results to your device for future reference</li>
                   <li>Choose what information to share and with whom</li>
