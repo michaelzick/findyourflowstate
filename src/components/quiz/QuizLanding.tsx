@@ -430,10 +430,6 @@ export function QuizLanding() {
             <h2 className="text-3xl font-bold">
               Ready to Discover Your True Career Path?
             </h2>
-            <p className="text-lg text-muted-foreground">
-              Join thousands who have gained clarity about their career direction
-              through our science-based assessment.
-            </p>
             <div className="flex flex-wrap justify-center gap-4">
               {hasProgress ? (
                 <>
