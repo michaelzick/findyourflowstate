@@ -224,6 +224,47 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
     });
   };
 
+  const waitForImages = (element: HTMLElement): Promise<void> => {
+    const images = element.querySelectorAll('img');
+    const promises = Array.from(images).map(img => {
+      if (img.complete) return Promise.resolve();
+      return new Promise<void>((resolve) => {
+        img.onload = () => resolve();
+        img.onerror = () => resolve(); // Continue even if image fails
+        setTimeout(() => resolve(), 5000); // Timeout after 5s
+      });
+    });
+    return Promise.all(promises).then(() => {});
+  };
+
+  const addCaptureStyles = (element: HTMLElement) => {
+    // Add styles to prevent animation issues during capture
+    const style = document.createElement('style');
+    style.textContent = `
+      .capture-mode * {
+        animation-duration: 0s !important;
+        animation-delay: 0s !important;
+        transition-duration: 0s !important;
+        transition-delay: 0s !important;
+        transform: none !important;
+      }
+      .capture-mode {
+        position: relative !important;
+        transform: none !important;
+      }
+    `;
+    document.head.appendChild(style);
+    element.classList.add('capture-mode');
+    return style;
+  };
+
+  const removeCaptureStyles = (element: HTMLElement, style: HTMLStyleElement) => {
+    element.classList.remove('capture-mode');
+    if (style.parentNode) {
+      style.parentNode.removeChild(style);
+    }
+  };
+
   const handleDownloadResults = async () => {
     if (!resultsRef.current) return;
 
@@ -233,58 +274,65 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
         description: "Please wait while we create your results image...",
       });
 
-      // Store original styles to restore later
-      const originalStyle = resultsRef.current.style.cssText;
+      const element = resultsRef.current;
+      
+      // Add capture styles to prevent animation issues
+      const captureStyle = addCaptureStyles(element);
 
-      // Temporarily optimize element for image capture
-      resultsRef.current.style.cssText += `
-        transform: none !important;
-        position: relative !important;
-        left: 0 !important;
-        top: 0 !important;
-      `;
+      // Wait for images to load and layout to settle
+      await waitForImages(element);
+      await new Promise(resolve => setTimeout(resolve, 500));
 
-      // Wait for layout to settle
+      // Scroll to top to ensure full capture
+      window.scrollTo(0, 0);
       await new Promise(resolve => setTimeout(resolve, 100));
 
       // Configure html2canvas for optimal PNG generation
-      const canvas = await html2canvas(resultsRef.current, {
-        scale: 3, // Very high quality for crisp text
+      const canvas = await html2canvas(element, {
+        scale: 2, // High quality but not excessive
         useCORS: true,
-        allowTaint: true,
-        backgroundColor: null, // Preserve original background colors
-        width: resultsRef.current.scrollWidth,
-        height: resultsRef.current.scrollHeight,
-        windowWidth: resultsRef.current.scrollWidth,
-        windowHeight: resultsRef.current.scrollHeight,
+        allowTaint: false,
+        backgroundColor: '#ffffff', // Ensure white background
+        width: element.scrollWidth,
+        height: element.scrollHeight,
+        windowWidth: element.scrollWidth,
+        windowHeight: element.scrollHeight,
         scrollX: 0,
         scrollY: 0,
         x: 0,
         y: 0,
-        // Enhanced text and image rendering
-        letterRendering: true,
         foreignObjectRendering: true,
         imageTimeout: 15000,
-        // Optimize for high-quality capture
-        onclone: (clonedDoc, clonedElement) => {
-          // Ensure cloned element has proper styling
-          const target = clonedElement.querySelector('[data-results-target]') as HTMLElement;
-          if (target) {
-            target.style.transform = 'none';
-            target.style.position = 'relative';
-            target.style.left = '0';
-            target.style.top = '0';
-          }
+        onclone: (clonedDoc, element) => {
+          // Ensure fonts are loaded in cloned document
+          const style = clonedDoc.createElement('style');
+          style.textContent = `
+            * { 
+              font-family: system-ui, -apple-system, sans-serif !important;
+              animation: none !important;
+              transition: none !important;
+            }
+            .bg-background { background-color: #ffffff !important; }
+            .bg-quiz-card { background-color: #ffffff !important; }
+            .text-foreground { color: #000000 !important; }
+            .text-muted-foreground { color: #666666 !important; }
+          `;
+          clonedDoc.head.appendChild(style);
         }
       });
 
-      // Restore original styles
-      resultsRef.current.style.cssText = originalStyle;
+      // Remove capture styles
+      removeCaptureStyles(element, captureStyle);
+
+      // Validate canvas has content
+      if (canvas.width === 0 || canvas.height === 0) {
+        throw new Error('Generated canvas is empty');
+      }
 
       // Convert canvas to PNG blob
       canvas.toBlob((blob) => {
         if (!blob) {
-          throw new Error('Failed to generate image');
+          throw new Error('Failed to create image blob');
         }
 
         // Create download with timestamp
@@ -309,7 +357,7 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
           title: "Results Downloaded",
           description: "Your high-quality results image has been saved!",
         });
-      }, 'image/png', 1.0); // Maximum quality PNG
+      }, 'image/png', 0.95); // High quality PNG
 
     } catch (error) {
       console.error('Image generation error:', error);
