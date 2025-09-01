@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuiz } from '@/contexts/QuizContext';
 import { Card } from '@/components/ui/card';
@@ -10,7 +10,8 @@ import { RotateCcw, Download, Copy, X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useStickyFooter } from '@/hooks/use-sticky-footer';
 import { AIAnalysisStatus, AIAnalysisLoading } from './AIAnalysisStatus';
-import html2canvas from 'html2canvas';
+import { DownloadFormatModal } from './DownloadFormatModal';
+import { generateMarkdownContent, generateRichTextContent, downloadFile } from '@/utils/download-formats';
 
 interface QuizResultsProps {
   showClearButton?: boolean;
@@ -21,8 +22,8 @@ export function QuizResults({ showClearButton = false }: QuizResultsProps) {
   const { toast } = useToast();
   const navigate = useNavigate();
   const results = state.results!;
-  const resultsRef = useRef<HTMLDivElement>(null);
   const { isSticky, footerRef, originalPositionRef } = useStickyFooter({ offset: 150 });
+  const [showDownloadModal, setShowDownloadModal] = useState(false);
 
   const generateComprehensiveText = () => {
     const text = `
@@ -224,164 +225,38 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
     });
   };
 
-  const waitForImages = (element: HTMLElement): Promise<void> => {
-    const images = element.querySelectorAll('img');
-    const promises = Array.from(images).map(img => {
-      if (img.complete) return Promise.resolve();
-      return new Promise<void>((resolve) => {
-        img.onload = () => resolve();
-        img.onerror = () => resolve(); // Continue even if image fails
-        setTimeout(() => resolve(), 5000); // Timeout after 5s
-      });
-    });
-    return Promise.all(promises).then(() => {});
+  const handleDownloadResults = () => {
+    setShowDownloadModal(true);
   };
 
-  const addCaptureStyles = (element: HTMLElement) => {
-    // Add styles to prevent animation issues during capture
-    const style = document.createElement('style');
-    style.textContent = `
-      .capture-mode * {
-        animation-duration: 0s !important;
-        animation-delay: 0s !important;
-        transition-duration: 0s !important;
-        transition-delay: 0s !important;
-        transform: none !important;
-      }
-      .capture-mode {
-        position: relative !important;
-        transform: none !important;
-      }
-    `;
-    document.head.appendChild(style);
-    element.classList.add('capture-mode');
-    return style;
-  };
-
-  const removeCaptureStyles = (element: HTMLElement, style: HTMLStyleElement) => {
-    element.classList.remove('capture-mode');
-    if (style.parentNode) {
-      style.parentNode.removeChild(style);
-    }
-  };
-
-  const handleDownloadResults = async () => {
-    if (!resultsRef.current) return;
-
+  const handleFormatSelect = (format: 'markdown' | 'richtext') => {
+    setShowDownloadModal(false);
+    
+    const timestamp = new Date().toISOString().slice(0, 10);
+    
     try {
-      toast({
-        title: "Generating Image",
-        description: "Please wait while we create your results image...",
-      });
-
-      const element = resultsRef.current;
-      
-      // Add capture styles to prevent animation issues
-      const captureStyle = addCaptureStyles(element);
-
-      // Wait for images to load and layout to settle
-      await waitForImages(element);
-      await new Promise(resolve => setTimeout(resolve, 500));
-
-      // Scroll to top to ensure full capture
-      window.scrollTo(0, 0);
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      // Configure html2canvas for optimal PNG generation
-      const canvas = await html2canvas(element, {
-        scale: 2, // High quality but not excessive
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: null, // Let natural backgrounds show
-        width: element.scrollWidth,
-        height: element.scrollHeight,
-        scrollX: 0,
-        scrollY: 0,
-        x: 0,
-        y: 0,
-        foreignObjectRendering: true,
-        imageTimeout: 15000,
-        logging: true, // Enable logging for debugging
-        onclone: (clonedDoc, clonedElement) => {
-          // Find the actual results container
-          const resultsContainer = clonedElement.querySelector('[data-results-target]') as HTMLElement;
-          if (resultsContainer) {
-            // Ensure proper visibility and positioning
-            resultsContainer.style.visibility = 'visible';
-            resultsContainer.style.opacity = '1';
-            resultsContainer.style.display = 'block';
-            resultsContainer.style.position = 'relative';
-            resultsContainer.style.top = '0';
-            resultsContainer.style.left = '0';
-            resultsContainer.style.transform = 'none';
-          }
-
-          // Ensure body and html have proper styles
-          clonedDoc.body.style.margin = '0';
-          clonedDoc.body.style.padding = '0';
-          clonedDoc.documentElement.style.margin = '0';
-          clonedDoc.documentElement.style.padding = '0';
-
-          // Add essential styles without overriding everything
-          const style = clonedDoc.createElement('style');
-          style.textContent = `
-            body { 
-              margin: 0 !important; 
-              padding: 0 !important; 
-              font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
-            }
-            * { 
-              animation: none !important;
-              transition: none !important;
-            }
-          `;
-          clonedDoc.head.appendChild(style);
-        }
-      });
-
-      // Remove capture styles
-      removeCaptureStyles(element, captureStyle);
-
-      // Validate canvas has content
-      if (canvas.width === 0 || canvas.height === 0) {
-        throw new Error('Generated canvas is empty');
-      }
-
-      // Convert canvas to PNG blob
-      canvas.toBlob((blob) => {
-        if (!blob) {
-          throw new Error('Failed to create image blob');
-        }
-
-        // Create download with timestamp
-        const timestamp = new Date().toISOString().slice(0, 10);
-        const filename = `career-assessment-results-${timestamp}.png`;
-
-        // Create and trigger download
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = filename;
-        link.style.display = 'none';
-
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-
-        // Clean up object URL
-        setTimeout(() => URL.revokeObjectURL(url), 100);
-
+      if (format === 'markdown') {
+        const content = generateMarkdownContent(results);
+        downloadFile(content, `career-assessment-results-${timestamp}.md`, 'text/markdown');
+        
         toast({
-          title: "Results Downloaded",
-          description: "Your high-quality results image has been saved!",
+          title: "Markdown Downloaded",
+          description: "Your results have been saved as a Markdown file!",
         });
-      }, 'image/png', 0.95); // High quality PNG
-
+      } else {
+        const content = generateRichTextContent(results);
+        downloadFile(content, `career-assessment-results-${timestamp}.rtf`, 'application/rtf');
+        
+        toast({
+          title: "Rich Text Downloaded", 
+          description: "Your results have been saved as a Rich Text file!",
+        });
+      }
     } catch (error) {
-      console.error('Image generation error:', error);
+      console.error('Download error:', error);
       toast({
         title: "Error",
-        description: "Failed to generate results image. Please try again.",
+        description: "Failed to generate download file. Please try again.",
         variant: "destructive",
       });
     }
@@ -390,7 +265,7 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
   return (
     <div className="min-h-screen bg-background animate-in fade-in-0 duration-500">
       <div className="container mx-auto px-4 py-8">
-        <div ref={resultsRef} className="max-w-4xl mx-auto space-y-8" data-results-target="true">
+        <div className="max-w-4xl mx-auto space-y-8">
           {/* Header */}
           <div className="text-center space-y-4 animate-in slide-in-from-top-4 duration-700">
             <h1 className="text-4xl font-bold">
@@ -1021,6 +896,13 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
           </div>
         </div>
       </div>
+
+      {/* Download Format Modal */}
+      <DownloadFormatModal
+        isOpen={showDownloadModal}
+        onClose={() => setShowDownloadModal(false)}
+        onSelectFormat={handleFormatSelect}
+      />
     </div>
   );
 }
