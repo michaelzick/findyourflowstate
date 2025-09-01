@@ -292,7 +292,7 @@ export function QuizLanding() {
 
             <div className="mt-8">
               <div className="flex flex-col items-center gap-4">
-                <p className="text-m text-muted-foreground">
+                <p className="text-lg text-muted-foreground">
                   Have previous answers saved as JSON?
                 </p>
                 <Button
@@ -312,7 +312,7 @@ export function QuizLanding() {
                 />
 
                 {/* Buy Me A Coffee Button */}
-                <p className="text-m text-muted-foreground mt-6">
+                <p className="text-lg text-muted-foreground mt-6">
                   This assessment is completely free. If it helps you, consider supporting{' '}
                   <a
                     href="https://www.zickonezero.com"
@@ -322,7 +322,7 @@ export function QuizLanding() {
                   >
                     the creator
                   </a>
-                  . 😉
+                  .
                 </p>
                 <BuyMeCoffeeButton />
               </div>
@@ -468,7 +468,7 @@ export function QuizLanding() {
                 Upload Previous Answers
               </Button>
             </div>
-            <p className="text-m text-muted-foreground">
+            <p className="text-lg text-muted-foreground">
               Takes 45-60 minutes • No email required • Immediate results
             </p>
 
@@ -477,7 +477,7 @@ export function QuizLanding() {
             {/* Support Section */}
             <div className="pt-8">
               <div className="flex flex-col items-center gap-4">
-                <p className="text-m text-muted-foreground">
+                <p className="text-lg text-muted-foreground">
                   This assessment is completely free. If it helps you, consider supporting{' '}
                   <a
                     href="https://www.zickonezero.com"
@@ -487,7 +487,7 @@ export function QuizLanding() {
                   >
                     the creator
                   </a>
-                  . 😉
+                  .
                 </p>
                 <BuyMeCoffeeButton />
               </div>
