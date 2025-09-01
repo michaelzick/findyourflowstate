@@ -35,7 +35,7 @@ export function DownloadFormatModal({
             Select the format you'd like to download your quiz results in. Both formats contain your complete career assessment analysis.
           </AlertDialogDescription>
         </AlertDialogHeader>
-        
+
         <div className="py-4 space-y-6">
           {/* Format Information Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -50,12 +50,12 @@ export function DownloadFormatModal({
                 <ul className="text-sm text-muted-foreground space-y-1">
                   <li>• Clean, structured format</li>
                   <li>• Perfect for developers</li>
-                  <li>• Works with GitHub, Notion</li>
+                  <li>• Works with GitHub, Notion, MindNode, etc.</li>
                   <li>• Easy to read and edit</li>
                 </ul>
               </CardContent>
             </Card>
-            
+
             <Card className="border-muted">
               <CardHeader className="pb-3">
                 <CardTitle className="flex items-center gap-2 text-base">
@@ -73,7 +73,7 @@ export function DownloadFormatModal({
               </CardContent>
             </Card>
           </div>
-          
+
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-3">
             <AlertDialogAction
@@ -83,7 +83,7 @@ export function DownloadFormatModal({
               <Code className="mr-2 h-4 w-4" />
               Download as Markdown
             </AlertDialogAction>
-            
+
             <AlertDialogAction
               onClick={() => onSelectFormat('richtext')}
               className="flex-1"
@@ -93,7 +93,7 @@ export function DownloadFormatModal({
             </AlertDialogAction>
           </div>
         </div>
-        
+
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
         </AlertDialogFooter>

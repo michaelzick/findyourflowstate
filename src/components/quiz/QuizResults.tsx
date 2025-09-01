@@ -231,14 +231,14 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
 
   const handleFormatSelect = (format: 'markdown' | 'richtext') => {
     setShowDownloadModal(false);
-    
+
     const timestamp = new Date().toISOString().slice(0, 10);
-    
+
     try {
       if (format === 'markdown') {
         const content = generateMarkdownContent(results);
         downloadFile(content, `career-assessment-results-${timestamp}.md`, 'text/markdown');
-        
+
         toast({
           title: "Markdown Downloaded",
           description: "Your results have been saved as a Markdown file!",
@@ -246,9 +246,9 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
       } else {
         const content = generateRichTextContent(results);
         downloadFile(content, `career-assessment-results-${timestamp}.rtf`, 'application/rtf');
-        
+
         toast({
-          title: "Rich Text Downloaded", 
+          title: "Rich Text Downloaded",
           description: "Your results have been saved as a Rich Text file!",
         });
       }
@@ -798,15 +798,15 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                 <span className="hidden sm:inline">Download Results</span>
                 <span className="sm:hidden">Results</span>
               </Button>
-              <Button onClick={handleDownloadAnswers} variant="outline" size="sm" className="flex items-center gap-2">
-                <Download className="w-4 h-4" />
-                <span className="hidden sm:inline">Download Answers</span>
-                <span className="sm:hidden">Answers</span>
-              </Button>
               <Button onClick={handleCopyResults} variant="outline" size="sm" className="flex items-center gap-2">
                 <Copy className="w-4 h-4" />
                 <span className="hidden sm:inline">Copy to Clipboard</span>
                 <span className="sm:hidden">Copy</span>
+              </Button>
+              <Button onClick={handleDownloadAnswers} variant="outline" size="sm" className="flex items-center gap-2">
+                <Download className="w-4 h-4" />
+                <span className="hidden sm:inline">Download Answers</span>
+                <span className="sm:hidden">Answers</span>
               </Button>
               {showClearButton ? (
                 <Button onClick={() => navigate('/quiz-results/clear-results')} variant="outline" size="sm" className="flex items-center gap-2">
@@ -850,16 +850,6 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
               <span className="sm:hidden">Results</span>
             </Button>
             <Button
-              onClick={handleDownloadAnswers}
-              variant="outline"
-              size="sm"
-              className="flex items-center gap-2"
-            >
-              <Download className="w-4 h-4" />
-              <span className="hidden sm:inline">Download Answers</span>
-              <span className="sm:hidden">Answers</span>
-            </Button>
-            <Button
               onClick={handleCopyResults}
               variant="outline"
               size="sm"
@@ -868,6 +858,16 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
               <Copy className="w-4 h-4" />
               <span className="hidden sm:inline">Copy to Clipboard</span>
               <span className="sm:hidden">Copy</span>
+            </Button>
+            <Button
+              onClick={handleDownloadAnswers}
+              variant="outline"
+              size="sm"
+              className="flex items-center gap-2"
+            >
+              <Download className="w-4 h-4" />
+              <span className="hidden sm:inline">Download Answers</span>
+              <span className="sm:hidden">Answers</span>
             </Button>
             {showClearButton ? (
               <Button
