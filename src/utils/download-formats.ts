@@ -194,17 +194,17 @@ ${cp.description}
 
 {\\b Key Traits:}
 \\par
-${cp.keyTraits.map(trait => `• ${trait}`).join('\\par\n')}
+${cp.keyTraits.map(trait => `\\bullet\\tab ${trait}`).join('\\par\n')}
 \\par\\par
 
 {\\b Typical Roles:}
 \\par
-${cp.typicalRoles.map(role => `• ${role}`).join('\\par\n')}
+${cp.typicalRoles.map(role => `\\bullet\\tab ${role}`).join('\\par\n')}
 \\par\\par
 
 ${cp.specificOccupations ? `{\\b Specific Occupations:}
 \\par
-${cp.specificOccupations.map(occ => `• ${occ}`).join('\\par\n')}
+${cp.specificOccupations.map(occ => `\\bullet\\tab ${occ}`).join('\\par\n')}
 \\par\\par` : ''}
 
 {\\b Work Environment:}
@@ -214,12 +214,12 @@ ${cp.workEnvironment}
 
 {\\b Strengths in This Path:}
 \\par
-${cp.strengths.map(strength => `• ${strength}`).join('\\par\n')}
+${cp.strengths.map(strength => `\\bullet\\tab ${strength}`).join('\\par\n')}
 \\par\\par
 
 {\\b Potential Challenges:}
 \\par
-${cp.challenges.map(challenge => `• ${challenge}`).join('\\par\n')}
+${cp.challenges.map(challenge => `\\bullet\\tab ${challenge}`).join('\\par\n')}
 \\par\\par
 
 `).join('\n')}
@@ -243,12 +243,12 @@ Reasoning: ${occ.reasoning}
 
 {\\b YOUR STRENGTHS:}
 \\par
-${results.personalityInsight.strengths.map(strength => `• ${strength}`).join('\\par\n')}
+${results.personalityInsight.strengths.map(strength => `\\bullet\\tab ${strength}`).join('\\par\n')}
 \\par\\par
 
 {\\b AREAS FOR GROWTH:}
 \\par
-${results.personalityInsight.areasForGrowth.map(area => `• ${area}`).join('\\par\n')}
+${results.personalityInsight.areasForGrowth.map(area => `\\bullet\\tab ${area}`).join('\\par\n')}
 \\par\\par
 
 {\\b YOUR WORKING STYLE:}
@@ -258,22 +258,22 @@ ${results.personalityInsight.workingStyle}
 
 {\\b WHAT MOTIVATES YOU:}
 \\par
-${results.personalityInsight.motivators.map(motivator => `• ${motivator}`).join('\\par\n')}
+${results.personalityInsight.motivators.map(motivator => `\\bullet\\tab ${motivator}`).join('\\par\n')}
 \\par\\par
 
 {\\b YOUR NATURAL TENDENCIES:}
 \\par
-${results.personalityInsight.naturalTendencies.map(tendency => `• ${tendency}`).join('\\par\n')}
+${results.personalityInsight.naturalTendencies.map(tendency => `\\bullet\\tab ${tendency}`).join('\\par\n')}
 \\par\\par
 
 {\\b RELATIONSHIP INSIGHTS:}
 \\par
-${results.personalityInsight.relationshipStyles.map(style => `• ${style}`).join('\\par\n')}
+${results.personalityInsight.relationshipStyles.map(style => `\\bullet\\tab ${style}`).join('\\par\n')}
 \\par\\par
 
 {\\b ENVIRONMENTS TO APPROACH WITH CAUTION:}
 \\par
-${results.personalityInsight.avoidanceAreas.map(area => `• ${area}`).join('\\par\n')}
+${results.personalityInsight.avoidanceAreas.map(area => `\\bullet\\tab ${area}`).join('\\par\n')}
 \\par\\par
 
 ${results.aiAnalysis?.hiddenBeliefs ? `
@@ -282,22 +282,22 @@ ${results.aiAnalysis?.hiddenBeliefs ? `
 
 {\\b SUCCESS BLOCKERS:}
 \\par
-${results.aiAnalysis.hiddenBeliefs.successBlockers.map(blocker => `• ${blocker}`).join('\\par\n')}
+${results.aiAnalysis.hiddenBeliefs.successBlockers.map(blocker => `\\bullet\\tab ${blocker}`).join('\\par\n')}
 \\par\\par
 
 {\\b MONEY BELIEFS:}
 \\par
-${results.aiAnalysis.hiddenBeliefs.moneyBeliefs.map(belief => `• ${belief}`).join('\\par\n')}
+${results.aiAnalysis.hiddenBeliefs.moneyBeliefs.map(belief => `\\bullet\\tab ${belief}`).join('\\par\n')}
 \\par\\par
 
 {\\b FEAR PATTERNS:}
 \\par
-${results.aiAnalysis.hiddenBeliefs.fearPatterns.map(pattern => `• ${pattern}`).join('\\par\n')}
+${results.aiAnalysis.hiddenBeliefs.fearPatterns.map(pattern => `\\bullet\\tab ${pattern}`).join('\\par\n')}
 \\par\\par
 
 {\\b CORE PSYCHOLOGICAL INSIGHTS:}
 \\par
-${results.aiAnalysis.hiddenBeliefs.coreInsights.map(insight => `• ${insight}`).join('\\par\n')}
+${results.aiAnalysis.hiddenBeliefs.coreInsights.map(insight => `\\bullet\\tab ${insight}`).join('\\par\n')}
 \\par\\par` : ''}
 
 ${results.aiAnalysis?.enhancedPersonality ? `
@@ -311,7 +311,7 @@ ${results.aiAnalysis.enhancedPersonality.cognitiveStyle}
 
 {\\b MOTIVATIONAL DRIVERS:}
 \\par
-${results.aiAnalysis.enhancedPersonality.motivationalDrivers.map(driver => `• ${driver}`).join('\\par\n')}
+${results.aiAnalysis.enhancedPersonality.motivationalDrivers.map(driver => `\\bullet\\tab ${driver}`).join('\\par\n')}
 \\par\\par
 
 {\\b RELATIONSHIP STYLE:}
@@ -330,27 +330,27 @@ ${results.aiAnalysis?.deepAnalysis ? `
 
 {\\b BEHAVIORAL PATTERNS:}
 \\par
-${results.aiAnalysis.deepAnalysis.behavioralPatterns.map(pattern => `• ${pattern}`).join('\\par\n')}
+${results.aiAnalysis.deepAnalysis.behavioralPatterns.map(pattern => `\\bullet\\tab ${pattern}`).join('\\par\n')}
 \\par\\par
 
 {\\b UNCONSCIOUS DRIVERS:}
 \\par
-${results.aiAnalysis.deepAnalysis.unconsciousDrivers.map(driver => `• ${driver}`).join('\\par\n')}
+${results.aiAnalysis.deepAnalysis.unconsciousDrivers.map(driver => `\\bullet\\tab ${driver}`).join('\\par\n')}
 \\par\\par
 
 {\\b BLIND SPOTS:}
 \\par
-${results.aiAnalysis.deepAnalysis.blindSpots.map(spot => `• ${spot}`).join('\\par\n')}
+${results.aiAnalysis.deepAnalysis.blindSpots.map(spot => `\\bullet\\tab ${spot}`).join('\\par\n')}
 \\par\\par
 
 {\\b SELF-SABOTAGE PATTERNS:}
 \\par
-${results.aiAnalysis.deepAnalysis.selfSabotagePatterns.map(pattern => `• ${pattern}`).join('\\par\n')}
+${results.aiAnalysis.deepAnalysis.selfSabotagePatterns.map(pattern => `\\bullet\\tab ${pattern}`).join('\\par\n')}
 \\par\\par
 
 {\\b EMOTIONAL TRIGGERS:}
 \\par
-${results.aiAnalysis.deepAnalysis.emotionalTriggers.map(trigger => `• ${trigger}`).join('\\par\n')}
+${results.aiAnalysis.deepAnalysis.emotionalTriggers.map(trigger => `\\bullet\\tab ${trigger}`).join('\\par\n')}
 \\par\\par
 
 {\\b DECISION-MAKING STYLE:}
@@ -389,17 +389,17 @@ ${results.aiAnalysis.lifePurpose.coreContribution}
 
 {\\b NATURAL GIFTS:}
 \\par
-${results.aiAnalysis.lifePurpose.naturalGifts.map(gift => `• ${gift}`).join('\\par\n')}
+${results.aiAnalysis.lifePurpose.naturalGifts.map(gift => `\\bullet\\tab ${gift}`).join('\\par\n')}
 \\par\\par
 
 {\\b MEANINGFUL IMPACT AREAS:}
 \\par
-${results.aiAnalysis.lifePurpose.meaningfulImpact.map(impact => `• ${impact}`).join('\\par\n')}
+${results.aiAnalysis.lifePurpose.meaningfulImpact.map(impact => `\\bullet\\tab ${impact}`).join('\\par\n')}
 \\par\\par
 
 {\\b WHAT THE WORLD NEEDS FROM YOU:}
 \\par
-${results.aiAnalysis.lifePurpose.worldNeeds.map(need => `• ${need}`).join('\\par\n')}
+${results.aiAnalysis.lifePurpose.worldNeeds.map(need => `\\bullet\\tab ${need}`).join('\\par\n')}
 \\par\\par
 
 {\\b PURPOSE ALIGNMENT:}
@@ -409,7 +409,7 @@ ${results.aiAnalysis.lifePurpose.purposeAlignment}
 
 {\\b FULFILLMENT FACTORS:}
 \\par
-${results.aiAnalysis.lifePurpose.fulfillmentFactors.map(factor => `• ${factor}`).join('\\par\n')}
+${results.aiAnalysis.lifePurpose.fulfillmentFactors.map(factor => `\\bullet\\tab ${factor}`).join('\\par\n')}
 \\par\\par
 
 {\\b LEGACY VISION:}

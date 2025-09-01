@@ -9,7 +9,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { FileText, Download } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { FileText, Download, Code, FileEdit } from 'lucide-react';
 
 interface DownloadFormatModalProps {
   isOpen: boolean;
@@ -35,32 +36,60 @@ export function DownloadFormatModal({
           </AlertDialogDescription>
         </AlertDialogHeader>
         
-        <div className="py-4 space-y-3">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="py-4 space-y-6">
+          {/* Format Information Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <Card className="border-muted">
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center gap-2 text-base">
+                  <Code className="h-4 w-4 text-primary" />
+                  Markdown (.md)
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <ul className="text-sm text-muted-foreground space-y-1">
+                  <li>• Clean, structured format</li>
+                  <li>• Perfect for developers</li>
+                  <li>• Works with GitHub, Notion</li>
+                  <li>• Easy to read and edit</li>
+                </ul>
+              </CardContent>
+            </Card>
+            
+            <Card className="border-muted">
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center gap-2 text-base">
+                  <FileEdit className="h-4 w-4 text-primary" />
+                  Rich Text (.rtf)
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <ul className="text-sm text-muted-foreground space-y-1">
+                  <li>• Formatted text document</li>
+                  <li>• Compatible with Word, Pages</li>
+                  <li>• Preserves text formatting</li>
+                  <li>• Works across platforms</li>
+                </ul>
+              </CardContent>
+            </Card>
+          </div>
+          
+          {/* Action Buttons */}
+          <div className="flex flex-col sm:flex-row gap-3">
             <AlertDialogAction
               onClick={() => onSelectFormat('markdown')}
-              className="h-auto p-4 flex-col items-start bg-primary hover:bg-primary/90"
+              className="flex-1"
             >
-              <div className="flex items-center gap-2 mb-2">
-                <FileText className="h-4 w-4" />
-                <span className="font-semibold">Markdown</span>
-              </div>
-              <span className="text-xs text-left opacity-90">
-                Clean, structured format. Perfect for developers and note-taking apps.
-              </span>
+              <Code className="mr-2 h-4 w-4" />
+              Download as Markdown
             </AlertDialogAction>
             
             <AlertDialogAction
               onClick={() => onSelectFormat('richtext')}
-              className="h-auto p-4 flex-col items-start bg-secondary hover:bg-secondary/90 text-secondary-foreground"
+              className="flex-1"
             >
-              <div className="flex items-center gap-2 mb-2">
-                <FileText className="h-4 w-4" />
-                <span className="font-semibold">Rich Text</span>
-              </div>
-              <span className="text-xs text-left opacity-90">
-                Formatted text file. Compatible with Word, Pages, and most text editors.
-              </span>
+              <FileEdit className="mr-2 h-4 w-4" />
+              Download as Rich Text
             </AlertDialogAction>
           </div>
         </div>
