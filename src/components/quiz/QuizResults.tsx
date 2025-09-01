@@ -291,31 +291,49 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
       const canvas = await html2canvas(element, {
         scale: 2, // High quality but not excessive
         useCORS: true,
-        allowTaint: false,
-        backgroundColor: '#ffffff', // Ensure white background
+        allowTaint: true,
+        backgroundColor: null, // Let natural backgrounds show
         width: element.scrollWidth,
         height: element.scrollHeight,
-        windowWidth: element.scrollWidth,
-        windowHeight: element.scrollHeight,
         scrollX: 0,
         scrollY: 0,
         x: 0,
         y: 0,
         foreignObjectRendering: true,
         imageTimeout: 15000,
-        onclone: (clonedDoc, element) => {
-          // Ensure fonts are loaded in cloned document
+        logging: true, // Enable logging for debugging
+        onclone: (clonedDoc, clonedElement) => {
+          // Find the actual results container
+          const resultsContainer = clonedElement.querySelector('[data-results-target]') as HTMLElement;
+          if (resultsContainer) {
+            // Ensure proper visibility and positioning
+            resultsContainer.style.visibility = 'visible';
+            resultsContainer.style.opacity = '1';
+            resultsContainer.style.display = 'block';
+            resultsContainer.style.position = 'relative';
+            resultsContainer.style.top = '0';
+            resultsContainer.style.left = '0';
+            resultsContainer.style.transform = 'none';
+          }
+
+          // Ensure body and html have proper styles
+          clonedDoc.body.style.margin = '0';
+          clonedDoc.body.style.padding = '0';
+          clonedDoc.documentElement.style.margin = '0';
+          clonedDoc.documentElement.style.padding = '0';
+
+          // Add essential styles without overriding everything
           const style = clonedDoc.createElement('style');
           style.textContent = `
+            body { 
+              margin: 0 !important; 
+              padding: 0 !important; 
+              font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+            }
             * { 
-              font-family: system-ui, -apple-system, sans-serif !important;
               animation: none !important;
               transition: none !important;
             }
-            .bg-background { background-color: #ffffff !important; }
-            .bg-quiz-card { background-color: #ffffff !important; }
-            .text-foreground { color: #000000 !important; }
-            .text-muted-foreground { color: #666666 !important; }
           `;
           clonedDoc.head.appendChild(style);
         }
