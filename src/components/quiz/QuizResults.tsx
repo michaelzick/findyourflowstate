@@ -346,19 +346,25 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
 
                     <div className="grid md:grid-cols-2 gap-4 text-sm">
                       <div>
-                        <h4 className="font-medium mb-2 text-accent">Strengths</h4>
-                        <ul className="list-disc list-inside space-y-1 text-muted-foreground">
+                        <h4 className="font-medium mb-3 text-accent">Strengths</h4>
+                        <ul className="space-y-2">
                           {career.strengths.map((strength) => (
-                            <li key={strength}>{strength}</li>
+                            <li key={strength} className="flex items-start gap-2">
+                              <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
+                              <span className="text-sm text-muted-foreground">{strength}</span>
+                            </li>
                           ))}
                         </ul>
                       </div>
 
                       <div>
-                        <h4 className="font-medium mb-2 text-red-400">Challenges</h4>
-                        <ul className="list-disc list-inside space-y-1 text-muted-foreground">
+                        <h4 className="font-medium mb-3 text-red-400">Challenges</h4>
+                        <ul className="space-y-2">
                           {career.challenges.map((challenge) => (
-                            <li key={challenge}>{challenge}</li>
+                            <li key={challenge} className="flex items-start gap-2">
+                              <div className="w-1.5 h-1.5 rounded-full bg-red-400 mt-2 flex-shrink-0" />
+                              <span className="text-sm text-muted-foreground">{challenge}</span>
+                            </li>
                           ))}
                         </ul>
                       </div>
@@ -424,10 +430,11 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
 
               <div>
                 <h3 className="font-semibold mb-3">Your Natural Tendencies</h3>
-                <ul className="space-y-1">
+                <ul className="space-y-2">
                   {results.personalityInsight.naturalTendencies.map((tendency) => (
-                    <li key={tendency} className="text-sm text-muted-foreground">
-                      • {tendency}
+                    <li key={tendency} className="flex items-start gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
+                      <span className="text-sm text-muted-foreground">{tendency}</span>
                     </li>
                   ))}
                 </ul>
@@ -435,10 +442,11 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
 
               <div>
                 <h3 className="font-semibold mb-3">Relationship Insights</h3>
-                <ul className="space-y-1">
+                <ul className="space-y-2">
                   {results.personalityInsight.relationshipStyles.map((style) => (
-                    <li key={style} className="text-sm text-muted-foreground">
-                      • {style}
+                    <li key={style} className="flex items-start gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
+                      <span className="text-sm text-muted-foreground">{style}</span>
                     </li>
                   ))}
                 </ul>
@@ -507,7 +515,7 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                     <ul className="space-y-2">
                       {results.aiAnalysis.hiddenBeliefs.moneyBeliefs.map((belief, index) => (
                         <li key={index} className="flex items-start gap-2">
-                          <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
+                          <div className="w-1.5 h-1.5 rounded-full bg-red-400 mt-2 flex-shrink-0" />
                           <span className="text-sm">{belief}</span>
                         </li>
                       ))}
@@ -529,10 +537,11 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
 
                 <div>
                   <h3 className="font-semibold mb-3 text-accent">Core Insights</h3>
-                  <ul className="space-y-3">
+                  <ul className="space-y-2">
                     {results.aiAnalysis.hiddenBeliefs.coreInsights.map((insight, index) => (
-                      <li key={index} className="text-sm text-muted-foreground p-4 bg-card/30 rounded-lg">
-                        {insight}
+                      <li key={index} className="flex items-start gap-2">
+                        <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
+                        <span className="text-sm text-muted-foreground">{insight}</span>
                       </li>
                     ))}
                   </ul>
@@ -655,21 +664,21 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                 <div className="space-y-6">
                   <div>
                     <h3 className="font-semibold mb-3 text-accent">Decision-Making Style</h3>
-                    <p className="text-sm text-muted-foreground p-4 bg-card/30 rounded-lg">
+                    <p className="text-sm text-muted-foreground">
                       {results.aiAnalysis.deepAnalysis.decisionMakingStyle}
                     </p>
                   </div>
 
                   <div>
                     <h3 className="font-semibold mb-3 text-accent">Communication Style</h3>
-                    <p className="text-sm text-muted-foreground p-4 bg-card/30 rounded-lg">
+                    <p className="text-sm text-muted-foreground">
                       {results.aiAnalysis.deepAnalysis.communicationStyle}
                     </p>
                   </div>
 
                   <div>
                     <h3 className="font-semibold mb-3 text-accent">Leadership Style</h3>
-                    <p className="text-sm text-muted-foreground p-4 bg-card/30 rounded-lg">
+                    <p className="text-sm text-muted-foreground">
                       {results.aiAnalysis.deepAnalysis.leadershipStyle}
                     </p>
                   </div>
@@ -716,43 +725,43 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
 
                   <div>
                     <h3 className="font-semibold mb-3 text-accent">Your Natural Gifts</h3>
-                    <div className="grid md:grid-cols-2 gap-3">
+                    <ul className="space-y-2">
                       {results.aiAnalysis.lifePurpose.naturalGifts.map((gift, index) => (
-                        <div key={index} className="flex items-start gap-2">
+                        <li key={index} className="flex items-start gap-2">
                           <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
                           <span className="text-sm">{gift}</span>
-                        </div>
+                        </li>
                       ))}
-                    </div>
+                    </ul>
                   </div>
 
                   <div>
                     <h3 className="font-semibold mb-3 text-accent">Meaningful Impact Areas</h3>
-                    <div className="grid md:grid-cols-2 gap-3">
+                    <ul className="space-y-2">
                       {results.aiAnalysis.lifePurpose.meaningfulImpact.map((impact, index) => (
-                        <div key={index} className="flex items-start gap-2">
+                        <li key={index} className="flex items-start gap-2">
                           <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
                           <span className="text-sm">{impact}</span>
-                        </div>
+                        </li>
                       ))}
-                    </div>
+                    </ul>
                   </div>
 
                   <div>
                     <h3 className="font-semibold mb-3 text-accent">What the World Needs from You</h3>
-                    <div className="grid md:grid-cols-2 gap-3">
+                    <ul className="space-y-2">
                       {results.aiAnalysis.lifePurpose.worldNeeds.map((need, index) => (
-                        <div key={index} className="flex items-start gap-2">
+                        <li key={index} className="flex items-start gap-2">
                           <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
                           <span className="text-sm">{need}</span>
-                        </div>
+                        </li>
                       ))}
-                    </div>
+                    </ul>
                   </div>
 
                   <div>
                     <h3 className="font-semibold mb-3 text-accent">Purpose Alignment</h3>
-                    <p className="text-sm text-muted-foreground p-4 bg-card/30 rounded-lg">
+                    <p className="text-sm text-muted-foreground">
                       {results.aiAnalysis.lifePurpose.purposeAlignment}
                     </p>
                   </div>
@@ -769,17 +778,17 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                     </ul>
                   </div>
 
-                  <div className="grid md:grid-cols-2 gap-6">
+                  <div className="space-y-6">
                     <div>
                       <h3 className="font-semibold mb-3 text-accent">Legacy Vision</h3>
-                      <p className="text-sm text-muted-foreground p-4 bg-card/30 rounded-lg">
+                      <p className="text-sm text-muted-foreground">
                         {results.aiAnalysis.lifePurpose.legacyVision}
                       </p>
                     </div>
 
                     <div>
                       <h3 className="font-semibold mb-3 text-accent">Service Orientation</h3>
-                      <p className="text-sm text-muted-foreground p-4 bg-card/30 rounded-lg">
+                      <p className="text-sm text-muted-foreground">
                         {results.aiAnalysis.lifePurpose.serviceOrientation}
                       </p>
                     </div>
@@ -787,7 +796,7 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
 
                   <div>
                     <h3 className="font-semibold mb-3 text-accent">Spiritual Dimension</h3>
-                    <p className="text-sm text-muted-foreground p-4 bg-accent/5 rounded border border-accent/20">
+                    <p className="text-sm text-muted-foreground">
                       {results.aiAnalysis.lifePurpose.spiritualDimension}
                     </p>
                   </div>
