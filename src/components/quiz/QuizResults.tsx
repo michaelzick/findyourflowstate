@@ -265,7 +265,7 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
   return (
     <div className="min-h-screen bg-background animate-in fade-in-0 duration-500">
       <div className="container mx-auto px-4 py-8">
-        <div className="max-w-4xl mx-auto space-y-8">
+        <div className="max-w-4xl mx-auto space-y-12">
           {/* Header */}
           <div className="text-center space-y-4 animate-in slide-in-from-top-4 duration-700">
             <h1 className="text-4xl font-bold">
@@ -293,7 +293,7 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
           />
 
           {/* Career Paths */}
-          <div className="space-y-6">
+          <div className="space-y-8">
             <h2 className="text-2xl font-semibold text-center">Your Top Career Paths</h2>
             <div className="grid gap-6">
               {results.careerPaths.map((career, index) => (
@@ -320,31 +320,33 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
 
                     <div className="grid md:grid-cols-2 gap-4 text-sm">
                       <div>
-                        <h4 className="font-medium mb-2">Key Traits</h4>
-                        <div className="flex flex-wrap gap-1">
+                        <h4 className="font-medium mb-3">Key Traits</h4>
+                        <ul className="space-y-2">
                           {career.keyTraits.map((trait) => (
-                            <Badge key={trait} variant="secondary" className="text-xs">
-                              {trait}
-                            </Badge>
+                            <li key={trait} className="flex items-start gap-2">
+                              <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
+                              <span className="text-sm text-muted-foreground">{trait}</span>
+                            </li>
                           ))}
-                        </div>
+                        </ul>
                       </div>
 
                       <div>
-                        <h4 className="font-medium mb-2">Typical Roles</h4>
-                        <div className="flex flex-wrap gap-1">
+                        <h4 className="font-medium mb-3">Typical Roles</h4>
+                        <ul className="space-y-2">
                           {career.typicalRoles.map((role) => (
-                            <Badge key={role} variant="outline" className="text-xs">
-                              {role}
-                            </Badge>
+                            <li key={role} className="flex items-start gap-2">
+                              <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
+                              <span className="text-sm text-muted-foreground">{role}</span>
+                            </li>
                           ))}
-                        </div>
+                        </ul>
                       </div>
                     </div>
 
                     <div className="grid md:grid-cols-2 gap-4 text-sm">
                       <div>
-                        <h4 className="font-medium mb-2 text-teal-300">Strengths</h4>
+                        <h4 className="font-medium mb-2 text-accent">Strengths</h4>
                         <ul className="list-disc list-inside space-y-1 text-muted-foreground">
                           {career.strengths.map((strength) => (
                             <li key={strength}>{strength}</li>
@@ -353,7 +355,7 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                       </div>
 
                       <div>
-                        <h4 className="font-medium mb-2 text-red-600">Challenges</h4>
+                        <h4 className="font-medium mb-2 text-red-400">Challenges</h4>
                         <ul className="list-disc list-inside space-y-1 text-muted-foreground">
                           {career.challenges.map((challenge) => (
                             <li key={challenge}>{challenge}</li>
@@ -374,16 +376,16 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
 
           {/* Personality Insights */}
           <Card className="p-6 bg-quiz-card border-border shadow-quiz">
-            <div className="space-y-6">
+            <div className="space-y-8">
               <h2 className="text-2xl font-semibold text-center">Your Personality Profile</h2>
 
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <h3 className="font-semibold mb-3 text-teal-300">Your Strengths</h3>
+                  <h3 className="font-semibold mb-3 text-accent">Your Strengths</h3>
                   <ul className="space-y-2">
                     {results.personalityInsight.strengths.map((strength) => (
                       <li key={strength} className="flex items-start gap-2">
-                        <div className="w-2 h-2 rounded-full bg-accent mt-2 flex-shrink-0" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
                         <span className="text-sm">{strength}</span>
                       </li>
                     ))}
@@ -391,11 +393,11 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                 </div>
 
                 <div>
-                  <h3 className="font-semibold mb-3 text-teal-300">Areas for Growth</h3>
+                  <h3 className="font-semibold mb-3 text-accent">Areas for Growth</h3>
                   <ul className="space-y-2">
                     {results.personalityInsight.areasForGrowth.map((area) => (
                       <li key={area} className="flex items-start gap-2">
-                        <div className="w-2 h-2 rounded-full bg-secondary mt-2 flex-shrink-0" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
                         <span className="text-sm">{area}</span>
                       </li>
                     ))}
@@ -410,13 +412,14 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
 
               <div>
                 <h3 className="font-semibold mb-3">What Motivates You</h3>
-                <div className="flex flex-wrap gap-2">
+                <ul className="space-y-2">
                   {results.personalityInsight.motivators.map((motivator) => (
-                    <Badge key={motivator} variant="secondary">
-                      {motivator}
-                    </Badge>
+                    <li key={motivator} className="flex items-start gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
+                      <span className="text-sm text-muted-foreground">{motivator}</span>
+                    </li>
                   ))}
-                </div>
+                </ul>
               </div>
 
               <div>
@@ -461,7 +464,7 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                     .map((occupation) => (
                       <div key={occupation.title} className="border border-border rounded-lg p-4">
                         <div className="flex items-center justify-between mb-2">
-                          <h3 className="font-semibold text-teal-300">{occupation.title}</h3>
+                          <h3 className="font-semibold text-accent">{occupation.title}</h3>
                           <div className="text-sm text-primary font-medium">{occupation.fitScore}% fit</div>
                         </div>
                         <p className="text-sm text-muted-foreground mb-2">Category: {occupation.category}</p>
@@ -488,11 +491,11 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
 
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <h3 className="font-semibold mb-3 text-red-600">Success Blockers</h3>
+                    <h3 className="font-semibold mb-3 text-red-400">Success Blockers</h3>
                     <ul className="space-y-2">
                       {results.aiAnalysis.hiddenBeliefs.successBlockers.map((blocker, index) => (
                         <li key={index} className="flex items-start gap-2">
-                          <div className="w-2 h-2 rounded-full bg-destructive mt-2 flex-shrink-0" />
+                          <div className="w-1.5 h-1.5 rounded-full bg-red-400 mt-2 flex-shrink-0" />
                           <span className="text-sm">{blocker}</span>
                         </li>
                       ))}
@@ -500,11 +503,11 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                   </div>
 
                   <div>
-                    <h3 className="font-semibold mb-3 text-red-600">Money Beliefs</h3>
+                    <h3 className="font-semibold mb-3 text-red-400">Money Beliefs</h3>
                     <ul className="space-y-2">
                       {results.aiAnalysis.hiddenBeliefs.moneyBeliefs.map((belief, index) => (
                         <li key={index} className="flex items-start gap-2">
-                          <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0" />
+                          <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
                           <span className="text-sm">{belief}</span>
                         </li>
                       ))}
@@ -513,21 +516,22 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                 </div>
 
                 <div>
-                  <h3 className="font-semibold mb-3 text-red-600">Fear Patterns</h3>
-                  <div className="flex flex-wrap gap-2">
+                  <h3 className="font-semibold mb-3 text-red-400">Fear Patterns</h3>
+                  <ul className="space-y-2">
                     {results.aiAnalysis.hiddenBeliefs.fearPatterns.map((pattern, index) => (
-                      <Badge key={index} variant="secondary">
-                        {pattern}
-                      </Badge>
+                      <li key={index} className="flex items-start gap-2">
+                        <div className="w-1.5 h-1.5 rounded-full bg-red-400 mt-2 flex-shrink-0" />
+                        <span className="text-sm text-muted-foreground">{pattern}</span>
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                 </div>
 
                 <div>
-                  <h3 className="font-semibold mb-3 text-teal-300">Core Insights</h3>
+                  <h3 className="font-semibold mb-3 text-accent">Core Insights</h3>
                   <ul className="space-y-3">
                     {results.aiAnalysis.hiddenBeliefs.coreInsights.map((insight, index) => (
-                      <li key={index} className="text-sm text-muted-foreground p-3 bg-background/50 rounded border-l-4 border-accent">
+                      <li key={index} className="text-sm text-muted-foreground p-4 bg-card/30 rounded-lg">
                         {insight}
                       </li>
                     ))}
@@ -551,28 +555,29 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                 <h2 className="text-2xl font-semibold text-center">Enhanced Personality Analysis</h2>
 
                 <div>
-                  <h3 className="font-semibold mb-3 text-teal-300">Cognitive Style</h3>
+                  <h3 className="font-semibold mb-3 text-accent">Cognitive Style</h3>
                   <p className="text-sm text-muted-foreground">{results.aiAnalysis.enhancedPersonality.cognitiveStyle}</p>
                 </div>
 
                 <div>
-                  <h3 className="font-semibold mb-3 text-teal-300">Motivational Drivers</h3>
-                  <div className="flex flex-wrap gap-2">
+                  <h3 className="font-semibold mb-3 text-accent">Motivational Drivers</h3>
+                  <ul className="space-y-2">
                     {results.aiAnalysis.enhancedPersonality.motivationalDrivers.map((driver, index) => (
-                      <Badge key={index} variant="secondary">
-                        {driver}
-                      </Badge>
+                      <li key={index} className="flex items-start gap-2">
+                        <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
+                        <span className="text-sm text-muted-foreground">{driver}</span>
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                 </div>
 
                 <div>
-                  <h3 className="font-semibold mb-3 text-teal-300">Relationship Style</h3>
+                  <h3 className="font-semibold mb-3 text-accent">Relationship Style</h3>
                   <p className="text-sm text-muted-foreground">{results.aiAnalysis.enhancedPersonality.relationshipStyle}</p>
                 </div>
 
                 <div>
-                  <h3 className="font-semibold mb-3 text-teal-300">Work Environment Needs</h3>
+                  <h3 className="font-semibold mb-3 text-accent">Work Environment Needs</h3>
                   <p className="text-sm text-muted-foreground">{results.aiAnalysis.enhancedPersonality.workEnvironmentNeeds}</p>
                 </div>
               </div>
@@ -597,11 +602,11 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
 
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <h3 className="font-semibold mb-3 text-teal-300">Behavioral Patterns</h3>
+                    <h3 className="font-semibold mb-3 text-accent">Behavioral Patterns</h3>
                     <ul className="space-y-2">
                       {results.aiAnalysis.deepAnalysis.behavioralPatterns.map((pattern, index) => (
                         <li key={index} className="flex items-start gap-2">
-                          <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0" />
+                          <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
                           <span className="text-sm">{pattern}</span>
                         </li>
                       ))}
@@ -609,11 +614,11 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                   </div>
 
                   <div>
-                    <h3 className="font-semibold mb-3 text-red-600">Blind Spots</h3>
+                    <h3 className="font-semibold mb-3 text-red-400">Blind Spots</h3>
                     <ul className="space-y-2">
                       {results.aiAnalysis.deepAnalysis.blindSpots.map((blindSpot, index) => (
                         <li key={index} className="flex items-start gap-2">
-                          <div className="w-2 h-2 rounded-full bg-destructive mt-2 flex-shrink-0" />
+                          <div className="w-1.5 h-1.5 rounded-full bg-red-400 mt-2 flex-shrink-0" />
                           <span className="text-sm">{blindSpot}</span>
                         </li>
                       ))}
@@ -623,11 +628,11 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
 
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <h3 className="font-semibold mb-3 text-teal-300">Unconscious Drivers</h3>
+                    <h3 className="font-semibold mb-3 text-accent">Unconscious Drivers</h3>
                     <ul className="space-y-2">
                       {results.aiAnalysis.deepAnalysis.unconsciousDrivers.map((driver, index) => (
                         <li key={index} className="flex items-start gap-2">
-                          <div className="w-2 h-2 rounded-full bg-accent mt-2 flex-shrink-0" />
+                          <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
                           <span className="text-sm">{driver}</span>
                         </li>
                       ))}
@@ -635,11 +640,11 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                   </div>
 
                   <div>
-                    <h3 className="font-semibold mb-3 text-red-600">Self-Sabotage Patterns</h3>
+                    <h3 className="font-semibold mb-3 text-red-400">Self-Sabotage Patterns</h3>
                     <ul className="space-y-2">
                       {results.aiAnalysis.deepAnalysis.selfSabotagePatterns.map((pattern, index) => (
                         <li key={index} className="flex items-start gap-2">
-                          <div className="w-2 h-2 rounded-full bg-destructive mt-2 flex-shrink-0" />
+                          <div className="w-1.5 h-1.5 rounded-full bg-red-400 mt-2 flex-shrink-0" />
                           <span className="text-sm">{pattern}</span>
                         </li>
                       ))}
@@ -647,38 +652,39 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                   </div>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-6">
                   <div>
-                    <h3 className="font-semibold mb-3 text-teal-300">Decision-Making Style</h3>
-                    <p className="text-sm text-muted-foreground p-3 bg-background/50 rounded border-l-4 border-primary">
+                    <h3 className="font-semibold mb-3 text-accent">Decision-Making Style</h3>
+                    <p className="text-sm text-muted-foreground p-4 bg-card/30 rounded-lg">
                       {results.aiAnalysis.deepAnalysis.decisionMakingStyle}
                     </p>
                   </div>
 
                   <div>
-                    <h3 className="font-semibold mb-3 text-teal-300">Communication Style</h3>
-                    <p className="text-sm text-muted-foreground p-3 bg-background/50 rounded border-l-4 border-primary">
+                    <h3 className="font-semibold mb-3 text-accent">Communication Style</h3>
+                    <p className="text-sm text-muted-foreground p-4 bg-card/30 rounded-lg">
                       {results.aiAnalysis.deepAnalysis.communicationStyle}
                     </p>
                   </div>
 
                   <div>
-                    <h3 className="font-semibold mb-3 text-teal-300">Leadership Style</h3>
-                    <p className="text-sm text-muted-foreground p-3 bg-background/50 rounded border-l-4 border-primary">
+                    <h3 className="font-semibold mb-3 text-accent">Leadership Style</h3>
+                    <p className="text-sm text-muted-foreground p-4 bg-card/30 rounded-lg">
                       {results.aiAnalysis.deepAnalysis.leadershipStyle}
                     </p>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="font-semibold mb-3 text-red-600">Emotional Triggers</h3>
-                  <div className="flex flex-wrap gap-2">
+                  <h3 className="font-semibold mb-3 text-red-400">Emotional Triggers</h3>
+                  <ul className="space-y-2">
                     {results.aiAnalysis.deepAnalysis.emotionalTriggers.map((trigger, index) => (
-                      <Badge key={index} variant="secondary" className="bg-destructive/10 text-destructive border-destructive/20">
-                        {trigger}
-                      </Badge>
+                      <li key={index} className="flex items-start gap-2">
+                        <div className="w-1.5 h-1.5 rounded-full bg-red-400 mt-2 flex-shrink-0" />
+                        <span className="text-sm text-muted-foreground">{trigger}</span>
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                 </div>
               </div>
             </Card>
@@ -709,11 +715,11 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                   </div>
 
                   <div>
-                    <h3 className="font-semibold mb-3 text-teal-300">Your Natural Gifts</h3>
+                    <h3 className="font-semibold mb-3 text-accent">Your Natural Gifts</h3>
                     <div className="grid md:grid-cols-2 gap-3">
                       {results.aiAnalysis.lifePurpose.naturalGifts.map((gift, index) => (
                         <div key={index} className="flex items-start gap-2">
-                          <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0" />
+                          <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
                           <span className="text-sm">{gift}</span>
                         </div>
                       ))}
@@ -721,11 +727,11 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                   </div>
 
                   <div>
-                    <h3 className="font-semibold mb-3 text-teal-300">Meaningful Impact Areas</h3>
+                    <h3 className="font-semibold mb-3 text-accent">Meaningful Impact Areas</h3>
                     <div className="grid md:grid-cols-2 gap-3">
                       {results.aiAnalysis.lifePurpose.meaningfulImpact.map((impact, index) => (
                         <div key={index} className="flex items-start gap-2">
-                          <div className="w-2 h-2 rounded-full bg-accent mt-2 flex-shrink-0" />
+                          <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
                           <span className="text-sm">{impact}</span>
                         </div>
                       ))}
@@ -733,11 +739,11 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                   </div>
 
                   <div>
-                    <h3 className="font-semibold mb-3 text-teal-300">What the World Needs from You</h3>
+                    <h3 className="font-semibold mb-3 text-accent">What the World Needs from You</h3>
                     <div className="grid md:grid-cols-2 gap-3">
                       {results.aiAnalysis.lifePurpose.worldNeeds.map((need, index) => (
                         <div key={index} className="flex items-start gap-2">
-                          <div className="w-2 h-2 rounded-full bg-secondary mt-2 flex-shrink-0" />
+                          <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
                           <span className="text-sm">{need}</span>
                         </div>
                       ))}
@@ -745,41 +751,42 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                   </div>
 
                   <div>
-                    <h3 className="font-semibold mb-3 text-teal-300">Purpose Alignment</h3>
-                    <p className="text-sm text-muted-foreground p-4 bg-background/50 rounded border-l-4 border-accent">
+                    <h3 className="font-semibold mb-3 text-accent">Purpose Alignment</h3>
+                    <p className="text-sm text-muted-foreground p-4 bg-card/30 rounded-lg">
                       {results.aiAnalysis.lifePurpose.purposeAlignment}
                     </p>
                   </div>
 
                   <div>
-                    <h3 className="font-semibold mb-3 text-teal-300">Fulfillment Factors</h3>
-                    <div className="flex flex-wrap gap-2">
+                    <h3 className="font-semibold mb-3 text-accent">Fulfillment Factors</h3>
+                    <ul className="space-y-2">
                       {results.aiAnalysis.lifePurpose.fulfillmentFactors.map((factor, index) => (
-                        <Badge key={index} variant="secondary">
-                          {factor}
-                        </Badge>
+                        <li key={index} className="flex items-start gap-2">
+                          <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
+                          <span className="text-sm text-muted-foreground">{factor}</span>
+                        </li>
                       ))}
-                    </div>
+                    </ul>
                   </div>
 
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <h3 className="font-semibold mb-3 text-teal-300">Legacy Vision</h3>
-                      <p className="text-sm text-muted-foreground p-3 bg-background/50 rounded border-l-4 border-primary">
+                      <h3 className="font-semibold mb-3 text-accent">Legacy Vision</h3>
+                      <p className="text-sm text-muted-foreground p-4 bg-card/30 rounded-lg">
                         {results.aiAnalysis.lifePurpose.legacyVision}
                       </p>
                     </div>
 
                     <div>
-                      <h3 className="font-semibold mb-3 text-teal-300">Service Orientation</h3>
-                      <p className="text-sm text-muted-foreground p-3 bg-background/50 rounded border-l-4 border-primary">
+                      <h3 className="font-semibold mb-3 text-accent">Service Orientation</h3>
+                      <p className="text-sm text-muted-foreground p-4 bg-card/30 rounded-lg">
                         {results.aiAnalysis.lifePurpose.serviceOrientation}
                       </p>
                     </div>
                   </div>
 
                   <div>
-                    <h3 className="font-semibold mb-3 text-teal-300">Spiritual Dimension</h3>
+                    <h3 className="font-semibold mb-3 text-accent">Spiritual Dimension</h3>
                     <p className="text-sm text-muted-foreground p-4 bg-accent/5 rounded border border-accent/20">
                       {results.aiAnalysis.lifePurpose.spiritualDimension}
                     </p>
