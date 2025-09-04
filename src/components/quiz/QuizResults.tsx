@@ -723,40 +723,56 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                     </p>
                   </div>
 
-                  <div>
-                    <h3 className="font-semibold mb-3 text-accent">Your Natural Gifts</h3>
-                    <ul className="space-y-2">
-                      {results.aiAnalysis.lifePurpose.naturalGifts.map((gift, index) => (
-                        <li key={index} className="flex items-start gap-2">
-                          <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
-                          <span className="text-sm">{gift}</span>
-                        </li>
-                      ))}
-                    </ul>
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <h3 className="font-semibold mb-3 text-accent">Your Natural Gifts</h3>
+                      <ul className="space-y-2">
+                        {results.aiAnalysis.lifePurpose.naturalGifts.map((gift, index) => (
+                          <li key={index} className="flex items-start gap-2">
+                            <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
+                            <span className="text-sm">{gift}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div>
+                      <h3 className="font-semibold mb-3 text-accent">Meaningful Impact Areas</h3>
+                      <ul className="space-y-2">
+                        {results.aiAnalysis.lifePurpose.meaningfulImpact.map((impact, index) => (
+                          <li key={index} className="flex items-start gap-2">
+                            <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
+                            <span className="text-sm">{impact}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
 
-                  <div>
-                    <h3 className="font-semibold mb-3 text-accent">Meaningful Impact Areas</h3>
-                    <ul className="space-y-2">
-                      {results.aiAnalysis.lifePurpose.meaningfulImpact.map((impact, index) => (
-                        <li key={index} className="flex items-start gap-2">
-                          <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
-                          <span className="text-sm">{impact}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <h3 className="font-semibold mb-3 text-accent">What the World Needs from You</h3>
+                      <ul className="space-y-2">
+                        {results.aiAnalysis.lifePurpose.worldNeeds.map((need, index) => (
+                          <li key={index} className="flex items-start gap-2">
+                            <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
+                            <span className="text-sm">{need}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
 
-                  <div>
-                    <h3 className="font-semibold mb-3 text-accent">What the World Needs from You</h3>
-                    <ul className="space-y-2">
-                      {results.aiAnalysis.lifePurpose.worldNeeds.map((need, index) => (
-                        <li key={index} className="flex items-start gap-2">
-                          <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
-                          <span className="text-sm">{need}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    <div>
+                      <h3 className="font-semibold mb-3 text-accent">Fulfillment Factors</h3>
+                      <ul className="space-y-2">
+                        {results.aiAnalysis.lifePurpose.fulfillmentFactors.map((factor, index) => (
+                          <li key={index} className="flex items-start gap-2">
+                            <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
+                            <span className="text-sm">{factor}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
 
                   <div>
@@ -764,18 +780,6 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
                     <p className="text-sm text-muted-foreground">
                       {results.aiAnalysis.lifePurpose.purposeAlignment}
                     </p>
-                  </div>
-
-                  <div>
-                    <h3 className="font-semibold mb-3 text-accent">Fulfillment Factors</h3>
-                    <ul className="space-y-2">
-                      {results.aiAnalysis.lifePurpose.fulfillmentFactors.map((factor, index) => (
-                        <li key={index} className="flex items-start gap-2">
-                          <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
-                          <span className="text-sm text-muted-foreground">{factor}</span>
-                        </li>
-                      ))}
-                    </ul>
                   </div>
 
                   <div className="space-y-6">
