@@ -4,9 +4,10 @@ import { useQuiz } from '@/contexts/QuizContext';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { BuyMeCoffeeButton } from '@/components/ui/buy-me-coffee-button';
 import { Progress } from '@/components/ui/progress';
-import { RotateCcw, Download, Copy, X } from 'lucide-react';
+import { RotateCcw, Download, Copy, X, HelpCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useStickyFooter } from '@/hooks/use-sticky-footer';
 import { AIAnalysisStatus, AIAnalysisLoading } from './AIAnalysisStatus';
@@ -275,9 +276,26 @@ Assessment Date: ${results.completedAt.toLocaleDateString()}
               Based on comprehensive psychological analysis of your responses
             </p>
             <div className="flex items-center justify-center gap-4">
-              <Badge variant="outline" className="text-sm">
-                Confidence: {results.confidence}%
-              </Badge>
+              <TooltipProvider>
+                <div className="flex items-center gap-2">
+                  <Badge variant="outline" className="text-sm">
+                    Confidence: {results.confidence}%
+                  </Badge>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <button className="inline-flex items-center justify-center w-4 h-4 rounded-full border border-muted-foreground/30 hover:border-muted-foreground/60 transition-colors">
+                        <HelpCircle className="w-3 h-3 text-muted-foreground hover:text-foreground transition-colors" />
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent side="bottom" className="max-w-xs">
+                      <p className="text-sm">
+                        The confidence score reflects how well your responses align with established career patterns.
+                        Higher scores (80%+) indicate strong alignment, while lower scores suggest exploring multiple paths or retaking with more decisive answers.
+                      </p>
+                    </TooltipContent>
+                  </Tooltip>
+                </div>
+              </TooltipProvider>
               <Badge variant="outline" className="text-sm">
                 Completed: {results.completedAt.toLocaleDateString()}
               </Badge>
