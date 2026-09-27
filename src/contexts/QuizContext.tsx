@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer, ReactNode, useEffect } from 'react';
+import React, { createContext, useContext, useReducer, ReactNode, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { QuizAnswer, QuizResults } from '@/types/quiz';
 import { calculateQuizResults } from '@/utils/quiz-scoring';
@@ -492,16 +492,18 @@ export function QuizProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const loadResultsFromStorage = (): QuizResults | null => {
-    const result = storage.loadResults();
+  const loadStoredResults = storage.loadResults;
+  const logStorageError = logger.error;
+  const loadResultsFromStorage = useCallback((): QuizResults | null => {
+    const result = loadStoredResults();
     dispatch({ type: 'LOAD_RESULTS_FROM_STORAGE', payload: result.results });
     
     if (result.error) {
-      logger.error('Failed to load results from storage:', result.error);
+      logStorageError('Failed to load results from storage:', result.error);
     }
     
     return result.results;
-  };
+  }, [loadStoredResults, logStorageError]);
 
   const clearActiveResults = () => {
     dispatch({ type: 'CLEAR_ACTIVE_RESULTS' });
@@ -511,9 +513,9 @@ export function QuizProvider({ children }: { children: ReactNode }) {
     return hasStoredQuizResults();
   };
 
-  const setResultsRoute = (isResultsRoute: boolean) => {
+  const setResultsRoute = useCallback((isResultsRoute: boolean) => {
     dispatch({ type: 'SET_RESULTS_ROUTE', payload: isResultsRoute });
-  };
+  }, []);
 
   const loadSavedProgress = (): boolean => {
     const stored = loadFromLocalStorage();
