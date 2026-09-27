@@ -1,0 +1,18 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "findyourflowstate",
+  "account_id": "0c4a1637a60ec527675c7e248b73e39d",
+  "compatibility_date": "2026-09-27",
+  "workers_dev": true,
+  "preview_urls": true,
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "single-page-application"
+  },
+  "routes": [
+    {
+      "pattern": "findyourflowstate.michaelzick.com",
+      "custom_domain": true
+    }
+  ]
+}

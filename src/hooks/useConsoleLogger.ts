@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 type LogLevel = 'log' | 'warn' | 'error' | 'info';
 
@@ -25,10 +25,10 @@ export const useConsoleLogger = (options: LoggerOptions = {}) => {
     };
   }, [shouldLog, prefix]);
 
-  return {
+  return useMemo(() => ({
     log: createLogger('log'),
     warn: createLogger('warn'),
     error: createLogger('error'),
     info: createLogger('info'),
-  };
+  }), [createLogger]);
 };
